@@ -1,2 +1,1 @@
-# e-commerce-mavericks-fn
-Web UI for the team's e-commerce app
+# MAVERICKS FRONT END REPOSITORY
