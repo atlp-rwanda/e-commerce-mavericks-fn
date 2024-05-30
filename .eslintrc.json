@@ -9,11 +9,18 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended",
     "plugin:prettier/recommended",
+    "prettier",
+    "plugin:storybook/recommended"
+  ],
+  "ignorePatterns": [
+    "dist",
+    ".eslintrc.cjs"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "react-refresh",
     "prettier"
   ],
-  "ignorePatterns": ["dist", ".eslintrc.cjs"],
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["react-refresh", "prettier"],
   "rules": {
     "react-refresh/only-export-components": [
       "warn",
