@@ -37,7 +37,7 @@ function Navbar() {
     }, []);
 
     return (
-        <div className='flex flex-col bg-blackColor md:bg-whiteColor md:text-blackColor text-whiteColor font-roboto w-full 2xl:items-center fixed'>
+        <div className='flex flex-col bg-blackColor md:bg-whiteColor md:text-blackColor text-whiteColor font-roboto w-full 2xl:items-center sticky top-0'>
             <div className="flex justify-between gap-2 flex-wrap p-3 md:p-4 xl:px-10 2xl:w-[1440px] relative">
                 <div className="flex items-center gap-3 order-1">
                     <div id="humbergurBtn" className="rounded-full p-1 text-txtColor active:bg-greenColor hover:bg-grayColor transition-all active:text-blackColor hover:text-blackColor md:hidden">
