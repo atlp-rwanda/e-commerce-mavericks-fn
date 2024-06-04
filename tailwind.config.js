@@ -2,7 +2,25 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    fontFamily: {
+      'roboto': ["Roboto", "Arial", "sans serif"]
+    },
+    colors: {
+      greenColor: '#007A7A',
+      whiteColor: '#ffffff',
+      blackColor: '#000000',
+      grayColor: '#DADADA',
+      redColor: "#ce0202",
+      overlay: "#000000c9"
+    },
+    extend: {
+      gridRow: {
+        'custom': "grid-start-0"
+      },
+      gridTemplateColumns: {
+        'customCol': "repeat(auto-fit, minmax(200px, 1fr))"
+      }
+    },
   },
   plugins: [],
 };
