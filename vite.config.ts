@@ -4,6 +4,7 @@ import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
 import path from 'path';
 
+// Define the Vitest configuration within the Vite configuration
 export default defineConfig({
   plugins: [react()],
   server: {
@@ -17,6 +18,13 @@ export default defineConfig({
   css: {
     postcss: {
       plugins: [tailwindcss, autoprefixer],
+    },
+  },
+  test: {
+    coverage: {
+      provider: 'v8',
+      reporter: ['lcov', 'text'],
+      reportsDirectory: './coverage',
     },
   },
 });

@@ -3,6 +3,9 @@
 ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 ![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+<a href='https://coveralls.io/github/atlp-rwanda/e-commerce-mavericks-fn?branch=develop'>
+<img src='https://coveralls.io/repos/github/atlp-rwanda/e-commerce-mavericks-fn/badge.svg?branch=develop' alt='Coverage Status' />
+</a>
 
 # MAVERICKS FRONT END REPOSITORY
 
@@ -21,7 +24,7 @@ them to view all sellers' stock and inspect shoppers' bags.
 
 ## Hosted Version
 
-- [Staging Application on Netfly](https://app.netlify.com/sites/e-commerce-mavericks-fn/)
+- [Staging Application on Netlify](https://app.netlify.com/sites/e-commerce-mavericks-fn/)
 
 ## Installation and Run Commands
 
@@ -38,7 +41,4 @@ git clone https://github.com/atlp-rwanda/e-commerce-mavericks-fn
 cd e-commerce-mavericks-fn
 npm install
 npm run dev
-
-- if you want to run the tests run the following :
-npm test  or npm run test:ui for a GUI based test report
 ```

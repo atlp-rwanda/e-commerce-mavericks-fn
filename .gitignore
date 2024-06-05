@@ -18,6 +18,9 @@ yarn.lock
 .husky
 package-lock.json
 
+# Coverage directory
+coverage/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
