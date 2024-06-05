@@ -1,9 +1,8 @@
-import SampleComponent from '../components/SampleComponent';
-
 const SamplePage = () => {
   return (
     <div className='w-screenn h-screen flex flex-row items-center justify-center'>
-      <SampleComponent />
+      {/* <SampleComponent /> */}
+      <h1> Hello world</h1>
     </div>
   );
 };
