@@ -1,9 +1,14 @@
-import SampleComponent from '../components/SampleComponent';
+import Arrivals from "../components/landingPage/Arrivals";
+import FeaturedProduct from "../components/landingPage/FeaturedProduct";
+import Wrapper from "../utils/Wrapper";
 
 const SamplePage = () => {
   return (
-    <div className='w-screenn h-screen flex flex-row items-center justify-center'>
-      <SampleComponent />
+    <div className=''>
+      <Wrapper>
+         <FeaturedProduct />
+         <Arrivals />
+      </Wrapper>
     </div>
   );
 };
