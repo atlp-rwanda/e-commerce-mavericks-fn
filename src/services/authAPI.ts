@@ -10,10 +10,10 @@ const authAPI = mavericksApi.injectEndpoints({
       }),
     }),
     loginUser: builder.mutation({
-      query: userData => ({
+      query: credentials => ({
         url: `auth/login`,
         method: 'POST',
-        body: userData,
+        body: credentials,
       }),
     }),
   }),
