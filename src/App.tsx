@@ -1,9 +1,10 @@
 import Register from './pages/Register';
-import Success from './components/register/Success';
-import RegisterSection from './components/register/RegisterSection';
+import Success from './components/Authentication/Success';
+import RegisterSection from './components/Authentication/RegisterSection';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Login from './pages/Login';
 import LandingPage from './pages/LandingPage';
+import AuthSuccess from './components/Authentication/AuthSuccess';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -17,6 +18,10 @@ const App = () => {
         {
           path: 'login',
           element: <Login />,
+        },
+        {
+          path: 'auth/success/:token',
+          element: <AuthSuccess />,
         },
       ],
     },

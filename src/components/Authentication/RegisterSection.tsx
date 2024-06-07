@@ -1,16 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import GoogleIcon from '../../assets/googleIcon.svg';
-import Button from '../Button';
-import Input from '../Input';
+import Button from '../common/Button';
+import Input from '../common/Input';
 import Select from '../Select';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { extendedSchema, ExtendedFormFields } from '../../utils/schemas';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useRegisterUserMutation } from '../../services/authAPI';
-import { setUserRegistered } from '../../state/register/registerSlice';
+import { setUserRegistered } from '../../redux/slices/registerSlice';
 import { useEffect } from 'react';
 import { QueryErrorData } from '../../utils/schemas';
+import { useRegisterUserMutation } from '../../services/authAPI';
+import handleGoogleAuthentication from '../../utils/handleGoogleAuthentication';
 
 const RegisterSection = () => {
   const navigate = useNavigate();
@@ -141,6 +142,7 @@ const RegisterSection = () => {
             <button
               className='p-2 font-bold text-greenColor border-2 border-greenColor rounded-lg flex flex-row 
             items-center justify-center gap-2 hover:bg-teal-100 transition-all'
+              onClick={handleGoogleAuthentication}
             >
               <img src={GoogleIcon} alt='Google Icon' className='w-5' />
               Continue with Google
