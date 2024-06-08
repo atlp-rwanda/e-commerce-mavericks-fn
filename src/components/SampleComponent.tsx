@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import maverick from "../assets/maverick.jpg";
 
 const SampleComponent = () => {
@@ -14,6 +15,7 @@ const SampleComponent = () => {
       <p className="block text-gray-600">
         Happy Coding, my fefllow devs! Let's work together to achieve more 💪
       </p>
+      <Link to="/login">Login</Link>
     </div>
   );
 };
