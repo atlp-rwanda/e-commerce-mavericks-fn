@@ -1,14 +1,14 @@
-import { Facebook, Instagram, Twitter } from "lucide-react"
+import { FaFacebook, FaInstagram, FaXTwitter } from "react-icons/fa6";
 
 const SocialIcon = ({ name }: { name: string }) => {
 
     switch (name) {
         case "facebook":
-            return <Facebook size={24} />;
+            return <FaFacebook />;
         case "instagram":
-            return <Instagram size={24} />;
+            return <FaInstagram />;
         case "twitter":
-            return <Twitter size={24} />;
+            return <FaXTwitter />;
         default:
             return null;
     }

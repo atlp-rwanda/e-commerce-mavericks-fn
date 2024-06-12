@@ -7,25 +7,38 @@ function Navbar() {
         const closeBtn = document.getElementById('close');
         const overlay = document.getElementById('overlay');
         const container = document.getElementById('humbergerContainer');
+        const hideScrollbar = () => {
+            document.body.style.overflow = 'hidden';
+        };
+
+        const showScrollbar = () => {
+            document.body.style.overflow = 'auto';
+        };
 
         closeBtn?.addEventListener('click', () => {
             overlay?.classList.add('-translate-x-full');
             container?.classList.add('-translate-x-full');
+            showScrollbar()
         });
 
         humbergurBtn?.addEventListener('click', () => {
             overlay?.classList.remove('-translate-x-full');
             container?.classList.remove('-translate-x-full');
+            hideScrollbar()
         });
-        overlay?.addEventListener('click', () => {
+        overlay?.addEventListener('click', (e) => {
+            if (e.target !== e.currentTarget) {
+                return;
+            }
             overlay?.classList.add('-translate-x-full');
             container?.classList.add('-translate-x-full');
+            showScrollbar()
         });
     }, []);
 
     return (
-        <div className='flex flex-col bg-blackColor md:bg-whiteColor md:text-blackColor text-whiteColor font-roboto w-screen 2xl:items-center relative'>
-            <div className="flex justify-between gap-2 flex-wrap p-3 md:p-4 xl:px-10 2xl:w-[1440px] ">
+        <div className='flex flex-col bg-blackColor md:bg-whiteColor md:text-blackColor text-whiteColor font-roboto w-full 2xl:items-center fixed'>
+            <div className="flex justify-between gap-2 flex-wrap p-3 md:p-4 xl:px-10 2xl:w-[1440px] relative">
                 <div className="flex items-center gap-3 order-1">
                     <div id="humbergurBtn" className="rounded-full p-1 text-txtColor active:bg-greenColor hover:bg-grayColor transition-all active:text-blackColor hover:text-blackColor md:hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="size-7">
@@ -66,9 +79,9 @@ function Navbar() {
             </div>
             <DesktopNav />
             <div id="overlay" className=" w-full h-screen z-40 bg-overlay absolute -translate-x-full transition-transform ease-linear">
-                <div id="humbergerContainer" className="bg-whiteColor w-4/5 text-blackColor p-5 flex flex-col select-none h-screen overflow-auto -translate-x-full transition-transform duration-500 ease-in-out">
+                <div id="humbergerContainer" className="bg-whiteColor py-2 w-4/5 text-blackColor flex flex-col select-none h-screen overflow-auto -translate-x-full transition-transform duration-500 ease-in-out">
                     {/* close */}
-                    <div className=" flex justify-end">
+                    <div className=" flex justify-end p-2">
                         <div id="close" className="p-2 rounded-full active:bg-grayColor hover:bg-grayColor hover:cursor-pointer transition-all ease-in-out delay-75">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="size-8">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
