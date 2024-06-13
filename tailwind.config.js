@@ -1,25 +1,26 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     fontFamily: {
-      'roboto': ["Roboto", "Arial", "sans serif"]
+      roboto: ['Roboto', 'Arial', 'sans serif'],
     },
     colors: {
       greenColor: '#007A7A',
+      darkGreen: '#006262',
       whiteColor: '#ffffff',
       blackColor: '#000000',
       grayColor: '#DADADA',
-      redColor: "#ce0202",
-      overlay: "#000000c9"
+      redColor: '#ce0202',
+      overlay: '#000000c9',
     },
     extend: {
       gridRow: {
-        'custom': "grid-start-0"
+        custom: 'grid-start-0',
       },
       gridTemplateColumns: {
-        'customCol': "repeat(auto-fit, minmax(200px, 1fr))"
-      }
+        customCol: 'repeat(auto-fit, minmax(200px, 1fr))',
+      },
     },
   },
   plugins: [],
