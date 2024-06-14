@@ -1,12 +1,12 @@
+// src/store.js
+
 import { configureStore } from '@reduxjs/toolkit';
 import { mavericksApi } from '../services';
-import counterReducer from './counter/counterSlice';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import registerReducer from './register/registerSlice';
+import registerReducer from './reducers/registerSlice';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
     register: registerReducer,
     [mavericksApi.reducerPath]: mavericksApi.reducer,
   },

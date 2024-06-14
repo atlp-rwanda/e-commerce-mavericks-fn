@@ -36,3 +36,9 @@ export interface QueryErrorData {
   status: number | undefined;
   data: ErrorData;
 }
+export const loginSchema = z.object({
+  email: z.string().email({ message: 'A valid email is required' }),
+  password: z.string().min(5, { message: 'Password must be 5 characters or more' }),
+});
+
+export type LoginData = z.infer<typeof loginSchema>;

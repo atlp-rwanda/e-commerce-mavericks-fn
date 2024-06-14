@@ -7,10 +7,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { extendedSchema, ExtendedFormFields } from '../../utils/schemas';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useRegisterUserMutation } from '../../services/authAPI';
-import { setUserRegistered } from '../../state/register/registerSlice';
+import { setUserRegistered } from '../../redux/reducers/registerSlice';
 import { useEffect } from 'react';
 import { QueryErrorData } from '../../utils/schemas';
+import { useRegisterUserMutation } from '../../services/authAPI';
 
 const RegisterSection = () => {
   const navigate = useNavigate();
