@@ -25,10 +25,6 @@ export default function FeaturedProduct() {
     );
   }
 
-  if (error) {
-    return <div>Error loading products</div>;
-  }
-
   const productsData: ProductResponse = data as unknown as ProductResponse;
 
   if (!productsData) {

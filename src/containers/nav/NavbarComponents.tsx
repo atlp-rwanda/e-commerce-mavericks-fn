@@ -4,7 +4,7 @@ import education from '../../assets/education.png'
 import suppliment from '../../assets/supplement.png'
 import shoes from '../../assets/shoes.png'
 import electronics from '../../assets/electronics.png'
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 export function PopularCategory({ title }: { title: string }) {
     return (
@@ -32,25 +32,30 @@ export function SidebarLink({ icon, name, to }: { icon: string, name: string, to
     )
 }
 export function DesktopNav() {
+    const navigate = useNavigate();
+
+    const handleClick = (name: string) => {
+      navigate(`/categories/${name}`);
+    };
     return (
         <div className="bg-blackColor text-whiteColor hidden md:block w-full">
             <div className="flex justify-center items-center border-whiteColor">
-                <DeskNavLink to="/" name='Plus' />
-                <DeskNavLink to="/" name='Flash Sales' />
-                <DeskNavLink to="/" name='Babies' />
-                <DeskNavLink to="/" name='Fathers' />
-                <DeskNavLink to="/" name='Electronics' />
-                <DeskNavLink to="/" name='Beauty' />
-                <DeskNavLink to="/" name='Sports' />
+                <DeskNavLink onClick={() => handleClick('Plus')} name='Plus' />
+                <DeskNavLink onClick={() => handleClick('Flash Sales')} name='Flash Sales' />
+                <DeskNavLink onClick={() => handleClick('Babies')} name='Babies' />
+                <DeskNavLink onClick={() => handleClick('Fathers')} name='Fathers' />
+                <DeskNavLink onClick={() => handleClick('Electronics')} name='Electronics' />
+                <DeskNavLink onClick={() => handleClick('Beauty')} name='Beauty' />
+                <DeskNavLink onClick={() => handleClick('Sports')} name='Sports' />
             </div>
         </div>
     )
 }
 
-function DeskNavLink({ to, name }: { to: string, name: string }) {
+function DeskNavLink({ onClick, name }: { onClick: () => void, name: string }) {
     return (
-        <Link to={to} className={`px-5 py-2 cursor-pointer hover:bg-whiteColor hover:text-blackColor transition-all delay-100 ease-linear`}>
+        <div onClick={onClick} className={`px-5 py-2 cursor-pointer hover:bg-whiteColor hover:text-blackColor transition-all delay-100 ease-linear`}>
             {name}
-        </Link>
+        </div>
     );
 }

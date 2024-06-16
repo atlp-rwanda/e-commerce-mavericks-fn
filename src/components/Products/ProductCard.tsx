@@ -14,7 +14,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <img
           src={imageUrl}
           alt={product.name}
-          className="h-48 w-full rounded-sm"
+          className="h-48 w-full rounded-sm object-cover"
         />
       </div>
       <div className="product-name-cart-button pt-2">
@@ -26,7 +26,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <p className="text-sm p-2 text-[#949191]">{product.manufacturer}</p>
         </div>
         <div className="cart-button">
-          <button className="px-5 py-2 text-center bg-[#007A7A] text-whiteColor font-bold rounded-sm">
+          <button className="px-5 py-2 text-center bg-[#007A7A] hover:bg-[#2cdfdf] text-whiteColor font-bold rounded-sm">
             Add to Cart
           </button>
         </div>

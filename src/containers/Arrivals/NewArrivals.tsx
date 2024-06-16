@@ -14,10 +14,15 @@ export default function NewArrivals() {
   const productsData: ProductResponse = data as unknown as ProductResponse;
 
   if (error) {
-    return <div>Error loading products</div>;
+    return <div>
+              <div className="absolute inset-0 opacity-[0.8] flex justify-center items-center h-[100vh] p-128 bg-darkGreen text-redColor text-4xl">
+                Check your internet :)
+              </div>
+          </div>;
   }
 
   const productsList: Product[] = productsData ? productsData.data : [];
+  const sortedProducts = [...productsList].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 8);
 
   const next = () => {
     setCurrentPage(prevPage => Math.min(prevPage + 1, Math.floor(productsList.length / perPage)));
@@ -29,7 +34,7 @@ export default function NewArrivals() {
 
   const startIndex = currentPage * perPage;
   const endIndex = startIndex + perPage;
-  const allProductsOnPage = productsList.slice(startIndex, endIndex);
+  const allProductsOnPage = sortedProducts.slice(startIndex, endIndex);
 
   return (
     <div className='new-arrivals'>
