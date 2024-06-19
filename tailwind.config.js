@@ -1,8 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     fontFamily: {
+      roboto: ['Roboto', 'Arial', 'sans serif'],
       roboto: ['Roboto', 'Arial', 'sans serif'],
     },
     colors: {
@@ -13,6 +15,8 @@ export default {
       grayColor: '#DADADA',
       redColor: '#ce0202',
       overlay: '#000000c9',
+      skyBlue: '#EFF4FE',
+      skyBlueText: '#1877F2',
     },
     extend: {
       gridRow: {
