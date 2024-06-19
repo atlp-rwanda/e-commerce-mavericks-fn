@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Login from './pages/Login';
 import LandingPage from './pages/LandingPage';
 import AuthSuccess from './components/Authentication/AuthSuccess';
+import { ToastContainer } from 'react-toastify';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -37,7 +38,12 @@ const App = () => {
       ],
     },
   ]);
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer />
+    </>
+  );
 };
 
 export default App;

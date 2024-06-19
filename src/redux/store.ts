@@ -14,7 +14,6 @@ export const store = configureStore({
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(mavericksApi.middleware),
 });
-// Setup listeners for RTK Query features
 setupListeners(store.dispatch);
 
 export type RootState = ReturnType<typeof store.getState>;
