@@ -1,9 +1,11 @@
 import Register from './pages/Register';
-import Success from './components/register/Success';
-import RegisterSection from './components/register/RegisterSection';
+import Success from './components/authentication/Success';
+import RegisterSection from './components/authentication/RegisterSection';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Login from './pages/Login';
 import LandingPage from './pages/LandingPage';
+import GoogleAuthSuccess from './components/authentication/GoogleAuthSucces';
+import { ToastContainer } from 'react-toastify';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -17,6 +19,10 @@ const App = () => {
         {
           path: 'login',
           element: <Login />,
+        },
+        {
+          path: 'auth/success/:token',
+          element: <GoogleAuthSuccess />,
         },
       ],
     },
@@ -32,7 +38,12 @@ const App = () => {
       ],
     },
   ]);
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer />
+    </>
+  );
 };
 
 export default App;

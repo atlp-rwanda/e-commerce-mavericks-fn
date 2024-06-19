@@ -4,7 +4,7 @@ import Navbar from '../components/navbar/Navbar';
 
 const LandingPage = () => {
   return (
-    <div className='w-full min-h-screen max-h-full overflow-x-hidden'>
+    <div>
       <Navbar />
       <HeroPage />
       <Footer />

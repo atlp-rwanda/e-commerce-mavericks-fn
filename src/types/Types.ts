@@ -1,16 +1,18 @@
+import { JwtPayload } from 'jwt-decode';
+
 // types/Types.ts
 export type Product = {
   id: string;
   name: string;
   description: string;
-  colors: any; // Adjust type based on expected data
+  colors: any;  
   images: string[];
   categoryId: string;
   sellerId: string;
-  sizes: any[]; // Adjust type based on expected data
+  sizes: any[];
   createdAt: string;
   updatedAt: string;
-  manufacturer: string; // Add this field
+  manufacturer: string; 
 };
 
 // Define the Response Type
@@ -19,3 +21,7 @@ export type ProductResponse = {
   message: string;
   data: Product[];
 };
+
+export interface CustomJwtPayload extends JwtPayload {
+  id: string;
+}

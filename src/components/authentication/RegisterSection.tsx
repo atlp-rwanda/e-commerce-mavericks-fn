@@ -1,21 +1,22 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import GoogleIcon from '../../assets/googleIcon.svg';
-import Button from '../Button';
-import Input from '../Input';
-import Select from '../Select';
+import Button from '../common/Button';
+import Input from '../common/Input';
+import Select from '../common/Select';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { extendedSchema, ExtendedFormFields } from '../../utils/schemas';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setUserRegistered } from '../../redux/reducers/registerSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserRegistered } from '../../redux/slices/registerSlice';
 import { useEffect } from 'react';
 import { QueryErrorData } from '../../utils/schemas';
 import { useRegisterUserMutation } from '../../services/authAPI';
+import handleGoogleAuthentication from '../../utils/handleGoogleAuthentication';
 
 const RegisterSection = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const isAuthenticated = useSelector((state: any) => state.user.token);
   const {
     register,
     setError,
@@ -34,10 +35,12 @@ const RegisterSection = () => {
     await registerUser({ email, password, lastName, firstName, gender, phoneNumber });
   };
   useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/');
+    }
     const loginError = error as QueryErrorData;
 
     if (isError) {
-      console.log(loginError);
       setError('root', {
         message: loginError.data?.error || loginError.data?.message,
       });
@@ -141,6 +144,7 @@ const RegisterSection = () => {
             <button
               className='p-2 font-bold text-greenColor border-2 border-greenColor rounded-lg flex flex-row 
             items-center justify-center gap-2 hover:bg-teal-100 transition-all'
+              onClick={handleGoogleAuthentication}
             >
               <img src={GoogleIcon} alt='Google Icon' className='w-5' />
               Continue with Google
