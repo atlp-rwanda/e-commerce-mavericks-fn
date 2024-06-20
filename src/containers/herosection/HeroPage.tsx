@@ -82,7 +82,7 @@ function HeroPage() {
   }, []);
 
   return (
-    <div className="p-3 md:p-4 xl:px-10 mt-24">
+    <div className="p-3 md:p-4 xl:px-10">
       <div className="hero-container flex flex-col-reverse md:grid md:grid-cols-3 md:gap-4">
         <div className="small-images grid grid-cols-2 md:flex md:flex-col md:gap-1 md:col-span-1">
           <div className="upper-image relative">

@@ -1,14 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+interface AuthState {
+  userInfo: any | null;
+  isRegistered: boolean;
+  isVerified: boolean;
+}
+
+const initialState: AuthState = {
+  userInfo: null,
+  isRegistered: false,
+  isVerified: false,
+};
 
 const authSlice = createSlice({
   name: 'authentication',
-  initialState: {
-    userInfo: null,
-    isRegistered: false,
-    isVerified: false,
-  },
+  initialState,
   reducers: {
-    setUserRegistered: (state, action) => {
+    setUserRegistered: (state, action: PayloadAction<any>) => {
       state.isRegistered = true;
       state.userInfo = action.payload;
     },
@@ -20,4 +28,5 @@ const authSlice = createSlice({
 });
 
 export const { setUserRegistered, setUserVerified } = authSlice.actions;
+
 export default authSlice.reducer;

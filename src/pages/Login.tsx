@@ -1,4 +1,4 @@
-import LoginComponent from '../components/LoginComponent';
+import LoginComponent from '../components/authentication/LoginComponent';
 import Navbar from '../components/navbar/Navbar';
 import Footer from '../components/footer/Footer';
 

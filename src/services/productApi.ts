@@ -1,13 +1,11 @@
-import type { Product } from '../../types/Types';
-import { mavericksApi } from '..';
-
+import type { Product } from '../types/Types';
+import { mavericksApi } from '.';
 
 export const productsApi = mavericksApi.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     getProducts: builder.query<Product[], void>({
-        query: () => 'products',
+      query: () => 'products',
     }),
-    // Add more endpoints here.
   }),
   overrideExisting: false,
 });
