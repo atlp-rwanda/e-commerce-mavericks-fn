@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import tailwindScrollbar from 'tailwind-scrollbar-hide'
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
@@ -21,7 +22,12 @@ export default {
       gridTemplateColumns: {
         customCol: 'repeat(auto-fit, minmax(200px, 1fr))',
       },
+      boxShadow: {
+        customShadow: '2px 3px 12px -6px rgba(0,0,0,0.94);'
+      }
     },
   },
-  plugins: [],
+  plugins: [
+    tailwindScrollbar
+  ],
 };
