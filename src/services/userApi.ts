@@ -5,9 +5,6 @@ export const userApi = mavericksApi.injectEndpoints({
     getUserById: builder.query({
       query: id => ({
         url: `users/user/${id}`,
-        headers: {
-          authorization: localStorage.getItem('token') || '',
-        },
       }),
     }),
   }),
