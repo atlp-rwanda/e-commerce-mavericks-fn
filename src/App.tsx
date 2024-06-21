@@ -21,6 +21,8 @@ import Messages from './pages/admin/Messages';
 import Settings from './pages/admin/Settings';
 
 import CategoriesPage from './pages/CategoriesPage';
+import ResetPassword from './pages/ResetPassword';
+import NewPassword from './pages/NewPassword';
 const App = () => {
   const { data, error, isLoading } = useGetProductsQuery();
   const dispatch = useDispatch();
@@ -69,7 +71,17 @@ const App = () => {
         {
           path: 'categories/:categoryId',
           element: <CategoriesPage />,
-        }
+        },
+        {
+          path: '/reset-password',
+          children: [
+            { path: '', element: <ResetPassword /> },
+            {
+              path: ':token',
+              element: <NewPassword />,
+            },
+          ],
+        },
       ],
     },
     {
