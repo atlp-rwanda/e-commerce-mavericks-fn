@@ -6,6 +6,8 @@ import Login from './pages/Login';
 import LandingPage from './pages/LandingPage';
 import GoogleAuthSuccess from './components/authentication/GoogleAuthSucces';
 import { ToastContainer } from 'react-toastify';
+import AdminPage from './pages/Admin';
+import Category from './pages/Admin/Category';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -35,6 +37,20 @@ const App = () => {
           element: <RegisterSection />,
         },
         { path: 'success', element: <Success /> },
+      ],
+    },
+    {
+      path: 'admin',
+      element: <AdminPage />,
+      children: [
+        {
+          index: true,
+          element: <AdminPage />,
+        },
+        {
+          path: 'categories',
+          element: <Category />,
+        },
       ],
     },
   ]);
