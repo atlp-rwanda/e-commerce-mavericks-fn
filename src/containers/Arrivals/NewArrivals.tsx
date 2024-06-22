@@ -5,7 +5,7 @@ import { Product } from '../../types/Types';
 import { BiSolidCircle } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
 
-const perPage = 6;
+const perPage = 8;
 
 export default function NewArrivals() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -20,14 +20,15 @@ export default function NewArrivals() {
 
   const startIndex = currentPage * perPage;
   const endIndex = startIndex + perPage;
-  const allProductsOnPage = productsList.slice(startIndex, endIndex);
+  const sortedProducts = [...productsList].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 13);
+  const allProductsOnPage = sortedProducts.slice(startIndex, endIndex);
 
   return (
     <div className='new-arrivals'>
       <div className='arrivals-header py-5'>
         <h1 className='text-3xl font-bold'>New Arrivals</h1>
       </div>
-      <div className='grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-5'>
+      <div className='grid grid-cols-2 gap-0 sm:grid-cols-0 sm:gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-4 lg:gap-4'>
         {isLoading
           ? Array.from({ length: perPage }).map((_, index) => <ProductCardSkeleton key={index} />)
           : allProductsOnPage.map((product: Product) => <ProductCard key={product.id} product={product} />)}

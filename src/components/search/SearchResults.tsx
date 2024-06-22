@@ -12,9 +12,16 @@ interface SearchQueryProps {
 const SearchResults = ({ searchQuery }: SearchQueryProps) => {
   const { isLoading, productsDataList: productsList } = useSelector((state: any) => state.products);
   const filteredProducts = [
-    ...productsList.filter((product: Product) => product.name.toLowerCase().includes(searchQuery.toLowerCase())),
-    ...productsList.filter((product: Product) => product.description.toLowerCase().includes(searchQuery.toLowerCase())),
+    ...new Set([
+      ...productsList.filter((product: Product) =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      ),
+      ...productsList.filter((product: Product) =>
+        product.description.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    ])
   ];
+  
  useEffect(() => {
    if (searchQuery.length !== 0 && filteredProducts.length !== 0) {
      const productNames = filteredProducts.map(product => product.name);

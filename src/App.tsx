@@ -20,6 +20,7 @@ import Buyers from './pages/admin/Buyers';
 import Messages from './pages/admin/Messages';
 import Settings from './pages/admin/Settings';
 
+import CategoriesPage from './pages/CategoriesPage';
 const App = () => {
   const { data, error, isLoading } = useGetProductsQuery();
   const dispatch = useDispatch();
@@ -65,6 +66,10 @@ const App = () => {
           path: 'auth/success/:token',
           element: <GoogleAuthSuccess />,
         },
+        {
+          path: 'categories/:categoryId',
+          element: <CategoriesPage />,
+        }
       ],
     },
     {

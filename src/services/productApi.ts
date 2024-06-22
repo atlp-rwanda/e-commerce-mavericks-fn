@@ -1,4 +1,4 @@
-import type { Product } from '../types/Types';
+import type { Category, Product } from '../types/Types';
 import { mavericksApi } from '.';
 
 export const productsApi = mavericksApi.injectEndpoints({
@@ -6,8 +6,11 @@ export const productsApi = mavericksApi.injectEndpoints({
     getProducts: builder.query<Product[], void>({
       query: () => 'products',
     }),
+    getAllCategories: builder.query<Category[], void>({
+      query: () => 'category',
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetProductsQuery } = productsApi;
+export const { useGetProductsQuery, useGetAllCategoriesQuery } = productsApi;

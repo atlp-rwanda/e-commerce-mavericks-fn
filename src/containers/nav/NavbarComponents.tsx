@@ -4,9 +4,10 @@ import education from '../../assets/education.png';
 import suppliment from '../../assets/supplement.png';
 import shoes from '../../assets/shoes.png';
 import electronics from '../../assets/electronics.png';
-import { Link, NavLink } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 
-export function PopularCategory({ title }: { title: string }) {
+
+export function PopularCategory({ title }: { title: string }) {  
   return (
     <>
       <div className='p-3'>
@@ -35,28 +36,35 @@ export function SidebarLink({ icon, name, to }: { icon: string; name: string; to
   );
 }
 export function DesktopNav() {
+
+  const navigate = useNavigate();
+
+  const handleClick = (name: string) => {
+    navigate(`/categories/${name}`);
+  };
+  
   return (
     <div className='bg-blackColor text-whiteColor hidden md:block w-full'>
       <div className='flex justify-center items-center border-whiteColor'>
-        <DeskNavLink to='/' name='Plus' />
-        <DeskNavLink to='/' name='Flash Sales' />
-        <DeskNavLink to='/' name='Babies' />
-        <DeskNavLink to='/' name='Fathers' />
-        <DeskNavLink to='/' name='Electronics' />
-        <DeskNavLink to='/' name='Beauty' />
-        <DeskNavLink to='/' name='Sports' />
+        <DeskNavLink name='Plus' onClick={() => handleClick('Plus')} />
+        <DeskNavLink name='Flash Sales' onClick={() => handleClick('Flash Sales')} />
+        <DeskNavLink name='Babies' onClick={() => handleClick('Babies')} />
+        <DeskNavLink name='Fathers' onClick={() => handleClick('Fathers')} />
+        <DeskNavLink name='Electronics' onClick={() => handleClick('Electronics')} />
+        <DeskNavLink name='Beauty' onClick={() => handleClick('Beauty')} />
+        <DeskNavLink name='Sports' onClick={() => handleClick('Sports')} />
       </div>
     </div>
   );
 }
 
-function DeskNavLink({ to, name }: { to: string; name: string }) {
+function DeskNavLink({ onClick, name }: { onClick: () => void, name: string }) {
   return (
-    <Link
-      to={to}
+    <div
+      onClick={onClick}
       className={`px-5 py-2 cursor-pointer hover:bg-whiteColor hover:text-blackColor transition-all delay-100 ease-linear`}
     >
       {name}
-    </Link>
+    </div>
   );
 }
