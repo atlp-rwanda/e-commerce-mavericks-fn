@@ -5,14 +5,14 @@ export type Product = {
   id: string;
   name: string;
   description: string;
-  colors: any;  
+  colors: any;
   images: string[];
   categoryId: string;
   sellerId: string;
   sizes: any[];
   createdAt: string;
   updatedAt: string;
-  manufacturer: string; 
+  manufacturer: string;
 };
 
 // Define the Response Type
@@ -24,4 +24,5 @@ export type ProductResponse = {
 
 export interface CustomJwtPayload extends JwtPayload {
   id: string;
+  role: string;
 }

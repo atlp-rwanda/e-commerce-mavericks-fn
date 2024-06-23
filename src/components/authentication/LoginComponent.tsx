@@ -8,20 +8,22 @@ import Input from '../common/Input';
 import { loginSchema, LoginData } from '../../utils/schemas';
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setToken, setUser } from '../../redux/slices/userSlice';
+import { setToken, setUser, setRole } from '../../redux/slices/userSlice';
 import { useLoginUserMutation } from '../../services/authAPI';
 import handleGoogleAuthentication from '../../utils/handleGoogleAuthentication';
 import { Bounce, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CustomJwtPayload } from '../../types/Types';
+import { RootState } from '../../redux/store';
+import { useGetUserByIdQuery } from '../../services/userApi';
 
 const LoginComponent = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
-  const isAuthenticated = useSelector((state: any) => state.user.token);
-
+  const isAuthenticated = useSelector((state: RootState) => state.user.token);
+  const userId = useSelector((state: RootState) => state.user.userId);
   const {
     register,
     handleSubmit,
@@ -29,25 +31,21 @@ const LoginComponent = () => {
     formState: { errors, isSubmitting },
   } = useForm<LoginData>({ resolver: zodResolver(loginSchema) });
 
-  const [loginUser, { data, error, isLoading, isSuccess, isError }] = useLoginUserMutation();
+  const [loginUser, { data: loginData, error, isLoading, isSuccess: isLoginSuccess, isError }] = useLoginUserMutation();
+
+  const { data: userData, isSuccess: isUserSuccess } = useGetUserByIdQuery(userId);
+
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/');
-    }
     if (isError && error) {
       setError('root', {
         message: 'Invalid email or password',
       });
     }
-
-    if (isSuccess && data) {
-      const token = data.token;
+    if (isLoginSuccess && loginData.ok) {
+      const token: string = loginData.token;
       dispatch(setToken(token));
       const decodedToken = jwtDecode<CustomJwtPayload>(token);
       dispatch(setUser(decodedToken.id));
-
-      const from = location.state?.from?.pathname || '/';
-      navigate(from);
     }
     const message = searchParams.get('message');
     if (message) {
@@ -66,16 +64,32 @@ const LoginComponent = () => {
   }, [
     isError,
     isAuthenticated,
-    isSuccess,
+    isLoginSuccess,
     error,
-    data,
+    loginData,
     searchParams,
     setSearchParams,
     navigate,
     location.state,
     dispatch,
     setError,
+    userId,
   ]);
+
+  useEffect(() => {
+    if (isUserSuccess && userData) {
+      const role = userData.message.Role.name;
+      dispatch(setRole(role));
+      if (role === 'buyer' && isAuthenticated) {
+        const from = location.state?.from?.pathname || '/';
+        navigate(from);
+      } else if (role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('seller');
+      }
+    }
+  }, [isUserSuccess, userData]);
 
   const onSubmit: SubmitHandler<LoginData> = async userCredentials => {
     await loginUser(userCredentials);
@@ -113,7 +127,7 @@ const LoginComponent = () => {
           >
             {isSubmitting || isLoading ? 'Loading...' : 'Sign In'}
           </button>
-          {isSuccess && <p className='text-green-600 text-xs font-normal'>Login successful!</p>}
+          {isLoginSuccess && <p className='text-green-600 text-xs font-normal'>Login successful!</p>}
           <span className='self-center font-bold text-grayColor'>or</span>
           <button
             onClick={handleGoogleAuthentication}

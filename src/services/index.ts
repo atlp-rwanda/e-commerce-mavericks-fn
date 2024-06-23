@@ -7,4 +7,3 @@ export const mavericksApi = createApi({
   }),
   endpoints: () => ({}),
 });
-

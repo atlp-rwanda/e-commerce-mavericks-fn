@@ -1,13 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface UserState {
+export interface UserState {
   token: string | null;
   userId: string | null;
+  role: string | null;
 }
 
 const initialState: UserState = {
   token: localStorage.getItem('token'),
-  userId: localStorage.getItem('user') || 'null',
+  userId: localStorage.getItem('user') || null,
+  role: 'buyer',
 };
 
 const userSlice = createSlice({
@@ -30,6 +32,9 @@ const userSlice = createSlice({
         localStorage.removeItem('user');
       }
     },
+    setRole: (state, action: PayloadAction<string | null>) => {
+      state.role = action.payload;
+    },
     clearUserData: state => {
       localStorage.removeItem('token');
       localStorage.removeItem('user_id');
@@ -39,6 +44,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setToken, setUser, clearUserData } = userSlice.actions;
+export const { setToken, setUser, clearUserData, setRole } = userSlice.actions;
 
 export default userSlice.reducer;

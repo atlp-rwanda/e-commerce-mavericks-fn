@@ -1,36 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { DesktopNav, PopularCategory } from '../../containers/nav/NavbarComponents';
-import { useEffect } from 'react';
 import WishNav from './wishNav/WishNav';
 import CartNav from './cartNav/CartNav';
 
 const Navbar: React.FC = () => {
-  const [cartOpen, SetCartOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
   const [wish, setWish] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+
   useEffect(() => {
     const humbergurBtn = document.getElementById('humbergurBtn');
     const closeBtn = document.getElementById('close');
     const overlay = document.getElementById('overlay');
     const container = document.getElementById('humbergerContainer');
+
     const hideScrollbar = () => {
       document.body.style.overflow = 'hidden';
     };
     const showScrollbar = () => {
       document.body.style.overflow = 'auto';
     };
+
     closeBtn?.addEventListener('click', () => {
       overlay?.classList.add('-translate-x-full');
       container?.classList.add('-translate-x-full');
       showScrollbar();
     });
+
     humbergurBtn?.addEventListener('click', () => {
       overlay?.classList.remove('-translate-x-full');
       container?.classList.remove('-translate-x-full');
       hideScrollbar();
     });
+
     overlay?.addEventListener('click', e => {
       if (e.target !== e.currentTarget) {
         return;
@@ -41,10 +45,11 @@ const Navbar: React.FC = () => {
     });
   }, []);
 
-  const handleSearch = (e: any) => {
+  const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     navigate(`/search?searchQuery=${searchQuery}`);
   };
+
   return (
     <>
       {(wish || cartOpen) && (
@@ -54,14 +59,16 @@ const Navbar: React.FC = () => {
               return;
             }
             setWish(false);
-            SetCartOpen(false);
+            setCartOpen(false);
           }}
           className='absolute bg-[#00000000] top-0 w-full border h-full'
           style={{ zIndex: 10 }}
         ></div>
       )}
       <div
-        className={`flex flex-col bg-blackColor md:bg-whiteColor md:text-blackColor text-whiteColor font-roboto w-full 2xl:items-center top-0 ${wish || cartOpen ? 'sticky' : ''} z-10`}
+        className={`flex flex-col bg-blackColor md:bg-whiteColor md:text-blackColor text-whiteColor font-roboto w-full 2xl:items-center top-0 ${
+          wish || cartOpen ? 'sticky' : ''
+        } z-10`}
       >
         <div className='flex justify-between gap-2 flex-wrap p-3 md:p-4 xl:px-10 2xl:w-[1440px] relative'>
           <div className='flex items-center gap-3 order-1'>
@@ -88,11 +95,10 @@ const Navbar: React.FC = () => {
               onClick={() => navigate('/')}
               className='leading-none font-bold text-2xl hover:cursor-pointer md:text-3xl'
             >
-              <h1>MAVERICKS🛒</h1>
+              <h1>MAVERICKS 🛒</h1>
             </div>
           </div>
           <div className='flex items-center gap-2 order-2 md:order-3'>
-            {/* Profile */}
             <div
               onClick={() => setWish(state => !state)}
               className='rounded-full transition-all ease-in-out delay-100 hover:bg-grayColor active:bg-greenColor p-1 active:text-blackColor hover:text-blackColor'
@@ -119,16 +125,15 @@ const Navbar: React.FC = () => {
                       return;
                     }
                   }}
-                  className='absolute top-0  md:h-[115px] w-screen right-0 h-[100px] bg-[#0000000] z-40'
+                  className='absolute top-0 md:h-[115px] w-screen right-0 h-[100px] bg-[#0000000] z-40'
                 >
                   <WishNav setWish={setWish} />
                 </div>
               )}
             </div>
-            {/* Favorite */}
             <NavLink
               to='shoppingcart'
-              className='rounded-full transition-all ease-in-out delay-100 hover:bg-grayColor active:bg-greenColor p-1  active:text-blackColor hover:text-blackColor relative'
+              className='rounded-full transition-all ease-in-out delay-100 hover:bg-grayColor active:bg-greenColor p-1 active:text-blackColor hover:text-blackColor relative'
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -147,7 +152,7 @@ const Navbar: React.FC = () => {
               <span className='absolute top-1 right-1 w-2 h-2 rounded-full bg-redColor'></span>
             </NavLink>
             <div
-              onClick={() => SetCartOpen(state => !state)}
+              onClick={() => setCartOpen(state => !state)}
               className='rounded-full transition-all ease-in-out delay-100 hover:bg-grayColor active:bg-greenColor active:text-blackColor hover:text-blackColor p-1 select-none'
             >
               <div className='relative'>
@@ -169,23 +174,21 @@ const Navbar: React.FC = () => {
                   3
                 </span>
               </div>
-              {/* Cart */}
               {cartOpen && (
                 <div
                   onClick={e => {
                     if (e.target !== e.currentTarget) {
-                      SetCartOpen(false);
+                      setCartOpen(false);
                       return;
                     }
                   }}
-                  className='absolute top-0  md:h-[115px] w-screen right-0 h-[100px] bg-[#00000000] z-40'
+                  className='absolute top-0 md:h-[115px] w-screen right-0 h-[100px] bg-[#00000000] z-40'
                 >
                   <CartNav />
                 </div>
               )}
             </div>
           </div>
-          {/* Searching box */}
           <div className='order-3 md:order-2 w-full md:w-2/4'>
             <form className='relative' onSubmit={handleSearch}>
               <input
@@ -216,19 +219,16 @@ const Navbar: React.FC = () => {
             </form>
           </div>
         </div>
-        {/* Desktop Navs */}
         <DesktopNav />
-        {/* Mobile sidebar Navs */}
         <div
           id='overlay'
-          className=' w-full h-screen z-40 bg-overlay absolute -translate-x-full transition-transform ease-linear'
+          className='w-full h-screen z-40 bg-overlay absolute -translate-x-full transition-transform ease-linear'
         >
           <div
             id='humbergerContainer'
             className='bg-whiteColor py-2 w-4/5 text-blackColor flex flex-col select-none h-screen overflow-auto -translate-x-full transition-transform duration-500 ease-in-out'
           >
-            {/* close */}
-            <div className=' flex justify-end p-2'>
+            <div className='flex justify-end p-2'>
               <div
                 id='close'
                 className='p-2 rounded-full active:bg-grayColor hover:bg-grayColor hover:cursor-pointer transition-all ease-in-out delay-75'
@@ -246,9 +246,9 @@ const Navbar: React.FC = () => {
               </div>
             </div>
             <div className='flex flex-col gap-1'>
-              <PopularCategory title='Popular Categores' />
-              <PopularCategory title='shopping inspiration' />
-              <PopularCategory title='shopping inspiration' />
+              <PopularCategory title='Popular Categories' />
+              <PopularCategory title='Shopping Inspiration' />
+              <PopularCategory title='Shopping Inspiration' />
             </div>
           </div>
         </div>
