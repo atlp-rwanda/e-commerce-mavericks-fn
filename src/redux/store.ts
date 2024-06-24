@@ -5,9 +5,11 @@ import { mavericksApi } from '../services';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import registerReducer from './slices/registerSlice';
 import userReducer from './slices/userSlice';
+import productReducer from './slices/productsSlice';
 
 export const store = configureStore({
   reducer: {
+    products: productReducer,
     user: userReducer,
     register: registerReducer,
     [mavericksApi.reducerPath]: mavericksApi.reducer,

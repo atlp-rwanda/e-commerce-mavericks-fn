@@ -1,24 +1,15 @@
 import ProductCard from '../../components/Products/ProductCard';
 import ProductCardSkeleton from '../../components/Products/ProductCardSkeleton';
 import { useState } from 'react';
-import { useGetProductsQuery } from '../../services/productApi';
+import { Product } from '../../types/Types';
 import { BiSolidCircle } from 'react-icons/bi';
-import { ProductResponse, Product } from '../../types/Types';
+import { useSelector } from 'react-redux';
 
 const perPage = 6;
 
 export default function NewArrivals() {
-  const { data, error, isLoading } = useGetProductsQuery();
   const [currentPage, setCurrentPage] = useState(0);
-
-  const productsData: ProductResponse = data as unknown as ProductResponse;
-
-  if (error) {
-    return <div>Error loading products</div>;
-  }
-
-  const productsList: Product[] = productsData ? productsData.data : [];
-
+    const { isLoading, productsDataList: productsList } = useSelector((state: any) => state.products);
   const next = () => {
     setCurrentPage(prevPage => Math.min(prevPage + 1, Math.floor(productsList.length / perPage)));
   };
@@ -39,7 +30,7 @@ export default function NewArrivals() {
       <div className='grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-5'>
         {isLoading
           ? Array.from({ length: perPage }).map((_, index) => <ProductCardSkeleton key={index} />)
-          : allProductsOnPage.map(product => <ProductCard key={product.id} product={product} />)}
+          : allProductsOnPage.map((product: Product) => <ProductCard key={product.id} product={product} />)}
       </div>
       <div className='next-previous flex justify-center items-center gap-2 p-7'>
         <BiSolidCircle
