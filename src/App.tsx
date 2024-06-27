@@ -8,8 +8,41 @@ import GoogleAuthSuccess from './components/authentication/GoogleAuthSucces';
 import { ToastContainer } from 'react-toastify';
 import AdminPage from './pages/Admin';
 import Category from './pages/Admin/Category';
-
+import Searchpage from './containers/searchResults/SearchPage';
+import { useDispatch } from 'react-redux';
+import { ProductResponse, Product } from './types/Types';
+import { useEffect, useRef } from 'react';
+import { useGetProductsQuery } from './services/productApi';
+import { setError, setIsLoading, setProductFetched, setProductsDataList } from './redux/slices/productsSlice';
 const App = () => {
+  const { data, error, isLoading } = useGetProductsQuery();
+  const dispatch = useDispatch();
+  const firstRender = useRef(true);
+
+  const productsData: ProductResponse = data as unknown as ProductResponse;
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      if (firstRender.current) {
+        firstRender.current = false;
+        return;
+      }
+      if (error) {
+        dispatch(setError(error));
+        dispatch(setIsLoading(false));
+        dispatch(setProductFetched(false));
+        return;
+      }
+      if (!isLoading && productsData) {
+        const productsList = productsData.data as Product[];
+        dispatch(setProductsDataList([...productsList]));
+        dispatch(setIsLoading(false));
+        dispatch(setProductFetched(true));
+      }
+    };
+    fetchProducts();
+  }, [productsData, isLoading, dispatch]);
+
   const router = createBrowserRouter([
     {
       path: '/',
@@ -52,6 +85,10 @@ const App = () => {
           element: <Category />,
         },
       ],
+    },
+    {
+      path: 'search',
+      element: <Searchpage />,
     },
   ]);
   return (
