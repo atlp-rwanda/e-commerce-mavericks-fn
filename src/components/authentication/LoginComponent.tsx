@@ -97,7 +97,7 @@ const LoginComponent = () => {
 
   return (
     <div className='w-full xl:container flex flex-col-reverse gap-14 md:flex-row px-4 mb-8 items-center md:gap-5 transition-all md:justify-between md:px-10 lg:justify-around mt-5 md:mt-10'>
-      <div className='w-full md:w-7/12 xl:w-4/12 border-greenColor border-2 rounded-xl p-8'>
+      <div className='w-full md:w-7/12 xl:w-4/12 border-greenColor border rounded-xl p-8'>
         <p className='font-bold text-3xl'>Existing Customer?</p>
         <p>Sign in to continue</p>
         {errors.root && (
@@ -123,7 +123,7 @@ const LoginComponent = () => {
           <p className='text-sm text-end hover:cursor-pointer hover:underline'>Forget password</p>
           <button
             type='submit'
-            className='p-2 rounded-lg bg-greenColor hover:bg-darkGreen transition-all text-whiteColor font-bold'
+            className='p-2 rounded-full bg-greenColor hover:bg-darkGreen transition-all text-whiteColor font-bold'
           >
             {isSubmitting || isLoading ? 'Loading...' : 'Sign In'}
           </button>
@@ -131,7 +131,7 @@ const LoginComponent = () => {
           <span className='self-center font-bold text-grayColor'>or</span>
           <button
             onClick={handleGoogleAuthentication}
-            className='p-2 font-bold text-teal-700 border-2 border-greenColor rounded-lg flex flex-row items-center justify-center gap-2 hover:bg-teal-100 transition-all'
+            className='p-2 font-bold text-teal-700 border-2 border-greenColor rounded-full flex flex-row items-center justify-center gap-2 hover:bg-teal-100 transition-all'
           >
             <img src={GoogleIcon} alt='Google Icon' className='w-5' />
             Continue with Google

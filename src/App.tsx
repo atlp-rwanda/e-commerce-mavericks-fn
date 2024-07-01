@@ -12,6 +12,7 @@ import { ProductResponse, Product } from './types/Types';
 import { useEffect, useRef } from 'react';
 import { useGetProductsQuery } from './services/productApi';
 import { setError, setIsLoading, setProductFetched, setProductsDataList } from './redux/slices/productsSlice';
+import Checkout from './components/checkout/Checkout';
 import RestrictedRoute from './components/dashboard/RestrictedRoute';
 import AdminPage from './pages/admin';
 import Category from './pages/admin/Category';
@@ -105,6 +106,10 @@ const App = () => {
         {
           path: 'products/:id',
           element: <ProductDetail />,
+        },
+        {
+          path: "/checkoutbag",
+          element: <Checkout />
         },
       ],
     },

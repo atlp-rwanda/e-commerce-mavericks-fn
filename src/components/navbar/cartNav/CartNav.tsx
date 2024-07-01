@@ -47,7 +47,7 @@ const CartNav: React.FC = () => {
                     </div>
                     <div className='py-2 flex justify-center gap-3 mt-2'>
                         <NavLink to="/shoppingcart" className='flex-grow rounded-full border border-greenColor text-sm py-2 px-2 hover:border-[#1a6461] transition-all delay-75 ease-in cursor-pointer text-center'>View Cart</NavLink>
-                        <NavLink to="/checkout" className='flex-grow rounded-full border border-greenColor text-sm py-2 px-2 bg-greenColor text-whiteColor transition-all delay-75 ease-in cursor-pointer hover:bg-[#1a6461] text-center'>Checkout</NavLink>
+                        <NavLink to="/checkoutbag" className='flex-grow rounded-full border border-greenColor text-sm py-2 px-2 bg-greenColor text-whiteColor transition-all delay-75 ease-in cursor-pointer hover:bg-[#1a6461] text-center'>Checkout</NavLink>
                     </div>
                 </div>
             </div>

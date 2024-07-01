@@ -51,12 +51,20 @@ export const cartApi = mavericksApi.injectEndpoints({
         method: 'POST',
         body: cart,
       }),
+      invalidatesTags: ["Carts"]
     }),
+    clearCarts: builder.mutation({
+      query: () => ({
+        url: '/cart',
+        method: 'DELETE',
+      }),
+      invalidatesTags: ["Carts"]
+    })
   }),
   overrideExisting: false,
 });
 
-export const { useGetCartsQuery, useDeleteCartMutation, useUpdateCartMutation, useAddProductToCartMutation } = cartApi;
+export const { useGetCartsQuery, useDeleteCartMutation, useUpdateCartMutation, useAddProductToCartMutation, useClearCartsMutation } = cartApi;
 
 export const selectCartResult = cartApi.endpoints.getCarts.select()
 
