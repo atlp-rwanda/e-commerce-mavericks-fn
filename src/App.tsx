@@ -7,6 +7,7 @@ import LandingPage from './pages/LandingPage';
 import GoogleAuthSuccess from './components/authentication/GoogleAuthSucces';
 import { ToastContainer } from 'react-toastify';
 import AdminPage from './pages/Admin';
+import SellerPage from './pages/Seller/SellerProducts';
 import Category from './pages/Admin/Category';
 import Searchpage from './containers/searchResults/SearchPage';
 import { useDispatch } from 'react-redux';
@@ -14,6 +15,8 @@ import { ProductResponse, Product } from './types/Types';
 import { useEffect, useRef } from 'react';
 import { useGetProductsQuery } from './services/productApi';
 import { setError, setIsLoading, setProductFetched, setProductsDataList } from './redux/slices/productsSlice';
+import SellerDashboard from './pages/Seller/SellerDashboard';
+import SellerProducts from './pages/Seller/SellerProducts';
 const App = () => {
   const { data, error, isLoading } = useGetProductsQuery();
   const dispatch = useDispatch();
@@ -85,6 +88,11 @@ const App = () => {
           element: <Category />,
         },
       ],
+    },
+    {
+      path: 'seller',
+      element: <SellerDashboard />,
+      children: [{ path: 'products', element: <SellerProducts /> }],
     },
     {
       path: 'search',
