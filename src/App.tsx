@@ -14,6 +14,7 @@ import { ProductResponse, Product } from './types/Types';
 import { useEffect, useRef } from 'react';
 import { useGetProductsQuery } from './services/productApi';
 import { setError, setIsLoading, setProductFetched, setProductsDataList } from './redux/slices/productsSlice';
+import { BuyerDashboard } from './pages/BuyerDashboard';
 const App = () => {
   const { data, error, isLoading } = useGetProductsQuery();
   const dispatch = useDispatch();
@@ -71,6 +72,11 @@ const App = () => {
         },
         { path: 'success', element: <Success /> },
       ],
+    },
+    {
+      path: 'user',
+      element: <BuyerDashboard />,
+      children: [],
     },
     {
       path: 'admin',
