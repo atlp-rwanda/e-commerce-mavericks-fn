@@ -6,14 +6,20 @@ import Login from './pages/Login';
 import LandingPage from './pages/LandingPage';
 import GoogleAuthSuccess from './components/authentication/GoogleAuthSucces';
 import { ToastContainer } from 'react-toastify';
-import AdminPage from './pages/Admin';
-import Category from './pages/Admin/Category';
 import Searchpage from './containers/searchResults/SearchPage';
 import { useDispatch } from 'react-redux';
 import { ProductResponse, Product } from './types/Types';
 import { useEffect, useRef } from 'react';
 import { useGetProductsQuery } from './services/productApi';
 import { setError, setIsLoading, setProductFetched, setProductsDataList } from './redux/slices/productsSlice';
+import RestrictedRoute from './components/dashboard/RestrictedRoute';
+import AdminPage from './pages/admin';
+import Category from './pages/admin/Category';
+import Sellers from './pages/admin/Sellers';
+import Buyers from './pages/admin/Buyers';
+import Messages from './pages/admin/Messages';
+import Settings from './pages/admin/Settings';
+
 const App = () => {
   const { data, error, isLoading } = useGetProductsQuery();
   const dispatch = useDispatch();
@@ -74,7 +80,7 @@ const App = () => {
     },
     {
       path: 'admin',
-      element: <AdminPage />,
+      element: <RestrictedRoute role='admin' />,
       children: [
         {
           index: true,
@@ -83,6 +89,22 @@ const App = () => {
         {
           path: 'categories',
           element: <Category />,
+        },
+        {
+          path: 'sellers',
+          element: <Sellers />,
+        },
+        {
+          path: 'buyers',
+          element: <Buyers />,
+        },
+        {
+          path: 'messages',
+          element: <Messages />,
+        },
+        {
+          path: 'settings',
+          element: <Settings />,
         },
       ],
     },

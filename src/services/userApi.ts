@@ -1,15 +1,17 @@
-
 import { mavericksApi } from '.';
 
-export const productsApi = mavericksApi.injectEndpoints({
+export const userApi = mavericksApi.injectEndpoints({
   endpoints: builder => ({
     getUserById: builder.query({
       query: id => ({
-        url: `users/${id}`,
+        url: `users/user/${id}`,
+        headers: {
+          authorization: localStorage.getItem('token') || '',
+        },
       }),
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetUserByIdQuery } = productsApi;
+export const { useGetUserByIdQuery } = userApi;

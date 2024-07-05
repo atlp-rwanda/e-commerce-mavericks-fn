@@ -1,11 +1,10 @@
 /** @type {import('tailwindcss').Config} */
-import tailwindScrollbar from 'tailwind-scrollbar-hide'
+import tailwindScrollbar from 'tailwind-scrollbar-hide';
+
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     fontFamily: {
-      roboto: ['Roboto', 'Arial', 'sans serif'],
       roboto: ['Roboto', 'Arial', 'sans serif'],
     },
     colors: {
@@ -27,11 +26,9 @@ export default {
         customCol: 'repeat(auto-fit, minmax(200px, 1fr))',
       },
       boxShadow: {
-        customShadow: '2px 3px 12px -6px rgba(0,0,0,0.94);'
-      }
+        customShadow: '2px 3px 12px -6px rgba(0,0,0,0.94);',
+      },
     },
   },
-  plugins: [
-    tailwindScrollbar
-  ],
+  plugins: [tailwindScrollbar],
 };

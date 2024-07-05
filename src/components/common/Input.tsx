@@ -3,7 +3,7 @@ import { cn } from '../../utils';
 
 interface InputProps {
   type: string;
-  label: string;
+  label?: string;
   id: string;
   placeholder: string;
   error?: string;
@@ -30,5 +30,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     );
   }
 );
+
+Input.displayName = 'Input';
 
 export default Input;
