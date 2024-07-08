@@ -195,6 +195,7 @@ const Navbar: React.FC = () => {
                 type='text'
                 className='w-full p-1 px-3 rounded-full text-blackColor outline-none text-xs py-2 md:text-sm md:py-2 font-light md:border md:border-blackColor'
                 placeholder='Search everything at Mavericks online'
+                required
                 onChange={e => setSearchQuery(e.target.value)}
               />
               <button

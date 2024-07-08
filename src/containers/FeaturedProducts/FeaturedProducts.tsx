@@ -24,7 +24,7 @@ export default function FeaturedProduct() {
       <div className='featured-header py-5'>
         <h1 className='text-3xl font-bold'>Featured Products</h1>
       </div>
-      <div className='grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-5'>
+      <div className='grid grid-cols-2 gap-0 sm:grid-cols-0 sm:gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-4 lg:gap-4'>
         {productsList.map((product: Product) => (
           <ProductCard key={product.id} product={product} />
         ))}

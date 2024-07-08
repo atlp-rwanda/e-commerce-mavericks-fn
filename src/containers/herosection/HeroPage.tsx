@@ -7,65 +7,28 @@ import { IoShieldCheckmarkOutline } from "react-icons/io5";
 import Category from '../categories/Category';
 import NewArrivals from '../Arrivals/NewArrivals';
 import FeaturedProduct from '../FeaturedProducts/FeaturedProducts';
+import { useGetAllCategoriesQuery } from '../../services/productApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { setIsCategoriesFetched, setallCategories } from '../../redux/slices/categorySlice';
+import CategorySkeleton from '../../components/categories/CategoriesSkeleton';
 
-
-const categories = [
-  {
-    image: "https://images.unsplash.com/photo-1498049794561-7780e7231661?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    category: "Electronics"
-  },
-  {
-    image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    category: "Fashion"
-  },
-  {
-    image: "https://plus.unsplash.com/premium_photo-1669652639337-c513cc42ead6?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    category: "Books"
-  },
-  {
-    image: "https://images.unsplash.com/photo-1523575708161-ad0fc2a9b951?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    category: "Home & Garden"
-  },
-  {
-    image: "https://images.unsplash.com/photo-1576438162986-c685b1cfed7a?q=80&w=1576&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    category: "Sports"
-  },
-  {
-    image: "https://plus.unsplash.com/premium_photo-1684795780266-ecd819f04f96?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    category: "Toys"
-  },
-  {
-    image: "https://images.unsplash.com/photo-1556982962-dc0ee0f77f47?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    category: "Automotive"
-  },
-  {
-    image: "https://images.unsplash.com/photo-1487412912498-0447578fcca8?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    category: "Beauty"
-  },
-  {
-    image: "https://plus.unsplash.com/premium_photo-1673953509975-576678fa6710?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    category: "Health"
-  },
-  {
-    image: "https://images.unsplash.com/photo-1458560871784-56d23406c091?q=80&w=1674&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    category: "Music"
-  },
-  {
-    image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=1635&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    category: "Travel"
-  },
-  {
-    image: "https://images.unsplash.com/photo-1458560871784-56d23406c091?q=80&w=1674&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    category: "Music"
-  },
-  {
-    image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=1635&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    category: "Travel"
-  },
-  
-];
 
 function HeroPage() {
+  const dispatch = useDispatch();
+  const { allCategories, isCategoriesFetched } :any = useSelector((state: RootState) => state.category);
+  const { data: categoriess } = useGetAllCategoriesQuery();
+
+  useEffect(() => {
+    if (!isCategoriesFetched && categoriess) {
+      dispatch(setallCategories(categoriess));
+      dispatch(setIsCategoriesFetched(true));
+    }
+  }, [categoriess, isCategoriesFetched, dispatch]);
+
+  const categoriesToDisplay = allCategories.length ? allCategories.data : categoriess;
+  const list = categoriesToDisplay?.data
+
   const images = [
     "https://images.unsplash.com/photo-1491553895911-0055eca6402d?q=80&w=1760&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "https://noticiasconcursos.com.br/wp-content/uploads/2023/08/noticiasconcursos.com.br-novo-iphone-da-apple-ja-tem-data-prevista-para-lancamento-veja-quando-09-iphone-15-750x430.jpg",
@@ -82,7 +45,7 @@ function HeroPage() {
   }, []);
 
   return (
-    <div className="p-3 md:p-4 xl:px-10">
+    <div className="p-3 md:p-4 xl:px-10 font-roboto">
       <div className="hero-container flex flex-col-reverse md:grid md:grid-cols-3 md:gap-4">
         <div className="small-images grid grid-cols-2 md:flex md:flex-col md:gap-1 md:col-span-1">
           <div className="upper-image relative">
@@ -118,11 +81,19 @@ function HeroPage() {
         <h1 className='text-2xl font-bold'>Shop By Category Here:</h1>
       </div>
       <div className="categories flex flex-row gap-4 overflow-x-auto snap-x">
-        {categories.map((cat, index) => (
-          <div key={index} className="snap-start">
-            <Category image={cat.image} category={cat.category} />
-          </div>
-        ))}
+      {list && list.length ? (
+        <div className="categories flex flex-row gap-4 overflow-x-auto snap-x">
+          {list.map((cat:{image:string, name: string}, index:number) => (
+            <div key={index} className="snap-start">
+              <Category image={cat.image} name={cat.name} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="">
+          <CategorySkeleton />
+        </div>
+      )}
       </div>
       <div className="banner py-10 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2">
         <div className="smater-value flex justify-center items-center gap-2 font-bold text-xl">SMARTER VALUES, GREAT DEALS</div>
