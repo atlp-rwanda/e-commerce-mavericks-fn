@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import React, { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { DesktopNav, PopularCategory } from '../../containers/nav/NavbarComponents';
 import WishNav from './wishNav/WishNav';
 import CartNav from './cartNav/CartNav';
+import { LuBell } from 'react-icons/lu';
+import Notifications from './notifications/Notifications';
+import { cn } from '../../utils';
 
 const Navbar: React.FC = () => {
-  const [cartOpen, setCartOpen] = useState(false);
+  const [notificationOpen, setNotificationOpen] = useState<boolean>(false);
+  const navbarRef = useRef<HTMLDivElement>(null);
+  const [navbarHeight, setNavbarHeight] = useState<number>(20);
+  const [cartOpen, SetCartOpen] = useState(false);
   const [wish, setWish] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
@@ -34,7 +40,6 @@ const Navbar: React.FC = () => {
       container?.classList.remove('-translate-x-full');
       hideScrollbar();
     });
-
     overlay?.addEventListener('click', e => {
       if (e.target !== e.currentTarget) {
         return;
@@ -45,21 +50,34 @@ const Navbar: React.FC = () => {
     });
   }, []);
 
-  const handleSearch = (e: React.FormEvent) => {
+  useEffect(() => {
+    const updateNavbarHeight = () => {
+      setNavbarHeight(navbarRef.current?.offsetHeight as number);
+    };
+    updateNavbarHeight();
+    // setTimeout(updateNavbarHeight, 0);
+    window.addEventListener('resize', updateNavbarHeight);
+    return () => {
+      window.removeEventListener('resize', updateNavbarHeight);
+    };
+  }, []);
+
+  const handleSearch = (e: any) => {
     e.preventDefault();
     navigate(`/search?searchQuery=${searchQuery}`);
   };
 
   return (
     <>
-      {(wish || cartOpen) && (
+      {(wish || cartOpen || notificationOpen) && (
         <div
           onClick={e => {
             if (e.target !== e.currentTarget) {
               return;
             }
             setWish(false);
-            setCartOpen(false);
+            SetCartOpen(false);
+            setNotificationOpen(false);
           }}
           className='absolute bg-[#00000000] top-0 w-full border h-full'
           style={{ zIndex: 10 }}
@@ -70,7 +88,10 @@ const Navbar: React.FC = () => {
           wish || cartOpen ? 'sticky' : ''
         } z-10`}
       >
-        <div className='flex justify-between gap-2 flex-wrap p-3 md:p-4 xl:px-10 2xl:w-[1440px] relative'>
+        <div
+          className='flex justify-between gap-2 flex-wrap p-3 md:p-4 xl:px-10 2xl:w-[1440px] relative'
+          ref={navbarRef}
+        >
           <div className='flex items-center gap-3 order-1'>
             <div
               id='humbergurBtn'
@@ -131,11 +152,12 @@ const Navbar: React.FC = () => {
                 </div>
               )}
             </div>
-            <NavLink
-              to='shoppingcart'
-              className='rounded-full transition-all ease-in-out delay-100 hover:bg-grayColor active:bg-greenColor p-1 active:text-blackColor hover:text-blackColor relative'
+            {/* Favorite */}
+            <a
+              className='rounded-full transition-all ease-in-out delay-100 hover:bg-grayColor active:bg-greenColor p-1  active:text-blackColor hover:text-blackColor relative'
+              onClick={() => setNotificationOpen(!notificationOpen)}
             >
-              <svg
+              {/* <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
                 viewBox='0 0 24 24'
@@ -148,11 +170,12 @@ const Navbar: React.FC = () => {
                   strokeLinejoin='round'
                   d='M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z'
                 />
-              </svg>
+              </svg> */}
+              <LuBell strokeWidth={1} stroke='currentColor' className='size-6 md:size-8' />
               <span className='absolute top-1 right-1 w-2 h-2 rounded-full bg-redColor'></span>
-            </NavLink>
+            </a>
             <div
-              onClick={() => setCartOpen(state => !state)}
+              onClick={() => SetCartOpen(state => !state)}
               className='rounded-full transition-all ease-in-out delay-100 hover:bg-grayColor active:bg-greenColor active:text-blackColor hover:text-blackColor p-1 select-none'
             >
               <div className='relative'>
@@ -178,7 +201,7 @@ const Navbar: React.FC = () => {
                 <div
                   onClick={e => {
                     if (e.target !== e.currentTarget) {
-                      setCartOpen(false);
+                      SetCartOpen(false);
                       return;
                     }
                   }}
@@ -252,6 +275,15 @@ const Navbar: React.FC = () => {
               <PopularCategory title='Shopping Inspiration' />
             </div>
           </div>
+        </div>
+        <div
+          className={cn(
+            'max-w-[500px] w-11/12 absolute  right-2 z-[100] transition-all',
+            !notificationOpen ? 'h-0 scale-0 origin-top' : 'h-fit scale-100 origin-top'
+          )}
+          style={{ top: `${navbarHeight}px` }}
+        >
+          <Notifications />
         </div>
       </div>
     </>

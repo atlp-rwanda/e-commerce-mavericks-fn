@@ -5,5 +5,6 @@ export const mavericksApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://e-commerce-mavericcks-bn-staging-istf.onrender.com/api/',
   }),
+  tagTypes: ['Notifications'],
   endpoints: () => ({}),
 });
