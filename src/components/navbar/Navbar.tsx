@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { DesktopNav, PopularCategory } from '../../containers/nav/NavbarComponents';
 import WishNav from './wishNav/WishNav';
 import CartNav from './cartNav/CartNav';
-import { LuBell } from 'react-icons/lu';
+import { LuBell, LuUser } from 'react-icons/lu';
 import Notifications from './notifications/Notifications';
 import { cn } from '../../utils';
+import { useGetUserByIdQuery } from '../../services/userApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 const Navbar: React.FC = () => {
   const [notificationOpen, setNotificationOpen] = useState<boolean>(false);
@@ -49,7 +52,6 @@ const Navbar: React.FC = () => {
       showScrollbar();
     });
   }, []);
-
   useEffect(() => {
     const updateNavbarHeight = () => {
       setNavbarHeight(navbarRef.current?.offsetHeight as number);
@@ -66,7 +68,32 @@ const Navbar: React.FC = () => {
     e.preventDefault();
     navigate(`/search?searchQuery=${searchQuery}`);
   };
-
+  //HANDLE OPERATION OF ROUTING THE USER TO THE ACCOUNT OR SIGN IN
+  const [userInfo, setUserInfo] = useState<string[]>([]);
+  const user = useSelector((state: RootState) => state.user);
+  const userId = user.userId ? user.userId.replace(/"/g, '') : '';
+  const {
+    isLoading: isFetchingUser,
+    isSuccess: isUserFetched,
+    data: userData,
+  } = useGetUserByIdQuery(userId);
+  const handleNavigate = () => {
+    const token = localStorage.getItem('token') || null;
+    if (!token) {
+      navigate('/login');
+      return;
+    } else {
+      setWish(state => !state);
+    }
+  };
+  useEffect(() => {
+    if (isUserFetched && userData && userData.message) {
+      const { firstName, lastName } = userData.message;
+      setUserInfo([firstName, lastName]);
+      return;
+    }
+    setUserInfo(['Anynmous', 'Anoonymous']);
+  }, [isUserFetched]);
   return (
     <>
       {(wish || cartOpen || notificationOpen) && (
@@ -121,23 +148,12 @@ const Navbar: React.FC = () => {
           </div>
           <div className='flex items-center gap-2 order-2 md:order-3'>
             <div
-              onClick={() => setWish(state => !state)}
+              // onClick={() => setWish(state => !state)}
+              onClick={handleNavigate}
               className='rounded-full transition-all ease-in-out delay-100 hover:bg-grayColor active:bg-greenColor p-1 active:text-blackColor hover:text-blackColor'
             >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth={1}
-                stroke='currentColor'
-                className='size-6 md:size-8'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z'
-                />
-              </svg>
+            
+              <LuUser stroke='currentColor' className='size-6 md:size-8' strokeWidth={1} />
               {wish && (
                 <div
                   onClick={e => {
@@ -148,31 +164,18 @@ const Navbar: React.FC = () => {
                   }}
                   className='absolute top-0 md:h-[115px] w-screen right-0 h-[100px] bg-[#0000000] z-40'
                 >
-                  <WishNav setWish={setWish} />
+                  <WishNav setWish={setWish} isLoading={isFetchingUser} userInfo={userInfo} />
                 </div>
               )}
             </div>
-            {/* Favorite */}
+    
             <a
               className='rounded-full transition-all ease-in-out delay-100 hover:bg-grayColor active:bg-greenColor p-1  active:text-blackColor hover:text-blackColor relative'
               onClick={() => setNotificationOpen(!notificationOpen)}
             >
-              {/* <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth={1}
-                stroke='currentColor'
-                className='size-6 md:size-8'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z'
-                />
-              </svg> */}
+           
               <LuBell strokeWidth={1} stroke='currentColor' className='size-6 md:size-8' />
-              <span className='absolute top-1 right-1 w-2 h-2 rounded-full bg-redColor'></span>
+              {/* <span className='absolute top-1 right-1 w-2 h-2 rounded-full bg-redColor'></span> */}
             </a>
             <div
               onClick={() => SetCartOpen(state => !state)}

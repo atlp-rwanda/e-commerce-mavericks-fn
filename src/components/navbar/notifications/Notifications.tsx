@@ -12,8 +12,8 @@ import { useEffect, useRef, useState } from 'react';
 import { FaSpinner } from 'react-icons/fa6';
 
 export const Notifications = () => {
-  const userId = useSelector((state: any) => state.userId) || localStorage.getItem('userId');
-  // const userId = '06e0d866-2544-4cfa-83b0-2c3cede7a2f0';
+  const user = useSelector((state: any) => state.user);
+  const userId = user.userId ? user.userId.replace(/"/g, '') : '';
   const [mainMenuClicked, setMainMenuClicked] = useState(false);
 
   const mainMenuRef = useRef<HTMLDivElement>(null);
