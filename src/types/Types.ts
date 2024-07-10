@@ -54,3 +54,21 @@ export interface NotificationProps {
   updatedAt: string;
   isRead: boolean;
 }
+
+export interface User {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  photoUrl: string | null;
+  gender: string;
+  Role: {
+    name: string;
+  };
+};
+
+export interface Role {
+  id: string;
+  name: string;
+}
