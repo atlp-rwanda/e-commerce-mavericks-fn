@@ -6,7 +6,7 @@ import GoogleIcon from '../../assets/googleIcon.svg';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import { loginSchema, LoginData } from '../../utils/schemas';
-import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setToken, setUser, setRole } from '../../redux/slices/userSlice';
 import { useLoginUserMutation } from '../../services/authAPI';
@@ -120,7 +120,9 @@ const LoginComponent = () => {
             {...register('password')}
             error={errors.password && errors.password.message}
           />
-          <p className='text-sm text-end hover:cursor-pointer hover:underline'>Forget password</p>
+          <Link to={'/reset-password'}>
+            <p className='text-sm text-end hover:cursor-pointer hover:underline'>Forget password</p>
+          </Link>
           <button
             type='submit'
             className='p-2 rounded-lg bg-greenColor hover:bg-darkGreen transition-all text-whiteColor font-bold'
