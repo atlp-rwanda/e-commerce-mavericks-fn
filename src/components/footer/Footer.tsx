@@ -1,11 +1,12 @@
 import FooterTitle from '../../containers/footer/FooterTitle';
 import SocialIcon from '../../containers/footer/SocialIcon';
 import FooterLink from '../../containers/footer/FooterLink';
-
+import Chat from '../chat/Chat';
 function Footer() {
   return (
     <>
-      <div className='w-full flex flex-col gap-2 bg-grayColor font-roboto 2xl:items-center'>
+      <div className='w-full flex flex-col gap-2 bg-grayColor font-roboto 2xl:items-center '>
+        <Chat />
         <div className='p-3 md:p-4 xl:px-10 2xl:w-[1440px] grid grid-cols-2 md:grid-cols-5 xl:grid-cols-6 gap-x-20 gap-y-5 sm:gap-5 md:gap-2'>
           <div className='flex flex-col md:row-span-1 md:col-start-1 md:col-end-3 gap-3'>
             <FooterTitle title={'mavericks'} />

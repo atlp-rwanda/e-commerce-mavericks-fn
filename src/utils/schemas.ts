@@ -131,3 +131,10 @@ export interface ApiResponse<> {
   message: string;
   data: wishListData[];
 }
+// chat related schema
+
+export const chatSchema = z.object({
+  content: z.string().min(2).max(255),
+});
+
+export type ChatData = z.infer<typeof chatSchema>;
