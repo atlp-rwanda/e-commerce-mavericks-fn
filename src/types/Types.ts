@@ -47,3 +47,10 @@ export type CategoryResponse = {
   message: string;
   data: Category[];
 };
+export interface NotificationProps {
+  id: string;
+  message: string;
+  createdAt: string;
+  updatedAt: string;
+  isRead: boolean;
+}
