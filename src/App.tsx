@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Login from './pages/Login';
 import LandingPage from './pages/LandingPage';
 import GoogleAuthSuccess from './components/authentication/GoogleAuthSucces';
+import EditUserProfile from './pages/EditUserProfile';
 import { ToastContainer } from 'react-toastify';
 import Searchpage from './containers/searchResults/SearchPage';
 import { useDispatch } from 'react-redux';
@@ -67,6 +68,10 @@ const App = () => {
         {
           path: 'auth/success/:token',
           element: <GoogleAuthSuccess />,
+        },
+        {
+          path: 'profile',
+          element: <EditUserProfile />,
         },
         {
           path: 'categories/:categoryId',

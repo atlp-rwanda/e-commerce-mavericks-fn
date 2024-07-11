@@ -21,7 +21,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           type={type}
           id={id}
           placeholder={placeholder}
-          className={cn('p-1 px-3 rounded-lg border border-blackColor outline-none font-normal', inputClasname)}
+          className={cn(
+            'p-1 px-3 rounded-lg border border-blackColor outline-none font-normal',
+
+            'p-1 px-3 rounded-lg border border-blackColor outline-none font-normal disabled:cursor-not-allowed disabled:opacity-50 focus:ring-grayColor/40 disabled:border-grayColor',
+            inputClasname
+          )}
           ref={ref}
           {...rest}
         />
