@@ -6,10 +6,12 @@ interface ButtonProps {
   type?: 'submit' | 'reset' | 'button';
   className?: string;
   onClick?: () => void;
+  disabled?: boolean;
 }
-const Button = ({ text, type, className, onClick }: ButtonProps) => {
+const Button = ({ text, type, className, disabled, onClick }: ButtonProps) => {
   return (
     <button
+      disabled={disabled}
       type={type}
       className={cn(
         'p-2 rounded-lg bg-greenColor hover:bg-darkGreen transition-all text-whiteColor font-bold',

@@ -60,3 +60,74 @@ export const resetPasswordSchema = z
   });
 
 export type LoginData = z.infer<typeof loginSchema>;
+
+export interface Size {
+  id: string;
+  size: string;
+  price: number;
+  quantity: number;
+  discount: number;
+  expiryDate: Date;
+  productId: string;
+  available: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  colors: string[] | null;
+  images: string[];
+  sellerId: string;
+  categoryId: string;
+  sizes: Size[];
+  reviews: Review[];
+}
+
+export interface IProductData {
+  data: Product;
+  message: string;
+}
+
+export interface ICart {
+  productId: string | null | undefined;
+  sizeId: string | null | undefined;
+  quantity?: number;
+}
+
+export interface IError extends Error {
+  data: any;
+  message: string;
+}
+
+interface FeedbackUser {
+  photoUrl: string | null;
+  firstName: string;
+}
+
+export interface Review {
+  id: string;
+  userId: string;
+  productId: string;
+  rating: number;
+  feedback: string;
+  feedbackImage: string;
+  createdAt: string;
+  updatedAt: string;
+  user: FeedbackUser;
+}
+
+interface wishListData {
+  id: string;
+  image: string;
+  name: string;
+  price: number;
+  productId: string;
+}
+export interface ApiResponse<> {
+  ok: boolean;
+  message: string;
+  data: wishListData[];
+}

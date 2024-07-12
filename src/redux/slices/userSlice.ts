@@ -27,7 +27,7 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<string | null>) => {
       state.userId = action.payload;
       if (action.payload) {
-        localStorage.setItem('user', JSON.stringify(action.payload));
+        localStorage.setItem('user', action.payload);
       } else {
         localStorage.removeItem('user');
       }
@@ -37,7 +37,7 @@ const userSlice = createSlice({
     },
     clearUserData: state => {
       localStorage.removeItem('token');
-      localStorage.removeItem('user_id');
+      localStorage.removeItem('user');
       state.token = null;
       state.userId = null;
     },
