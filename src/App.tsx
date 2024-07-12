@@ -23,6 +23,8 @@ import Settings from './pages/admin/Settings';
 import CategoriesPage from './pages/CategoriesPage';
 import ResetPassword from './pages/ResetPassword';
 import NewPassword from './pages/NewPassword';
+import { ProductDetail } from './pages/product/ProductDetail';
+
 const App = () => {
   const { data, error, isLoading } = useGetProductsQuery();
   const dispatch = useDispatch();
@@ -81,6 +83,10 @@ const App = () => {
               element: <NewPassword />,
             },
           ],
+        },
+        {
+          path: 'products/:id',
+          element: <ProductDetail />,
         },
       ],
     },
