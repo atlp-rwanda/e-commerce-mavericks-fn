@@ -14,7 +14,7 @@ const Button = ({ text, type, className, disabled, onClick }: ButtonProps) => {
       disabled={disabled}
       type={type}
       className={cn(
-        'p-2 rounded-lg bg-greenColor hover:bg-darkGreen transition-all text-whiteColor font-bold',
+        'p-2 rounded-lg bg-greenColor hover:bg-darkGreen transition-all text-whiteColor font-semibold',
         className
       )}
       onClick={onClick}

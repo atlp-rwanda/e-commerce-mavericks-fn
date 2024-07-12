@@ -111,7 +111,7 @@ const Navbar: React.FC = () => {
         ></div>
       )}
       <div
-        className={`flex flex-col bg-blackColor md:bg-whiteColor md:text-blackColor text-whiteColor font-roboto w-full 2xl:items-center top-0 ${
+        className={`flex flex-col bg-blackColor md:bg-whiteColor md:text-blackColor text-whiteColor font-roboto w-full 2xl:items-center sticky top-0 ${
           wish || cartOpen ? 'sticky' : ''
         } z-10`}
       >

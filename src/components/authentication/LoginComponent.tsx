@@ -6,16 +6,17 @@ import GoogleIcon from '../../assets/googleIcon.svg';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import { loginSchema, LoginData } from '../../utils/schemas';
-import { useNavigate, useLocation, useSearchParams, Link } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams, Link, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setToken, setUser, setRole } from '../../redux/slices/userSlice';
 import { useLoginUserMutation } from '../../services/authAPI';
 import handleGoogleAuthentication from '../../utils/handleGoogleAuthentication';
-import { Bounce, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CustomJwtPayload } from '../../types/Types';
 import { RootState } from '../../redux/store';
 import { useGetUserByIdQuery } from '../../services/userApi';
+import { toastConfig } from '../../utils';
+import { toast } from 'react-toastify';
 
 const LoginComponent = () => {
   const navigate = useNavigate();
@@ -35,6 +36,10 @@ const LoginComponent = () => {
 
   const { data: userData, isSuccess: isUserSuccess } = useGetUserByIdQuery(userId);
 
+  if (isAuthenticated) {
+    return <Navigate to='/' />;
+  }
+
   useEffect(() => {
     if (isError && error) {
       setError('root', {
@@ -49,17 +54,7 @@ const LoginComponent = () => {
     }
     const message = searchParams.get('message');
     if (message) {
-      toast.success(message, {
-        position: 'bottom-left',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'dark',
-        transition: Bounce,
-      });
+      toast.success(message, toastConfig);
     }
   }, [
     isError,
@@ -80,7 +75,7 @@ const LoginComponent = () => {
     if (isUserSuccess && userData) {
       const role = userData.message.Role.name;
       dispatch(setRole(role));
-      if (role === 'buyer' && isAuthenticated) {
+      if (role === 'buyer') {
         const from = location.state?.from?.pathname || '/';
         navigate(from);
       } else if (role === 'admin') {

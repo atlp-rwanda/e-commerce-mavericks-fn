@@ -24,6 +24,8 @@ import CategoriesPage from './pages/CategoriesPage';
 import ResetPassword from './pages/ResetPassword';
 import NewPassword from './pages/NewPassword';
 import { ProductDetail } from './pages/product/ProductDetail';
+import { SellerDashboard } from './pages/seller/SellerDashboard';
+import { ErrorPage } from './pages/ErrorPage';
 
 const App = () => {
   const { data, error, isLoading } = useGetProductsQuery();
@@ -57,6 +59,7 @@ const App = () => {
   const router = createBrowserRouter([
     {
       path: '/',
+      errorElement: <ErrorPage />,
       children: [
         {
           index: true,
@@ -90,6 +93,7 @@ const App = () => {
         },
       ],
     },
+
     {
       path: 'register',
       element: <Register />,
@@ -128,6 +132,16 @@ const App = () => {
         {
           path: 'settings',
           element: <Settings />,
+        },
+      ],
+    },
+    {
+      path: 'seller',
+      element: <SellerDashboard />,
+      children: [
+        {
+          index: true,
+          element: <SellerDashboard />,
         },
       ],
     },

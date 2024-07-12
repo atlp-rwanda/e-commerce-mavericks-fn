@@ -11,7 +11,7 @@ import { useState, useEffect } from 'react';
 import Footer from '../../components/footer/Footer';
 import { useAddProductToWishlistMutation, useGetUserWishlistQuery } from '../../services/wishlistApi';
 import ProductDetailSkeleton from '../../containers/ProductDetail/ProductDetailSkeleton';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAddProductToCartMutation } from '../../services/cartApi';
 import { toast } from 'react-toastify';
 import { QueryErrorData, Size } from '../../utils/schemas';
@@ -66,8 +66,8 @@ export const ProductDetail = () => {
   }
 
   if (productError) {
-    navigate('/');
-    return <div>Error loading product details</div>;
+    // toast.error('An Error occured', toastConfig);
+    return <Navigate to='/' />;
   }
 
   const scrollRecommendedProducts = (direction: string) => {
@@ -83,9 +83,8 @@ export const ProductDetail = () => {
   };
 
   if (!productData) {
-    navigate('/');
     toast.error('No product data found', toastConfig);
-    return;
+    return <Navigate to='/' />;
   }
   const handleSideImage = (image: string) => {
     setSpottedImage(image);
