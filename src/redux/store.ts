@@ -6,12 +6,14 @@ import registerReducer from './slices/registerSlice';
 import userReducer from './slices/userSlice';
 import productReducer from './slices/productsSlice';
 import categoriesReducer from './slices/categorySlice';
+import sidebarSlice from './slices/sidebarSlice';
 
 export const store = configureStore({
   reducer: {
     products: productReducer,
     user: userReducer,
     register: registerReducer,
+    sidebar: sidebarSlice,
     category: categoriesReducer,
     [mavericksApi.reducerPath]: mavericksApi.reducer,
   },

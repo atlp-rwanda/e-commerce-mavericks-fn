@@ -1,16 +1,30 @@
 import { JwtPayload } from 'jwt-decode';
 
 // types/Types.ts
+
+export type Size = {
+  id: string;
+  size: string;
+  name: string;
+  quantity: number;
+  price: number;
+  discount: number;
+  expiryDate: string;
+  productId: string;
+  available: boolean;
+  createdAt: string;
+};
+
 export type Product = {
   reviews: Review[];
   id: string;
   name: string;
   description: string;
-  colors: any;
+  colors?: string[];
   images: string[];
   categoryId: string;
   sellerId: string;
-  sizes: any[];
+  sizes: Size[];
   createdAt: string;
   updatedAt: string;
   manufacturer: string;
@@ -20,7 +34,7 @@ export type Product = {
 export type ProductResponse = {
   ok: boolean;
   message: string;
-  data: Product[];
+  data: Product;
 };
 
 export interface Review {
@@ -40,6 +54,7 @@ export type Category = {
   id: string;
   name: string;
   image?: string;
+  description: string;
 };
 
 export type CategoryResponse = {

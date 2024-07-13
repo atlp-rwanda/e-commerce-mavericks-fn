@@ -19,7 +19,6 @@ export const categoryApi = mavericksApi.injectEndpoints({
         method: 'GET',
         headers: {
           Accept: 'application/json',
-          authorization: localStorage.getItem('token') || '',
         },
       }),
     }),

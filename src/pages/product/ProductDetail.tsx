@@ -14,10 +14,10 @@ import ProductDetailSkeleton from '../../containers/ProductDetail/ProductDetailS
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAddProductToCartMutation } from '../../services/cartApi';
 import { toast } from 'react-toastify';
-import { QueryErrorData, Size } from '../../utils/schemas';
+import { QueryErrorData } from '../../utils/schemas';
 import { useSelector } from 'react-redux';
 import ProductCard from '../../components/Products/ProductCard';
-import { Product } from '../../types/Types';
+import { Product, Size } from '../../types/Types';
 import { useRef } from 'react';
 import useCheckToken from '../../hooks/useCheckToken';
 import StarRating from '../../components/common/Ratings';
@@ -34,10 +34,10 @@ export const ProductDetail = () => {
   const [addProductToWishlist] = useAddProductToWishlistMutation();
   const [addProductToCart, { isLoading: cartLoading }] = useAddProductToCartMutation();
   const { data } = useGetUserWishlistQuery();
-  const products: Product[] = useSelector((state: any) => state.products.productsDataList);
+  const products: Product[] = useSelector((state: RootState) => state.products.productsDataList);
 
   const [spottedImage, setSpottedImage] = useState<string | null>(null);
-  const [selectedSize, setSelectedSize] = useState<Size | null>();
+  const [selectedSize, setSelectedSize] = useState<Size | undefined>();
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [isInWishlist, setIsInwishlist] = useState(false);
   const recommendedProductsRef = useRef<HTMLDivElement>(null);
@@ -92,8 +92,8 @@ export const ProductDetail = () => {
   };
 
   const handleImageNavigation = (direction: string) => {
-    let productImages = productData.data.images;
-    let index = productImages.findIndex(image => image === spottedImage);
+    const productImages = productData.data.images;
+    const index = productImages.findIndex(image => image === spottedImage);
 
     let newIndex;
     if (direction === 'forward') {
@@ -133,8 +133,8 @@ export const ProductDetail = () => {
       navigate('/login');
     }
     try {
-      const productId: string = productData?.data.id!;
-      const sizeId: string = selectedSize?.id!;
+      const productId: string = productData?.data.id;
+      const sizeId = selectedSize?.id;
       const result = await addProductToCart({ productId, sizeId });
 
       if (result.error) {
@@ -144,6 +144,7 @@ export const ProductDetail = () => {
         const message: string = result.data.message;
         toast.success(message, toastConfig);
       }
+      // eslint-disable-next-line no-empty
     } catch (error) {}
   };
 

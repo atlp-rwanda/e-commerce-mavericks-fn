@@ -2,10 +2,12 @@ import { IoPeople } from 'react-icons/io5';
 import { IoIosPeople } from 'react-icons/io';
 import { PiShoppingCartSimpleFill } from 'react-icons/pi';
 import { GoArrowUp } from 'react-icons/go';
+import Navbar from '../../components/dashboard/Navbar';
 
 export default function AdminPage() {
   return (
     <>
+      <Navbar location='Dashboard' page='admin' />
       <div className='p-6 md:ml-64'>
         {/* Information Cards */}
         <div className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 mb-6'>

@@ -1,17 +1,32 @@
-import { FaRegListAlt, FaUserFriends, FaUserTie, FaRegEnvelope, FaCog, FaUsers } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
-import { RxDashboard } from 'react-icons/rx';
-import logo from '../../assets/Rectangle 2487.png';
-import { Link, NavLink, Navigate } from 'react-router-dom';
+import logo from '../../assets/logo.png';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { clearUserData } from '../../redux/slices/userSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { setIsOpen } from '../../redux/slices/sidebarSlice';
 
-export default function Sidebar({ isOpen, toggleSidebar }: { isOpen: boolean; toggleSidebar: () => void }) {
+interface IsidebarLinks {
+  name: string;
+  path: string;
+  icon: JSX.Element;
+}
+
+export default function Sidebar({ sidebarLinks }: { sidebarLinks: IsidebarLinks[] }) {
   const dispatch = useDispatch();
+
+  const isOpen = useSelector((state: RootState) => state.sidebar.isOpen);
+
+  const navigateTo = useNavigate();
+
+  const toggleSidebar = () => {
+    dispatch(setIsOpen());
+  };
 
   const handleLogout = () => {
     dispatch(clearUserData());
-    <Navigate to='/' />;
+    navigateTo('/');
   };
 
   return (
@@ -31,98 +46,22 @@ export default function Sidebar({ isOpen, toggleSidebar }: { isOpen: boolean; to
           </div>
           <nav>
             <ul className='space-y-2'>
-              <li>
-                <NavLink
-                  to='/admin'
-                  end
-                  className={({ isActive }) =>
-                    `flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-[#E5E7EB] text-[#8F8183] ${
-                      isActive ? 'bg-skyBlue text-skyBlueText hover:bg-skyBlue' : ''
-                    }`
-                  }
-                >
-                  <RxDashboard className='mr-3' />
-                  Dashboard
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to='/admin/categories'
-                  className={({ isActive }) =>
-                    `flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-[#E5E7EB] text-[#8F8183] ${
-                      isActive ? 'bg-skyBlue text-skyBlueText hover:bg-skyBlue' : ''
-                    }`
-                  }
-                >
-                  <FaRegListAlt className='mr-3' />
-                  Category
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to={'/admin/sellers'}
-                  className={({ isActive }) =>
-                    `flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-[#E5E7EB] text-[#8F8183] ${
-                      isActive ? 'bg-skyBlue text-skyBlueText hover:bg-skyBlue' : ''
-                    }`
-                  }
-                >
-                  <FaUserTie className='mr-3' />
-                  Sellers
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to={'/admin/buyers'}
-                  className={({ isActive }) =>
-                    `flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-[#E5E7EB] ${
-                      isActive ? 'bg-skyBlue text-skyBlueText hover:bg-skyBlue' : 'text-[#8F8183]'
-                    }`
-                  }
-                >
-                  <FaUserFriends className='mr-3' />
-                  Buyers
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to={'/admin/messages'}
-                  className={({ isActive }) =>
-                    `flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-[#E5E7EB] ${
-                      isActive ? 'bg-skyBlue text-skyBlueText hover:bg-skyBlue' : 'text-[#8F8183]'
-                    }`
-                  }
-                >
-                  <FaRegEnvelope className='mr-3' />
-                  Messages
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to={'/admin/users'}
-                  className={({ isActive }) =>
-                    `flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-[#E5E7EB] ${
-                      isActive ? 'bg-skyBlue text-skyBlueText hover:bg-skyBlue' : 'text-[#8F8183]'
-                    }`
-                  }
-                >
-                  <FaUsers className='mr-3' />
-                  Users
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to={'/admin/settings'}
-                  className={({ isActive }) =>
-                    `flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-[#E5E7EB] text-[#8F8183] ${
-                      isActive ? 'bg-skyBlue text-skyBlueText hover:bg-skyBlue' : ''
-                    }`
-                  }
-                >
-                  <FaCog className='mr-3' />
-                  Settings
-                </NavLink>
-              </li>
+              {sidebarLinks.map((link, index) => (
+                <li key={link.name}>
+                  <NavLink
+                    to={link.path}
+                    end={index === 0}
+                    className={({ isActive }) =>
+                      `flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-[#E5E7EB] text-[#8F8183] ${
+                        isActive ? 'bg-skyBlue text-skyBlueText hover:bg-skyBlue' : ''
+                      }`
+                    }
+                  >
+                    {link.icon}
+                    {link.name}
+                  </NavLink>
+                </li>
+              ))}
             </ul>
           </nav>
         </div>

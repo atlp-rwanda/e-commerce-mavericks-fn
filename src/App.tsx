@@ -21,6 +21,14 @@ import Messages from './pages/admin/Messages';
 import UserManagement from './pages/admin/UserManagement';
 import NotFoundPage from './pages/NotFoundPage';
 import Settings from './pages/admin/Settings';
+import SellersPage from './pages/seller';
+import Orders from './pages/seller/Orders';
+import Products from './pages/seller/Products';
+import Customers from './pages/seller/Customers';
+import SellerMessages from './pages/seller/Messages';
+import SellerSettings from './pages/seller/Settings';
+import AddNewProduct from './pages/seller/AddNewProduct';
+import RestrictedSellerRoute from './components/dashboard/RestrictedSellerLayout';
 
 import CategoriesPage from './pages/CategoriesPage';
 import ResetPassword from './pages/ResetPassword';
@@ -49,7 +57,7 @@ const App = () => {
         return;
       }
       if (!isLoading && productsData) {
-        const productsList = productsData.data as Product[];
+        const productsList = productsData.data as unknown as Product[];
         dispatch(setProductsDataList([...productsList]));
         dispatch(setIsLoading(false));
         dispatch(setProductFetched(true));
@@ -57,7 +65,7 @@ const App = () => {
     };
     fetchProducts();
 
-    dispatch<any>(cartApi.endpoints.getCarts.initiate())
+    dispatch<any>(cartApi.endpoints.getCarts.initiate());
   }, [productsData, isLoading, dispatch]);
 
   const router = createBrowserRouter([
@@ -78,7 +86,7 @@ const App = () => {
         },
         {
           path: 'shoppingcart',
-          element: <Cart />
+          element: <Cart />,
         },
         {
           path: 'categories/:categoryId',
@@ -130,6 +138,40 @@ const App = () => {
         {
           path: 'buyers',
           element: <Buyers />,
+        },
+        {
+          path: 'messages',
+          element: <SellerMessages />,
+        },
+        {
+          path: 'settings',
+          element: <SellerSettings />,
+        },
+      ],
+    },
+    {
+      path: 'seller',
+      element: <RestrictedSellerRoute role='seller' />,
+      children: [
+        {
+          index: true,
+          element: <SellersPage />,
+        },
+        {
+          path: 'orders',
+          element: <Orders />,
+        },
+        {
+          path: 'products',
+          element: <Products />,
+        },
+        {
+          path: 'add-new-product',
+          element: <AddNewProduct />,
+        },
+        {
+          path: 'customers',
+          element: <Customers />,
         },
         {
           path: 'messages',

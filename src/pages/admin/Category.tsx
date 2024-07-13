@@ -3,13 +3,15 @@ import { IoIosAddCircleOutline } from 'react-icons/io';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { CiSearch } from 'react-icons/ci';
 import { useEffect, useState } from 'react';
-import AddCategoryModal, { ICategory } from '../../components/dashboard/AddCategoryModal';
-import DeleteCategoryModal from '../../components/dashboard/DeleteCategoryModal';
+import AddCategoryModal from '../../components/admin/AddCategoryModal';
 import { useGetCategoryQuery } from '../../services/categoryApi';
 import { useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import { useDispatch } from 'react-redux';
 import { setIsCreated } from '../../redux/slices/categorySlice';
+import DeleteCategoryModal from '../../components/admin/DeleteCategoryModal';
+import Navbar from '../../components/dashboard/Navbar';
+import { Category as ICategory } from '../../types/Types';
 
 export default function Category() {
   const [openAddModal, setOpenAddModal] = useState(false);
@@ -45,6 +47,7 @@ export default function Category() {
 
   return (
     <>
+      <Navbar location='Categories' page='admin' />
       {openAddModal && <AddCategoryModal openAddModal={openAddModal} handleOpenModal={handleOpenModal} />}
       {openDeleteModal && (
         <DeleteCategoryModal openDeleteModal={openDeleteModal} handleOpenDeleteModal={handleOpenDeleteModal} />
