@@ -24,6 +24,8 @@ import CategoriesPage from './pages/CategoriesPage';
 import ResetPassword from './pages/ResetPassword';
 import NewPassword from './pages/NewPassword';
 import { ProductDetail } from './pages/product/ProductDetail';
+import Cart from './components/cart/Cart';
+import { cartApi } from './services/cartApi';
 
 const App = () => {
   const { data, error, isLoading } = useGetProductsQuery();
@@ -52,6 +54,8 @@ const App = () => {
       }
     };
     fetchProducts();
+
+    dispatch<any>(cartApi.endpoints.getCarts.initiate())
   }, [productsData, isLoading, dispatch]);
 
   const router = createBrowserRouter([
@@ -69,6 +73,10 @@ const App = () => {
         {
           path: 'auth/success/:token',
           element: <GoogleAuthSuccess />,
+        },
+        {
+          path: 'shoppingcart',
+          element: <Cart />
         },
         {
           path: 'categories/:categoryId',

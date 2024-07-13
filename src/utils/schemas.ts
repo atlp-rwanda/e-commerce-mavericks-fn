@@ -96,6 +96,40 @@ export interface ICart {
   sizeId: string | null | undefined;
   quantity?: number;
 }
+export type DeleteCartQueryParams = Pick<ICart, 'productId' | 'sizeId'>
+
+export interface ISize {
+  price: number;
+  size: string | null;
+  id: string;
+}
+export interface ICartProduct {
+  id: string;
+  name: string;
+  sizes: ISize[];
+  sellerId: string;
+  image: string;
+  quantity: number;
+  createdAt: string;
+}
+export interface ICartsResponse {
+  ok: boolean;
+  cartId: string;
+  cartProducts: ICartProduct[];
+  data?: string[],
+  isLoading?: boolean,
+  isSuccess?: boolean,
+  isError?: boolean,
+  error?: string | undefined
+
+}
+export interface ICartsHookResponse {
+  data?: ICartsResponse,
+  isLoading?: boolean,
+  isSuccess?: boolean,
+  isError?: boolean,
+  error?: string | undefined
+}
 
 export interface IError extends Error {
   data: any;

@@ -9,8 +9,10 @@ import { cn } from '../../utils';
 import { useGetUserByIdQuery } from '../../services/userApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import { selectAllCarts } from '../../services/cartApi';
 
 const Navbar: React.FC = () => {
+  const cartsCount = useSelector(selectAllCarts).length
   const [notificationOpen, setNotificationOpen] = useState<boolean>(false);
   const navbarRef = useRef<HTMLDivElement>(null);
   const [navbarHeight, setNavbarHeight] = useState<number>(20);
@@ -111,9 +113,8 @@ const Navbar: React.FC = () => {
         ></div>
       )}
       <div
-        className={`flex flex-col bg-blackColor md:bg-whiteColor md:text-blackColor text-whiteColor font-roboto w-full 2xl:items-center top-0 ${
-          wish || cartOpen ? 'sticky' : ''
-        } z-10`}
+        className={`flex flex-col bg-blackColor md:bg-whiteColor md:text-blackColor text-whiteColor font-roboto w-full 2xl:items-center top-0 ${wish || cartOpen ? 'sticky' : ''
+          } z-10`}
       >
         <div
           className='flex justify-between gap-2 flex-wrap p-3 md:p-4 xl:px-10 2xl:w-[1440px] relative'
@@ -152,7 +153,7 @@ const Navbar: React.FC = () => {
               onClick={handleNavigate}
               className='rounded-full transition-all ease-in-out delay-100 hover:bg-grayColor active:bg-greenColor p-1 active:text-blackColor hover:text-blackColor'
             >
-            
+
               <LuUser stroke='currentColor' className='size-6 md:size-8' strokeWidth={1} />
               {wish && (
                 <div
@@ -168,12 +169,12 @@ const Navbar: React.FC = () => {
                 </div>
               )}
             </div>
-    
+
             <a
               className='rounded-full transition-all ease-in-out delay-100 hover:bg-grayColor active:bg-greenColor p-1  active:text-blackColor hover:text-blackColor relative'
               onClick={() => setNotificationOpen(!notificationOpen)}
             >
-           
+
               <LuBell strokeWidth={1} stroke='currentColor' className='size-6 md:size-8' />
               {/* <span className='absolute top-1 right-1 w-2 h-2 rounded-full bg-redColor'></span> */}
             </a>
@@ -197,7 +198,7 @@ const Navbar: React.FC = () => {
                   />
                 </svg>
                 <span className='p-1 leading-none text-[9px] bg-redColor text-whiteColor rounded-full flex justify-center items-center w-5 h-5 md:w-6 md:h-6 md:text-xs absolute -top-1 -right-1 md:-right-2 md:-top-2'>
-                  3
+                  {cartsCount}
                 </span>
               </div>
               {cartOpen && (
