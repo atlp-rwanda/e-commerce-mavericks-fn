@@ -24,6 +24,7 @@ import CategoriesPage from './pages/CategoriesPage';
 import ResetPassword from './pages/ResetPassword';
 import NewPassword from './pages/NewPassword';
 import { ProductDetail } from './pages/product/ProductDetail';
+import Cart from './components/cart/Cart';
 
 const App = () => {
   const { data, error, isLoading } = useGetProductsQuery();
@@ -69,6 +70,10 @@ const App = () => {
         {
           path: 'auth/success/:token',
           element: <GoogleAuthSuccess />,
+        },
+        {
+          path: 'shoppingcart',
+          element: <Cart />
         },
         {
           path: 'categories/:categoryId',

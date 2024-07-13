@@ -1,17 +1,48 @@
-import { mavericksApi } from '.';
-import { ICart } from '../utils/schemas';
+import { mavericksApi } from ".";
+import { Cart } from "../types/Types";
 
-export const cartApi = mavericksApi.injectEndpoints({
+const cartsApi = mavericksApi.injectEndpoints({
   endpoints: builder => ({
-    addProductToCart: builder.mutation({
-      query: (cart: ICart) => ({
-        url: 'cart',
-        method: 'POST',
-        body: cart,
-      }),
+    getCarts: builder.query<Cart[], void>({
+      query: () => '/cart',
+      providesTags: ["Carts"]
     }),
-  }),
-  overrideExisting: false,
-});
+    updateCart: builder.mutation({
+      query: ({ id, updatedCart }) => ({
+        url: `/cart/${id}`,
+        method: 'PATCH',
+        body: updatedCart
+      }),
+      invalidatesTags: ["Carts"],
+      // async onQueryStarted({ id, updatedCart }, { dispatch, queryFulfilled }) {
+      //     const patchResult = dispatch(
+      //         mavericksApi.util.updateQueryData('getCarts', undefined, draft => {
+      //             console.log(draft)
+      //             const cart = draft.find(cart => cart.id === id)
+      //             if (cart) {
+      //                 const size = cart.sizes.find(size => size.id === updatedCart.sizeId)
+      //                 if (size) {
+      //                     cart.quantity = updatedCart.quantity;
+      //                     size.price = updatedCart.price
+      //                 }
+      //             }
+      //         })
+      //     );
+      //     try {
+      //         await queryFulfilled
+      //     } catch (error) {
+      //         patchResult.undo()
+      //     }
+      // }
+    }),
+    deleteCart: builder.mutation({
+      query: (cartId) => ({
+        url: `/cart/${cartId}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ["Carts"]
+    })
+  })
+})
 
-export const { useAddProductToCartMutation } = cartApi;
+export const { useGetCartsQuery, useDeleteCartMutation, useUpdateCartMutation } = cartsApi
