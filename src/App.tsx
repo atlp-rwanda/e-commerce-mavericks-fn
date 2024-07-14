@@ -18,6 +18,8 @@ import Category from './pages/admin/Category';
 import Sellers from './pages/admin/Sellers';
 import Buyers from './pages/admin/Buyers';
 import Messages from './pages/admin/Messages';
+import UserManagement from './pages/admin/UserManagement';
+import NotFoundPage from './pages/NotFoundPage';
 import Settings from './pages/admin/Settings';
 
 import CategoriesPage from './pages/CategoriesPage';
@@ -126,6 +128,10 @@ const App = () => {
           element: <Messages />,
         },
         {
+          path: 'users',
+          element: <UserManagement />,
+        },
+        {
           path: 'settings',
           element: <Settings />,
         },
@@ -134,6 +140,10 @@ const App = () => {
     {
       path: 'search',
       element: <Searchpage />,
+    },
+    {
+      path: '*',
+      element: <NotFoundPage />,
     },
   ]);
   return (

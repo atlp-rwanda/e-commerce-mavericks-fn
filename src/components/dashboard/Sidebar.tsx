@@ -1,4 +1,4 @@
-import { FaRegListAlt, FaUserFriends, FaUserTie, FaRegEnvelope, FaCog } from 'react-icons/fa';
+import { FaRegListAlt, FaUserFriends, FaUserTie, FaRegEnvelope, FaCog, FaUsers } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import { RxDashboard } from 'react-icons/rx';
 import logo from '../../assets/Rectangle 2487.png';
@@ -95,6 +95,19 @@ export default function Sidebar({ isOpen, toggleSidebar }: { isOpen: boolean; to
                 >
                   <FaRegEnvelope className='mr-3' />
                   Messages
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to={'/admin/users'}
+                  className={({ isActive }) =>
+                    `flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-[#E5E7EB] ${
+                      isActive ? 'bg-skyBlue text-skyBlueText hover:bg-skyBlue' : 'text-[#8F8183]'
+                    }`
+                  }
+                >
+                  <FaUsers className='mr-3' />
+                  Users
                 </NavLink>
               </li>
               <li>
