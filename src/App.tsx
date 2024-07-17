@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Login from './pages/Login';
 import LandingPage from './pages/LandingPage';
 import GoogleAuthSuccess from './components/authentication/GoogleAuthSucces';
+import EditUserProfile from './pages/editUserProfile';
 import { ToastContainer } from 'react-toastify';
 import Searchpage from './containers/searchResults/SearchPage';
 import { useDispatch } from 'react-redux';
@@ -83,8 +84,8 @@ const App = () => {
           element: <GoogleAuthSuccess />,
         },
         {
-          path: 'shoppingcart',
-          element: <Cart />,
+          path: 'profile',
+          element: <EditUserProfile />,
         },
         {
           path: 'categories/:categoryId',
