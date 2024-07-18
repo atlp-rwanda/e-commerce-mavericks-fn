@@ -66,7 +66,7 @@ const Sellers: React.FC = () => {
     {
       key: 'Role.name',
       label: 'Role',
-      render: (seller: Seller) => seller.Role.name,
+      render: (seller: Seller) => seller.Role.name.toUpperCase(),
       sortable: false,
     },
     {
@@ -96,7 +96,6 @@ const Sellers: React.FC = () => {
 
   return (
     <div className='container mx-auto p-4 lg:pl-56'>
-      <h1 className='text-2xl font-bold ml-4 mb-4'>Seller Management</h1>
       <Table data={sellers} columns={columns} itemsPerPage={10} />
       {selectedSeller && (
         <ConfirmDisableModal
