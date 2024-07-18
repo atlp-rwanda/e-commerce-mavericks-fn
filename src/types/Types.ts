@@ -39,7 +39,7 @@ export interface CustomJwtPayload extends JwtPayload {
 export type Category = {
   id: string;
   name: string;
-  image?:string;
+  image?: string;
 };
 
 export type CategoryResponse = {
@@ -47,6 +47,7 @@ export type CategoryResponse = {
   message: string;
   data: Category[];
 };
+
 export interface NotificationProps {
   id: string;
   message: string;
@@ -66,9 +67,22 @@ export interface User {
   Role: {
     name: string;
   };
-};
+}
 
 export interface Role {
   id: string;
   name: string;
 }
+
+type ChatUser = {
+  firstName: string;
+  lastName: string;
+  photoUrl: string;
+};
+
+export type ChatMessage = {
+  id: string;
+  content: string;
+  senderId: string;
+  User: ChatUser;
+};
