@@ -68,7 +68,7 @@ const UserManagement: React.FC = () => {
     {
       key: 'role',
       label: 'Role',
-      render: (user: User) => user.Role.name
+      render: (user: User) => user.Role.name.toUpperCase(),
     },
     {
       key: 'action',
@@ -96,7 +96,6 @@ const UserManagement: React.FC = () => {
 
   return (
     <div className='container mx-auto p-4 lg:pl-56'>
-      <h1 className='text-2xl font-bold ml-4 mb-4'>User Management</h1>
       <Table data={users} columns={columns} itemsPerPage={10} />
       <RoleChangeModal
         isOpen={isModalOpen}

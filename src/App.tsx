@@ -17,19 +17,16 @@ import AdminPage from './pages/admin';
 import Category from './pages/admin/Category';
 import Sellers from './pages/admin/Sellers';
 import Buyers from './pages/admin/Buyers';
-import Messages from './pages/admin/Messages';
 import UserManagement from './pages/admin/UserManagement';
 import NotFoundPage from './pages/NotFoundPage';
-import Settings from './pages/admin/Settings';
+import SellerSettings from './pages/seller/Settings';
 import SellersPage from './pages/seller';
 import Orders from './pages/seller/Orders';
 import Products from './pages/seller/Products';
 import Customers from './pages/seller/Customers';
-import SellerMessages from './pages/seller/Messages';
-import SellerSettings from './pages/seller/Settings';
+import AdminSettings from './pages/admin/Settings';
 import AddNewProduct from './pages/seller/AddNewProduct';
 import RestrictedSellerRoute from './components/dashboard/RestrictedSellerLayout';
-
 import CategoriesPage from './pages/CategoriesPage';
 import ResetPassword from './pages/ResetPassword';
 import NewPassword from './pages/NewPassword';
@@ -140,12 +137,12 @@ const App = () => {
           element: <Buyers />,
         },
         {
-          path: 'messages',
-          element: <SellerMessages />,
+          path: 'users',
+          element: <UserManagement />,
         },
         {
           path: 'settings',
-          element: <SellerSettings />,
+          element: <AdminSettings />,
         },
       ],
     },
@@ -174,16 +171,8 @@ const App = () => {
           element: <Customers />,
         },
         {
-          path: 'messages',
-          element: <Messages />,
-        },
-        {
-          path: 'users',
-          element: <UserManagement />,
-        },
-        {
           path: 'settings',
-          element: <Settings />,
+          element: <SellerSettings />,
         },
       ],
     },

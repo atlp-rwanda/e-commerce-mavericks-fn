@@ -24,6 +24,14 @@ export const userApi = mavericksApi.injectEndpoints({
         },
       }),
     }),
+    getBuyers: builder.query<{ message: User[] }, void>({
+      query: () => ({
+        url: 'users/role/buyer',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }),
+    }),
     updateUserRole: builder.mutation<void, { userId: string; roleId: string }>({
       query: ({ userId, roleId }) => ({
         url: `users/role/${userId}`,
@@ -39,4 +47,4 @@ export const userApi = mavericksApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useGetUserByIdQuery, useGetUsersQuery,useGetSellersQuery, useUpdateUserRoleMutation } = userApi;
+export const { useGetUserByIdQuery, useGetUsersQuery,useGetSellersQuery, useGetBuyersQuery, useUpdateUserRoleMutation } = userApi;
