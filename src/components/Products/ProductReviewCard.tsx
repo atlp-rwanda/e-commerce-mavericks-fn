@@ -20,11 +20,11 @@ const ProductReviewCard: React.FC<Props> = ({ review }) => {
   return (
     <div className='flex border-b border-grayColor py-2 snap-center'>
       <div className='flex p-2 w-1/5 min-h-14 justify-center'>
-        <img className='rounded-full h-14 w-14' src={review.user.photoUrl || defaultProfile} alt='Buyer' />
+        <img className='rounded-full h-14 w-14' src={review.user?.photoUrl || defaultProfile} alt='Buyer' />
       </div>
       <div className='w-4/5 p-2'>
         <div className='space-y-1'>
-          <p className='font-medium'>{review.user.firstName}</p>
+          <p className='font-medium'>{review.user?.firstName}</p>
           <div className='flex gap-4 items-center'>
             <span className='flex'>{renderStars(review.rating)}</span>
             <span className='text-xs text-gray-500'>{dateReviewed}</span>

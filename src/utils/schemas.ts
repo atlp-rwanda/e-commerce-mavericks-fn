@@ -96,7 +96,7 @@ export interface ICart {
   sizeId: string | null | undefined;
   quantity?: number;
 }
-export type DeleteCartQueryParams = Pick<ICart, 'productId' | 'sizeId'>
+export type DeleteCartQueryParams = Pick<ICart, 'productId' | 'sizeId'>;
 
 export interface ISize {
   price: number;
@@ -116,19 +116,18 @@ export interface ICartsResponse {
   ok: boolean;
   cartId: string;
   cartProducts: ICartProduct[];
-  data?: string[],
-  isLoading?: boolean,
-  isSuccess?: boolean,
-  isError?: boolean,
-  error?: string | undefined
-
+  data?: string[];
+  isLoading?: boolean;
+  isSuccess?: boolean;
+  isError?: boolean;
+  error?: string | undefined;
 }
 export interface ICartsHookResponse {
-  data?: ICartsResponse,
-  isLoading?: boolean,
-  isSuccess?: boolean,
-  isError?: boolean,
-  error?: string | undefined
+  data?: ICartsResponse;
+  isLoading?: boolean;
+  isSuccess?: boolean;
+  isError?: boolean;
+  error?: string | undefined;
 }
 
 export interface IError extends Error {
@@ -143,14 +142,14 @@ interface FeedbackUser {
 
 export interface Review {
   id: string;
-  userId: string;
+  userId?: string;
   productId: string;
   rating: number;
   feedback: string;
   feedbackImage: string;
   createdAt: string;
-  updatedAt: string;
-  user: FeedbackUser;
+  updatedAt?: string;
+  user?: FeedbackUser;
 }
 
 interface wishListData {

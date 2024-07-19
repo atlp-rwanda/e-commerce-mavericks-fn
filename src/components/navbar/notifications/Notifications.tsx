@@ -10,9 +10,10 @@ import { cn } from '../../../utils';
 import { NotificationProps } from '../../../types/Types';
 import { useEffect, useRef, useState } from 'react';
 import { FaSpinner } from 'react-icons/fa6';
+import { RootState } from '../../../redux/store';
 
 export const Notifications = () => {
-  const user = useSelector((state: any) => state.user);
+  const user = useSelector((state: RootState) => state.user);
   const userId = user.userId ? user.userId.replace(/"/g, '') : '';
   const [mainMenuClicked, setMainMenuClicked] = useState(false);
 

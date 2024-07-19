@@ -1,20 +1,39 @@
-import type { Category, Product } from '../types/Types';
+import type { Category, Product, ProductResponse } from '../types/Types';
 import { mavericksApi } from '.';
-import { IProductData } from '../utils/schemas';
+import { IProductResponse } from '../pages/seller/Products';
+
+const sellerId = localStorage.getItem('user');
 
 export const productsApi = mavericksApi.injectEndpoints({
   endpoints: builder => ({
     // get all the products
-    getProducts: builder.query<Product[], void>({
+    getProducts: builder.query<Product, void>({
       query: () => 'products',
+    }),
+    getProductById: builder.query<ProductResponse, string>({
+      query: id => `products/${id}`,
+    }),
+    createProduct: builder.mutation({
+      query: product => ({
+        url: 'products/create-product',
+        method: 'POST',
+        headers: {
+          authorization: localStorage.getItem('token') || '',
+        },
+        formData: true,
+        body: product,
+      }),
+    }),
+    getProductsBySeller: builder.query<IProductResponse, void>({
+      query: () => ({
+        url: `products/seller-products/${sellerId}`,
+        headers: {
+          authorization: localStorage.getItem('token') || '',
+        },
+      }),
     }),
     getAllCategories: builder.query<Category[], void>({
       query: () => 'category',
-    }),
-
-    // GET product by Id
-    getProductById: builder.query<IProductData, string>({
-      query: id => `products/${id}`,
     }),
 
     // Get product reviews
@@ -30,4 +49,11 @@ export const productsApi = mavericksApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useGetProductsQuery, useGetAllCategoriesQuery, useGetProductByIdQuery, useGetProductReviewsQuery } = productsApi;
+export const {
+  useGetProductsQuery,
+  useCreateProductMutation,
+  useGetProductsBySellerQuery,
+  useGetAllCategoriesQuery,
+  useGetProductByIdQuery,
+  useGetProductReviewsQuery,
+} = productsApi;

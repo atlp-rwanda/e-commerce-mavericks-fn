@@ -1,9 +1,9 @@
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import AdminLayout from '../admin/AdminLayout';
+import SellerLayout from '../seller/SellerLayout';
 
-const RestrictedRoute = ({ role }: { role: string }) => {
+const RestrictedSellerRoute = ({ role }: { role: string }) => {
   const user = useSelector((state: RootState) => state.user);
   const isAuthenticated = useSelector((state: RootState) => state.user.token);
 
@@ -11,7 +11,7 @@ const RestrictedRoute = ({ role }: { role: string }) => {
     return <Navigate to='/' />;
   }
 
-  return <AdminLayout />;
+  return <SellerLayout />;
 };
 
-export default RestrictedRoute;
+export default RestrictedSellerRoute;

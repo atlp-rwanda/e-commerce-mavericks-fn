@@ -5,14 +5,8 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
 import { useEffect } from 'react';
 import { setIsCreated } from '../../redux/slices/categorySlice';
-import CustomInput from './CustomInput';
-
-export interface ICategory {
-  id: string;
-  name: string;
-  description: string;
-  image: string;
-}
+import CustomInput from '../dashboard/CustomInput';
+import { Category as ICategory } from '../../types/Types';
 
 export default function AddCategoryModal({
   openAddModal,
@@ -41,8 +35,7 @@ export default function AddCategoryModal({
     const formData = new FormData();
     formData.append('name', data.name);
     formData.append('description', data.description);
-    formData.append('image', data.image[0]);
-
+    formData.append('image', data.image![0]);
     await createCategory(formData);
   };
 
