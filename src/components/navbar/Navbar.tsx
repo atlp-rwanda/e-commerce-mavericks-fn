@@ -114,7 +114,7 @@ const Navbar: React.FC = () => {
       )}
       <div
         className={`flex flex-col bg-blackColor md:bg-whiteColor md:text-blackColor text-whiteColor font-roboto w-full 2xl:items-center top-0 ${wish || cartOpen ? 'sticky' : ''
-          } z-10`}
+          } sticky z-10`}
       >
         <div
           className='flex justify-between gap-2 flex-wrap p-3 md:p-4 xl:px-10 2xl:w-[1440px] relative'

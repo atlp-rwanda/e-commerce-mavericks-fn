@@ -94,7 +94,8 @@ const Table: React.FC<TableProps> = ({ data, columns, itemsPerPage }) => {
 
   return (
     <div className='overflow-x-auto pl-4'>
-      <div className='mb-2'>
+      <div className='mb-2 flex justify-between items-center'>
+        <h1 className='text-2xl font-bold'>Users Management</h1>
         <input
           type='text'
           placeholder='Search user...'

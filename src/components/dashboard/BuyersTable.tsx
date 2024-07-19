@@ -5,6 +5,7 @@ interface Column {
   label: string;
   isImage?: boolean;
   render?: (item: any) => React.ReactNode;
+  sortable: boolean;
 }
 
 interface TableProps {
@@ -95,46 +96,53 @@ const Table: React.FC<TableProps> = ({ data, columns, itemsPerPage }) => {
   return (
     <div className='overflow-x-auto pl-4'>
       <div className='mb-2 flex justify-between items-center'>
-        <h1 className='text-2xl font-bold'>Sellers Management</h1>
+        <h1 className='text-2xl font-bold'>Buyers Page</h1>
         <input
           type='text'
-          placeholder='Search seller...'
+          placeholder='Search buyer...'
           value={searchTerm}
           onChange={handleSearch}
           className='px-2 py-1 border rounded outline-none'
         />
       </div>
-      <table className='min-w-full bg-whiteColor px-10'>
-        <thead className='bg-[#000000a1]'>
-          <tr>
-            {columns.map(column => (
-              <th
-                key={column.key}
-                onClick={() => !column.isImage && handleSort(column.key)}
-                className={`pl-4 py-4 text-left text-sm font-bold text-whiteColor uppercase tracking-wider ${!column.isImage ? 'cursor-pointer' : ''}`}
-              >
-                {column.label}
-                {!column.isImage && sortColumn === column.key && <span>{sortDirection === 'asc' ? ' ▲' : ' ▼'}</span>}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {paginatedData.map((item, index) => (
-            <tr key={index} className={index % 2 === 0 ? 'bg-[#F3F4F6]' : 'bg-whiteColor'}>
+      <div className='rounded-lg overflow-hidden'>
+        <table className='min-w-full bg-whiteColor px-10'>
+          <thead className='bg-darkGreen'>
+            <tr>
               {columns.map(column => (
-                <td key={column.key} className='px-2 py-2 whitespace-nowrap text-sm'>
-                  {renderCell(item, column)}
-                </td>
+                <th
+                  key={column.key}
+                  onClick={() => column.sortable && handleSort(column.key)}
+                  className={`px-4 py-4 text-sm font-bold text-whiteColor uppercase tracking-wider ${
+                    column.sortable ? 'cursor-pointer' : ''
+                  } ${column.isImage ? 'text-center' : 'text-left'}`}
+                >
+                  {column.label}
+                  {column.sortable && sortColumn === column.key && <span>{sortDirection === 'asc' ? ' ▲' : ' ▼'}</span>}
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {paginatedData.map((item, index) => (
+              <tr key={index} className={index % 2 === 0 ? 'bg-[#F3F4F6]' : 'bg-whiteColor'}>
+                {columns.map(column => (
+                  <td
+                    key={column.key}
+                    className={`px-4 py-2 whitespace-nowrap text-sm ${column.isImage ? 'text-center' : 'text-left'}`}
+                  >
+                    {renderCell(item, column)}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div className='mt-4 flex flex-col sm:flex-row justify-between items-center'>
         <div className='mb-2 sm:mb-0 text-sm'>
           Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, sortedData.length)} of{' '}
-          {sortedData.length} entries
+          {sortedData.length} buyers
         </div>
         <div className='flex justify-center'>
           <button

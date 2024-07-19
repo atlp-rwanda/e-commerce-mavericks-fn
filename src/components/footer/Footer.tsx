@@ -13,7 +13,7 @@ function Footer() {
             <div className='leading-none text-xs md:text-base break-words flex flex-col gap-3 font-light flex-grow'>
               <p>K309 St , Makuza plaza, Nyarugenge , Kigali, Rwanda</p>
               <p>andela.mavericks@gmail.com</p>
-              <p>+250 788888888</p>
+              <p>+250 788 888 888</p>
             </div>
             <div className='flex gap-2'>
               <a href='#' target='_blank'>
@@ -66,12 +66,12 @@ function Footer() {
                   Join
                 </button>
               </div>
-              <span className='text-xs text-redColor text-left'>Email is not valid</span>
+              {/* <span className='text-xs text-redColor text-left'>Email is not valid</span> */}
             </form>
           </div>
         </div>
         <p className='p-3 md:p-4 xl:px-10 2xl:w-[1440px] text-xs text-center xl:text-left '>
-          &copy; 2024 Mavericks Shop. All rights reserved.
+          &copy; {new Date().getFullYear()} Mavericks Shop. All rights reserved.
         </p>
       </div>
     </>
