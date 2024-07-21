@@ -1,5 +1,26 @@
 import { z } from 'zod';
 
+export const addressSchema = z.object({
+  shippingAddress: z
+    .string()
+    .trim().nonempty("This field is required")
+    .min(5, { message: "Address must be at least 5 characters" }),
+  country: z
+    .string()
+    .trim()
+    .nonempty("Country is required"),
+  city: z
+    .string()
+    .trim()
+    .nonempty("City is required")
+    .min(5, { message: "City must be at least 5 character" }),
+  phone: z
+    .string()
+    .trim()
+    .nonempty("Phone is required")
+    .regex(/^0\d{9}/, { message: 'It must start with 0, and be 10 characters' })
+})
+
 const schema = z
   .object({
     firstName: z.string().min(2).trim(),
@@ -22,6 +43,7 @@ export const extendedSchema = schema
   });
 
 export type Formfields = z.infer<typeof extendedSchema>;
+export type AddressFields = z.infer<typeof addressSchema>
 
 export interface ExtendedFormFields extends Formfields {
   confirmPassword: string;

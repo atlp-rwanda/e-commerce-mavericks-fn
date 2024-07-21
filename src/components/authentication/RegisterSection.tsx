@@ -66,9 +66,9 @@ const RegisterSection = () => {
     <>
       <div
         className={`w-full xl:container flex flex-col-reverse gap-14 md:flex-row px-4 items-center md:gap-5 transition-all 
-        md:justify-between md:px-10 lg:justify-around mt-5 md:mt-10 `}
+        md:justify-between md:px-10 lg:justify-around mt-5 md:mt-10 mb-10`}
       >
-        <div className='w-full md:w-7/12 xl:w-4/12 '>
+        <div className='w-full md:w-7/12 xl:w-4/12 border px-4 p-8 border-greenColor rounded-xl'>
           <p className='font-bold text-3xl '>New Customer?</p>
           <p>Sign Up to continue</p>
           <form action='' className='flex flex-col gap-4 justify-center mt-8 ' onSubmit={handleSubmit(onSubmit)}>
@@ -125,13 +125,14 @@ const RegisterSection = () => {
             />
             <Select
               placeholder='Gender'
+              label="Gender"
               options={['male', 'female']}
               {...register('gender')}
               error={errors.gender && errors.gender.message}
             />
             <button
               type='submit'
-              className='p-2 rounded-lg bg-greenColor hover:bg-darkGreen transition-all text-whiteColor font-bold'
+              className='p-2 rounded-full bg-greenColor hover:bg-darkGreen transition-all text-whiteColor font-bold'
             >
               {isSubmitting ? 'Loading..' : 'Sign Up'}
             </button>
@@ -142,7 +143,7 @@ const RegisterSection = () => {
             </p>
             <span className='self-center font-bold text-grayColor'>or</span>
             <button
-              className='p-2 font-bold text-greenColor border-2 border-greenColor rounded-lg flex flex-row 
+              className='p-2 font-bold text-greenColor border-2 border-greenColor rounded-full flex flex-row 
             items-center justify-center gap-2 hover:bg-teal-100 transition-all'
               onClick={handleGoogleAuthentication}
             >
@@ -157,7 +158,7 @@ const RegisterSection = () => {
           <Button type='submit' text='Sign In' onClick={() => navigate('/login')} />
         </div>
       </div>
-      <Button className={`my-10 mx-auto block`} text='Back to Home Page' onClick={() => navigate('/')} />
+      {/* <Button className={`my-10 mx-auto block`} text='Back to Home Page' onClick={() => navigate('/')} /> */}
     </>
   );
 };
