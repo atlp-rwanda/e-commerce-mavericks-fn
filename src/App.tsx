@@ -34,6 +34,7 @@ import NewPassword from './pages/NewPassword';
 import { ProductDetail } from './pages/product/ProductDetail';
 import Cart from './components/cart/Cart';
 import { cartApi } from './services/cartApi';
+import VerifyOTPPage from './pages/VerifyOTPPage';
 
 const App = () => {
   const { data, error, isLoading } = useGetProductsQuery();
@@ -89,6 +90,10 @@ const App = () => {
         {
           path: 'categories/:categoryId',
           element: <CategoriesPage />,
+        },
+        {
+          path: 'verifyOTP',
+          element: <VerifyOTPPage />,
         },
         {
           path: '/reset-password',

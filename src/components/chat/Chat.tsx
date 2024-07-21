@@ -29,12 +29,10 @@ const Chat: React.FC = () => {
   useEffect(() => {
     if (isSuccess) {
       setMessageList(data?.chat);
-      console.log('dt', data);
       if (showChat) {
         scrollDown.current?.scrollIntoView({ behavior: 'smooth' });
       }
       if (userData) {
-        console.log(userData);
         dispatch(setProfile(userData.message.photoUrl));
       }
     }
@@ -82,9 +80,9 @@ const Chat: React.FC = () => {
 
       {showChat && (
         <div className='fixed inset-0 z-40 flex items-center justify-end mx-2 sm:mr-6'>
-          <div className='w-9/10 max-w-sm h-3/4 rounded-2xl shadow-xl relative bg-grayColor overflow-hidden pt-10'>
+          <div className='w-9/10 max-w-sm h-3/4 rounded-2xl shadow-xl relative bg-grayColor overflow-hidden'>
             <div className='header bg-darkGreen flex justify-between items-center px-6 py-3 text-whiteColor'>
-              <div className='flex items-center gap-4'> 
+              <div className='flex items-center gap-4'>
                 <img
                   src={`${profileImage !== null ? profileImage : chatAvatar}`}
                   alt='Mavericks'

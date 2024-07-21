@@ -29,11 +29,13 @@ export const ProductDetail = () => {
   const isExpired = useCheckToken();
   const navigate = useNavigate();
   const location = useLocation();
+  const isAuthenticated = useSelector((state: RootState) => state.user.token);
 
+  const authenticated = isAuthenticated !== null;
   const { data: productData, error: productError, isLoading: productLoading } = useGetProductByIdQuery(id!);
   const [addProductToWishlist] = useAddProductToWishlistMutation();
   const [addProductToCart, { isLoading: cartLoading }] = useAddProductToCartMutation();
-  const { data } = useGetUserWishlistQuery();
+  const { data } = useGetUserWishlistQuery({ skip: !authenticated });
   const products: Product[] = useSelector((state: RootState) => state.products.productsDataList);
 
   const [spottedImage, setSpottedImage] = useState<string | null>(null);
@@ -42,7 +44,6 @@ export const ProductDetail = () => {
   const [isInWishlist, setIsInwishlist] = useState(false);
   const recommendedProductsRef = useRef<HTMLDivElement>(null);
   let similarProducts: Product[] = [];
-  const isAuthenticated = useSelector((state: RootState) => state.user.token);
 
   useEffect(() => {
     if (productData) {
@@ -55,7 +56,7 @@ export const ProductDetail = () => {
 
   useEffect(() => {
     if (data && selectedSize) {
-      setIsInwishlist(data.data.some(size => selectedSize.id === size.productId));
+      setIsInwishlist(data.data.some((size: any) => selectedSize.id === size.productId));
     }
   }, [data, selectedSize]);
 

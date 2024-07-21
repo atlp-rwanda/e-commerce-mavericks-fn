@@ -19,7 +19,7 @@ export default function SellerLayout() {
 
   return (
     <>
-      <div className='bg-[#EFF4FE] min-h-screen'>
+      <div className='bg-[#EFF4FE] min-h-screen '>
         <Sidebar sidebarLinks={sellerSidebarLinks} />
         <Outlet />
       </div>

@@ -8,7 +8,7 @@ import Input from '../common/Input';
 import { loginSchema, LoginData } from '../../utils/schemas';
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setToken, setUser, setRole } from '../../redux/slices/userSlice';
+import { setToken, setUser, setRole, enable2FA } from '../../redux/slices/userSlice';
 import { useLoginUserMutation } from '../../services/authAPI';
 import handleGoogleAuthentication from '../../utils/handleGoogleAuthentication';
 import { Bounce, toast } from 'react-toastify';
@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { CustomJwtPayload } from '../../types/Types';
 import { RootState } from '../../redux/store';
 import { useGetUserByIdQuery } from '../../services/userApi';
+import { useAppDispatch } from '../../hooks/customHooks';
 
 const LoginComponent = () => {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ const LoginComponent = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const isAuthenticated = useSelector((state: RootState) => state.user.token);
   const userId = useSelector((state: RootState) => state.user.userId);
+  const appDispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
@@ -33,7 +35,7 @@ const LoginComponent = () => {
 
   const [loginUser, { data: loginData, error, isLoading, isSuccess: isLoginSuccess, isError }] = useLoginUserMutation();
 
-  const { data: userData, isSuccess: isUserSuccess } = useGetUserByIdQuery(userId);
+  const { data: userData, isSuccess: isUserSuccess } = useGetUserByIdQuery(userId, { skip: !isLoginSuccess });
 
   useEffect(() => {
     if (isError && error) {
@@ -61,6 +63,25 @@ const LoginComponent = () => {
         transition: Bounce,
       });
     }
+    // handling login according to roles
+    if (isUserSuccess && userData) {
+      const role = userData.message.Role.name;
+      const is2FAEnabled = userData.message.enable2FA;
+      dispatch(setRole(role));
+      appDispatch(enable2FA(userData.message.enable2FA));
+      const from = location.state?.from?.pathname || '/';
+      switch (role) {
+        case 'admin':
+          navigate('/admin');
+          break;
+        case 'seller':
+          navigate('/seller');
+          break;
+        default:
+          isAuthenticated && navigate(from);
+      }
+      if (role === 'seller' && is2FAEnabled) navigate('/verifyOTP');
+    }
   }, [
     isError,
     isAuthenticated,
@@ -74,22 +95,9 @@ const LoginComponent = () => {
     dispatch,
     setError,
     userId,
+    userData,
+    isUserSuccess,
   ]);
-
-  useEffect(() => {
-    if (isUserSuccess && userData) {
-      const role = userData.message.Role.name;
-      dispatch(setRole(role));
-      if (role === 'buyer' && isAuthenticated) {
-        const from = location.state?.from?.pathname || '/';
-        navigate(from);
-      } else if (role === 'admin') {
-        navigate('/admin');
-      } else {
-        navigate('/seller');
-      }
-    }
-  }, [isUserSuccess, userData]);
 
   const onSubmit: SubmitHandler<LoginData> = async userCredentials => {
     await loginUser(userCredentials);
@@ -120,7 +128,12 @@ const LoginComponent = () => {
             {...register('password')}
             error={errors.password && errors.password.message}
           />
-          <p className='text-sm text-end hover:cursor-pointer hover:underline'>Forget password</p>
+          <p
+            className='text-sm text-end hover:cursor-pointer hover:underline'
+            onClick={() => navigate('/reset-password')}
+          >
+            Forget password
+          </p>
           <button
             type='submit'
             className='p-2 rounded-lg bg-greenColor hover:bg-darkGreen transition-all text-whiteColor font-bold'

@@ -2,6 +2,7 @@ import { FaHeart } from 'react-icons/fa6';
 import { Product } from '../../types/Types';
 import { TiShoppingCart } from 'react-icons/ti';
 import StarRating from '../common/Ratings';
+import { useNavigate } from 'react-router-dom';
 interface ProductCardProps {
   product: Product;
 }
@@ -9,11 +10,12 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const imageUrl = product?.images?.[0] ?? '';
   const price = product?.sizes?.[0]?.price ?? '';
+  const navigate = useNavigate();
 
   return (
     <div
       onClick={() => {
-        window.open(`/products/${product.id}`, '_blank');
+        navigate(`/products/${product.id}`);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }}
       className='product-card bg-whiteColor  min-w-44 md:min-w-56 lg:min-w-56
