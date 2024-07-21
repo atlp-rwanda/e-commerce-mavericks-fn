@@ -1,70 +1,80 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Navbar from '../../components/dashboard/Navbar';
-import { FaImage } from 'react-icons/fa6';
-import { Category as ICategory } from '../../types/Types';
+import { Category as ICategory, Product } from '../../types/Types';
 import { useGetCategoryQuery } from '../../services/categoryApi';
-import { useCreateProductMutation } from '../../services/productApi';
-import { IoWarningOutline } from 'react-icons/io5';
+import { useGetProductByIdQuery, useUpdateProductMutation } from '../../services/productApi';
 import { Bounce, toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCrudProductBehaviour } from '../../redux/slices/productsSlice';
 
-const AddProductForm = () => {
-  const [productImages, setProductImages] = useState<File[]>([]);
+const EditProduct = () => {
   const [categories, setCategories] = useState<ICategory[]>([]);
-  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [sizeInputs, setSizeInputs] = useState([{}]);
   const navigateTo = useNavigate();
-  const { data: categoryData, refetch } = useGetCategoryQuery({});
-  const dispatch = useDispatch();
+  const { data: categoryData } = useGetCategoryQuery({});
+
+  const { id } = useParams();
+
+  const { data: productData } = useGetProductByIdQuery<any>(id!);
+  const [productDetailData, setProductDetailData] = useState<Product | undefined>(undefined);
+  const [images, setImages] = useState<string[]>([]);
 
   useEffect(() => {
+    if (productData) {
+      const { data } = productData;
+      setProductDetailData(data);
+      setImages(productData.data.images);
+      setSizeInputs(productData.data.sizes || [{}]);
+    }
+
     if (categoryData) {
       const { data } = categoryData;
       setCategories(data);
-    } else {
-      refetch();
     }
-  }, [categoryData, refetch]);
+  }, [categoryData, productData]);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files) {
-      const validFiles = Array.from(files).filter(file => file.type.startsWith('image/') && file.size <= 5000000);
-      setProductImages([...productImages, ...validFiles]);
-      setImagePreviews([...imagePreviews, ...validFiles.map(file => URL.createObjectURL(file))]);
+  const [updateProduct, { isLoading }] = useUpdateProductMutation();
+  const { register, handleSubmit, reset, setValue } = useForm();
+
+  useEffect(() => {
+    if (productDetailData) {
+      setValue('nameOfTheProduct', productDetailData.name);
+      setValue('descriptionOfTheProduct', productDetailData.description);
+      setValue('categoryNameOfTheProduct', productDetailData.categoryName);
+      productDetailData.sizes.forEach((size, index) => {
+        setValue(`size${index}`, size.size);
+        setValue(`price${index}`, size.price);
+        setValue(`stockQuantity${index}`, size.quantity);
+        setValue(`discount${index}`, size.discount);
+      });
     }
-  };
-
-  const [createProduct, { isLoading }] = useCreateProductMutation();
-  const { register, handleSubmit, reset } = useForm();
+  }, [productDetailData, setValue]);
 
   const onSubmit: SubmitHandler<any> = async data => {
     const sizes = sizeInputs.map((_, index) => ({
       size: data[`size${index}`],
       price: data[`price${index}`],
       quantity: data[`stockQuantity${index}`],
+      discount: data[`discount${index}`],
     }));
 
-    const formData = new FormData();
-
-    formData.append('name', data.name);
-    formData.append('description', data.description);
-    formData.append('categoryName', data.categoryName);
-    formData.append('sizes', JSON.stringify(sizes));
-    productImages.forEach(image => {
-      formData.append('images', image);
-    });
+    const updatedData = {
+      name: data.nameOfTheProduct,
+      description: data.descriptionOfTheProduct,
+      categoryName: data.categoryNameOfTheProduct,
+      sizes: sizes,
+    };
+    const dispatch = useDispatch();
 
     try {
-      const response = await createProduct(formData).unwrap();
+      const response = await updateProduct({ productId: id, updatedData }).unwrap();
       if (response.ok) {
         toast.success(response.message, {
           position: 'bottom-left',
-          autoClose: 5000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -73,8 +83,9 @@ const AddProductForm = () => {
           theme: 'dark',
           transition: Bounce,
         });
+
+        setTimeout(() => navigateTo('/seller/products'), 3000);
         dispatch(setCrudProductBehaviour(true));
-        navigateTo('/seller/products');
       }
     } catch (error: any) {
       if (error.data && error.data.message) {
@@ -101,17 +112,17 @@ const AddProductForm = () => {
 
   return (
     <div className='p-2'>
-      <Navbar location='Add New Product' page='seller' />
+      <Navbar location='Edit Product' page='seller' />
       <div className='max-w-4xl mx-auto mt-7 md:ml-80 p-6 bg-[#ffffff] rounded-lg shadow-md'>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <h2 className='text-2xl font-bold mb-6 text-[#000000]'>Product details</h2>
+          <h2 className='text-2xl font-bold mb-6 text-[#000000]'>Edit Product details</h2>
           <div className='grid grid-cols-2 gap-6'>
             <div>
               <div className='mb-3'>
                 <label className='block text-sm font-medium text-[#374151]'>Product Name</label>
                 <input
                   type='text'
-                  {...register('name', { required: true })}
+                  {...register('nameOfTheProduct', { required: true })}
                   className='mt-1 block w-full px-3 py-2 border border-[#d1d5db] rounded-md shadow-sm'
                   placeholder='Type name'
                 />
@@ -119,7 +130,7 @@ const AddProductForm = () => {
               <div className='col-span-2 mb-3'>
                 <label className='block text-sm font-medium text-[#374151]'>Description</label>
                 <textarea
-                  {...register('description', { required: true })}
+                  {...register('descriptionOfTheProduct', { required: true })}
                   className='mt-1 block w-full px-3 py-2 border border-[#d1d5db] rounded-md shadow-sm h-28'
                   placeholder='Type description'
                 ></textarea>
@@ -127,7 +138,7 @@ const AddProductForm = () => {
               <div className='mb-3'>
                 <label className='block text-sm font-medium text-[#374151]'>Category</label>
                 <select
-                  {...register('categoryName', { required: true })}
+                  {...register('categoryNameOfTheProduct', { required: true })}
                   className='mt-1 block w-full px-3 py-2 border border-[#d1d5db] rounded-md shadow-sm'
                 >
                   <option value=''>Choose Category</option>
@@ -187,40 +198,12 @@ const AddProductForm = () => {
             </div>
             <div>
               <label className='block text-sm font-medium text-[#374151]'>Product Gallery</label>
-              <div className='mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed border-[#d1d5db] rounded-md'>
-                <div className='space-y-1 text-center'>
-                  <FaImage className='mx-auto h-16 w-16 text-[#9ca3af]' />
-                  <div className='flex text-sm text-[#4b5563]'>
-                    <label
-                      htmlFor='file-upload'
-                      className='relative cursor-pointer bg-[#ffffff] rounded-md font-medium text-[#4f46e5] hover:text-[#4338ca] focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-[#4f46e5]'
-                    >
-                      <span className='text-center'>Upload a file</span>
-                      <input
-                        id='file-upload'
-                        type='file'
-                        className='sr-only'
-                        multiple
-                        {...register('image')}
-                        onChange={handleImageUpload}
-                      />
-                    </label>
+              <div className='mt-4 grid grid-cols-3 gap-2'>
+                {images.map((image, index) => (
+                  <div key={index} className='relative'>
+                    <img src={image} className='w-24 h-24 object-cover rounded' />
                   </div>
-                  <p className='text-xs text-[#6b7280]'>JPEGs & PNGs are only format allowed</p>
-                  <div className='flex items-center'>
-                    <IoWarningOutline className='mr-2' />
-                    <p className='text-xs text-[#6b7280]'>Each product should have at least 4 images.</p>
-                  </div>
-                </div>
-              </div>
-              <div className='mt-4'>
-                <div className='mt-4 grid grid-cols-3 gap-2'>
-                  {imagePreviews.map((src, index) => (
-                    <div key={index} className='relative'>
-                      <img src={src} alt={`Product preview ${index + 1}`} className='w-24 h-24 object-cover rounded' />
-                    </div>
-                  ))}
-                </div>
+                ))}
               </div>
             </div>
           </div>
@@ -233,15 +216,13 @@ const AddProductForm = () => {
               className='px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-[#ffffff] bg-[#319795] hover:bg-[#2c7a7b] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#319795]'
               disabled={isLoading}
             >
-              {isLoading ? 'Adding...' : 'Add product'}
+              {isLoading ? 'Updating...' : 'Update product'}
             </button>
             <button
               type='button'
               className='px-6 py-2 border border-[#d1d5db] rounded-md shadow-sm text-sm font-medium text-[#374151] bg-[#ffffff] hover:bg-[#f3f4f6] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4f46e5]'
               onClick={() => {
                 reset();
-                setProductImages([]);
-                setImagePreviews([]);
                 navigateTo('/seller/products');
               }}
             >
@@ -253,5 +234,4 @@ const AddProductForm = () => {
     </div>
   );
 };
-
-export default AddProductForm;
+export default EditProduct;

@@ -21,7 +21,7 @@ export default function Navbar({ location, page }: { location: string; page: str
 
   return (
     <div
-      className={`md:ml-64 flex justify-between items-center sticky top-0 ${page === 'admin' ? 'bg-[#D3E4DE]' : 'bg-[#EFF4FE]'} px-6`}
+      className={`md:ml-64 flex justify-between items-center sticky top-0 ${page === 'admin' ? 'bg-[#D3E4DE]' : 'bg-[#EFF4FE]'} px-6 z-10`}
     >
       <h1 className='text-2xl font-normal'>{location}</h1>
       <div className='flex items-center'>

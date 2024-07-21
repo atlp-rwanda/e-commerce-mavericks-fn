@@ -18,9 +18,6 @@ export const productsApi = mavericksApi.injectEndpoints({
       query: product => ({
         url: 'products/create-product',
         method: 'POST',
-        headers: {
-          authorization: localStorage.getItem('token') || '',
-        },
         formData: true,
         body: product,
       }),
@@ -28,9 +25,6 @@ export const productsApi = mavericksApi.injectEndpoints({
     getProductsBySeller: builder.query<IProductResponse, void>({
       query: () => ({
         url: `products/seller-products/${sellerId}`,
-        headers: {
-          authorization: localStorage.getItem('token') || '',
-        },
       }),
     }),
     getAllCategories: builder.query<Category[], void>({
@@ -41,11 +35,24 @@ export const productsApi = mavericksApi.injectEndpoints({
     getProductReviews: builder.query({
       query: productId => `products/${productId}/reviews`,
     }),
-
-    // Get product rating statistics
-    // getProductRatings: builder.query({
-    //   query: productId => `products/${productId}/reviews`,
-    // }),
+    // update product
+    updateProduct: builder.mutation<any, any>({
+      query: ({ productId, updatedData }) => ({
+        url: `products/${productId}/update-product`,
+        method: 'PUT',
+        body: updatedData,
+        headers: {
+          Accept: 'application/json',
+        },
+      }),
+    }),
+    // delete product
+    deleteProduct: builder.mutation({
+      query: productId => ({
+        url: `products/${productId}`,
+        method: 'DELETE',
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -57,4 +64,6 @@ export const {
   useGetAllCategoriesQuery,
   useGetProductByIdQuery,
   useGetProductReviewsQuery,
+  useUpdateProductMutation,
+  useDeleteProductMutation,
 } = productsApi;

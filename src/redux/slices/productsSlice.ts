@@ -2,17 +2,20 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Product } from '../../types/Types';
 
 interface ProductsStateProps {
-  error:  any;
+  error: any;
   isLoading: boolean;
   productsFetched: boolean;
   productsDataList: Product[];
+  isProductAddedOrUpdatedOrDeleted: boolean;
 }
 const initialState: ProductsStateProps = {
   isLoading: true,
   error: null,
   productsFetched: false,
   productsDataList: [],
+  isProductAddedOrUpdatedOrDeleted: false,
 };
+
 const productSlice = createSlice({
   name: 'producs',
   initialState,
@@ -29,8 +32,12 @@ const productSlice = createSlice({
     setError: (state, action: PayloadAction<any>) => {
       state.error = action.payload;
     },
+    setCrudProductBehaviour: (state, action: PayloadAction<any>) => {
+      state.isProductAddedOrUpdatedOrDeleted = action.payload;
+    },
   },
 });
-export const { setProductFetched, setProductsDataList, setIsLoading,setError } = productSlice.actions;
+export const { setProductFetched, setProductsDataList, setIsLoading, setError, setCrudProductBehaviour } =
+  productSlice.actions;
 
 export default productSlice.reducer;
