@@ -5,6 +5,7 @@ export interface UserState {
   userId: string | null;
   role: string | null;
   photoUrl: string | null;
+  is2FAEnabled: boolean;
 }
 
 const initialState: UserState = {
@@ -12,6 +13,7 @@ const initialState: UserState = {
   userId: localStorage.getItem('user') || null,
   role: 'buyer',
   photoUrl: null,
+  is2FAEnabled: false,
 };
 
 const userSlice = createSlice({
@@ -40,16 +42,20 @@ const userSlice = createSlice({
     setProfile: (state, action: PayloadAction<string>) => {
       state.photoUrl = action.payload;
     },
+    enable2FA: (state, action: PayloadAction<boolean>) => {
+      state.is2FAEnabled = action.payload;
+    },
     clearUserData: state => {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       state.token = null;
       state.userId = null;
       state.photoUrl = null;
+      state.is2FAEnabled = false;
     },
   },
 });
 
-export const { setToken, setUser, clearUserData, setRole, setProfile } = userSlice.actions;
+export const { setToken, setUser, clearUserData, setRole, setProfile, enable2FA } = userSlice.actions;
 
 export default userSlice.reducer;

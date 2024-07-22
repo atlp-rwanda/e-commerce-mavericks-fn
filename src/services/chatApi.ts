@@ -17,7 +17,7 @@ export const chatApi = mavericksApi.injectEndpoints({
           const socket = io('https://e-commerce-mavericcks-bn-staging-istf.onrender.com', { auth: { token } });
           try {
             await cacheDataLoaded;
-            socket.on('returnMessage', (newMessage: any) => {
+            socket.on('returnMessage', newMessage => {
               updateCachedData(draft => {
                 draft.chat.push(newMessage);
               });
@@ -32,7 +32,7 @@ export const chatApi = mavericksApi.injectEndpoints({
     }),
     sendMessage: builder.mutation<void, { content: string; senderId: string }>({
       queryFn: body => {
-        const socket = io('https://e-commerce-mavericcks-bn-staging-istf.onrender.com', {
+        const socket = io('https://e-commerce-mavericcks-bn-staging-istf.onrender.com/', {
           auth: { token },
         });
         socket.emit('sentMessage', body);

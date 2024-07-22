@@ -1,10 +1,9 @@
 import { mavericksApi } from '.';
-import { ApiResponse } from '../utils/schemas';
 
 export const wishlistApi = mavericksApi.injectEndpoints({
   endpoints: builder => ({
     // GET USERS' WISHLIST
-    getUserWishlist: builder.query<ApiResponse, void>({
+    getUserWishlist: builder.query({
       query: () => '/wishlist/get-wishlist',
     }),
 
