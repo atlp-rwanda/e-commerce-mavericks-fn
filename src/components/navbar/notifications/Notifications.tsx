@@ -21,7 +21,7 @@ export const Notifications = () => {
   const [notifications, setNotifications] = useState<NotificationProps[]>([]);
   const [unRead, setUnRead] = useState<number>(0);
 
-  const { data: fetchedNotifications, isLoading, isError } = useGetNotificationsQuery(userId);
+  const { data: fetchedNotifications, isLoading, isError } = useGetNotificationsQuery(userId, { skip: !userId });
 
   const [deleteAll, { isLoading: areAllDeleting, isSuccess: areDeleted }] = useDeleteAllNotificationsMutation();
   const [markAll, { isLoading: areAllUpdating, isSuccess: areAllUpdated }] = useMarkAllNotificationsAsReadMutation();

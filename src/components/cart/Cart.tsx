@@ -6,6 +6,7 @@ import { ICartProduct, ICartsHookResponse, ICartsResponse } from '../../utils/sc
 import { useGetCartsQuery } from '../../services/cartApi';
 
 const Cart: React.FC = () => {
+  // const isAuthenticated = useSelector((state: RootState) => state.user.token ? true : false); 
   const {
     data: carts,
     isLoading,
@@ -51,7 +52,7 @@ const Cart: React.FC = () => {
   } else if (isError) {
     content = <div>{error?.toString()}</div>;
   }
-  
+
   return (
     <div className='w-full min-h-screen overflow-x-hidden font-roboto flex flex-col 2xl:items-center'>
       <Navbar />
@@ -81,4 +82,5 @@ const Cart: React.FC = () => {
     </div>
   );
 };
+
 export default Cart;

@@ -30,8 +30,10 @@ const StarRating: React.FC<RatingsProps> = ({ reviews }) => {
     }
     return stars;
   };
-
-  return <div className="ratings flex">{renderStars()}</div>;
+  return <div className="ratings flex items-center gap-1 w-12">
+    <span className='flex'>{renderStars()}</span>
+    <span className='text-sm'>({reviews.length > 0 ? averageRating : '0'})</span>
+  </div>;
 };
 
 export default StarRating;

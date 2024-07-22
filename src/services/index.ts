@@ -13,7 +13,7 @@ export const mavericksApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Notifications', 'Carts'],
+  tagTypes: ['Notifications', 'Carts', 'GetPro', "WishList"],
 
   endpoints: () => ({}),
 });

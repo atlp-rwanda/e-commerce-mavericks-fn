@@ -9,6 +9,7 @@ export const productsApi = mavericksApi.injectEndpoints({
     // get all the products
     getProducts: builder.query<Product, void>({
       query: () => 'products',
+      providesTags: ["GetPro"]
     }),
     getProductById: builder.query<ProductResponse, string>({
       query: id => `products/${id}`,
