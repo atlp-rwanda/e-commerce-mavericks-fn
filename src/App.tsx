@@ -35,6 +35,8 @@ import { ProductDetail } from './pages/product/ProductDetail';
 import Cart from './components/cart/Cart';
 import { cartApi } from './services/cartApi';
 import VerifyOTPPage from './pages/VerifyOTPPage';
+import PaymentSuccessCard from './components/checkout/PaymentSuccessCard';
+import PaymentPage from './pages/PaymentPage';
 
 const App = () => {
   const { data, error, isLoading } = useGetProductsQuery();
@@ -92,6 +94,16 @@ const App = () => {
           element: <CategoriesPage />,
         },
         {
+          path: 'payment',
+          element: <PaymentPage />,
+          children: [
+            {
+              path: 'success',
+              element: <PaymentSuccessCard />,
+            },
+          ],
+        },
+        {
           path: 'verifyOTP',
           element: <VerifyOTPPage />,
         },
@@ -110,8 +122,8 @@ const App = () => {
           element: <ProductDetail />,
         },
         {
-          path: "/checkoutbag",
-          element: <Checkout />
+          path: '/checkoutbag',
+          element: <Checkout />,
         },
       ],
     },

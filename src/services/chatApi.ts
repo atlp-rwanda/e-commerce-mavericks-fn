@@ -10,27 +10,27 @@ export const chatApi = mavericksApi.injectEndpoints({
       query: () => ({
         url: 'chats',
       }),
-      async onCacheEntryAdded(arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
-        if (typeof arg !== 'undefined') {
-          const socket = io('https://mavericks.nijohn.dev', { auth: { token } });
-          try {
-            await cacheDataLoaded;
-            socket.on('returnMessage', newMessage => {
-              updateCachedData(draft => {
-                draft.chat.push(newMessage);
-              });
-            });
-          } catch (err) {
-            console.error(err);
-          }
-          await cacheEntryRemoved;
-          socket.close();
-        }
-      },
+      // async onCacheEntryAdded(arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
+      //   if (typeof arg !== 'undefined') {
+      //     const socket = io('https://mavericks.nijohn.dev/api', { auth: { token } });
+      //     try {
+      //       await cacheDataLoaded;
+      //       socket.on('returnMessage', newMessage => {
+      //         updateCachedData(draft => {
+      //           draft.chat.push(newMessage);
+      //         });
+      //       });
+      //     } catch (err) {
+      //       console.error(err);
+      //     }
+      //     await cacheEntryRemoved;
+      //     socket.close();
+      //   }
+      // },
     }),
     sendMessage: builder.mutation<void, { content: string; senderId: string }>({
       queryFn: body => {
-        const socket = io('https://mavericks.nijohn.dev', {
+        const socket = io('https://mavericks.nijohn.dev/api', {
           auth: { token },
         });
         socket.emit('sentMessage', body);
