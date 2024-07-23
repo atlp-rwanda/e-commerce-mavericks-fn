@@ -100,4 +100,37 @@ export type ChatMessage = {
   content: string;
   senderId: string;
   User: ChatUser;
-};
+}
+export interface OrderItem {
+  id: string;
+  orderId: string;
+  productId: string;
+  sizeId: string;
+  quantity: number;
+  price: number;
+  createdAt: string;
+  updatedAt: string;
+  products: Product;
+}
+
+export interface Order {
+  user: User;
+  id: string;
+  status: string;
+  shippingAddress1: string;
+  shippingAddress2: string | null;
+  phone: string;
+  zipCode: string | null;
+  city: string;
+  country: string;
+  userId: string;
+  totalPrice: number;
+  createdAt: string;
+  updatedAt: string;
+  orderItems: OrderItem[];
+}
+
+export interface orderResponse{
+  data:Order[];
+
+}

@@ -28,7 +28,6 @@ import Customers from './pages/seller/Customers';
 import AdminSettings from './pages/admin/Settings';
 import AddNewProduct from './pages/seller/AddNewProduct';
 import RestrictedSellerRoute from './components/dashboard/RestrictedSellerLayout';
-
 import CategoriesPage from './pages/CategoriesPage';
 import ResetPassword from './pages/ResetPassword';
 import NewPassword from './pages/NewPassword';
