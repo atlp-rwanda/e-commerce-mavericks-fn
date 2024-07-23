@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from './ui/button';
-import { useGetOrdersQuery } from "../services/ordersApi";
+import { useGetOrdersQuery } from "../services/orderApi";
 import { Order } from "../types/Types";
 import { CiSearch } from 'react-icons/ci';
 
@@ -18,7 +18,7 @@ const TransactionTable: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const { data: ordersData, isLoading, isError } = useGetOrdersQuery();
-  const orders = ordersData?.data || [];
+  const orders = ordersData || [];
 
   const handleStatusChange = (status: string) => {
     setSelectedStatus(status);

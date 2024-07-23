@@ -8,6 +8,11 @@ import productReducer from './slices/productsSlice';
 import categoriesReducer from './slices/categorySlice';
 import sidebarSlice from './slices/sidebarSlice';
 import orderReducer from './slices/orderSlice';
+import activeMenuReducer from './slices/buyerDashboard';
+import cartReducer from './slices/cartSlice';
+import orderItemsReducer from './slices/orderItemsSlice';
+import wishlistReducer from './slices/wishlistSlice';
+
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +22,10 @@ export const store = configureStore({
     sidebar: sidebarSlice,
     category: categoriesReducer,
     orders: orderReducer,
+    activeMenu: activeMenuReducer,
+    orderItems: orderItemsReducer,
+    cart: cartReducer,
+    wishlist: wishlistReducer,
     [mavericksApi.reducerPath]: mavericksApi.reducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(mavericksApi.middleware),

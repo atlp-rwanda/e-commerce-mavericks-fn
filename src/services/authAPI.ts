@@ -21,7 +21,17 @@ const authAPI = mavericksApi.injectEndpoints({
         url: '/auth/google/callback',
       }),
     }),
+    updatePassword: builder.mutation({
+      query: (passwordData) => ({
+        url: `/auth/update-password`,
+        method: 'PUT',
+        body: passwordData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}` 
+        },
+      }),
+    }),
   }),
 });
 
-export const { useRegisterUserMutation, useLoginUserMutation, useGoogleAuthenticationQuery } = authAPI;
+export const { useRegisterUserMutation, useLoginUserMutation, useGoogleAuthenticationQuery, useUpdatePasswordMutation  } = authAPI;

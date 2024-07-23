@@ -35,7 +35,7 @@ export const ProductDetail = () => {
   const { data: productData, error: productError, isLoading: productLoading } = useGetProductByIdQuery(id!);
   const [addProductToWishlist] = useAddProductToWishlistMutation();
   const [addProductToCart, { isLoading: cartLoading }] = useAddProductToCartMutation();
-  const { data } = useGetUserWishlistQuery({ skip: !authenticated });
+  const { data } = useGetUserWishlistQuery(undefined, { skip: !authenticated });
   const products: Product[] = useSelector((state: RootState) => state.products.productsDataList);
 
   const [spottedImage, setSpottedImage] = useState<string | null>(null);

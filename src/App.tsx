@@ -38,6 +38,7 @@ import VerifyOTPPage from './pages/VerifyOTPPage';
 import PaymentSuccessCard from './components/checkout/PaymentSuccessCard';
 import PaymentPage from './pages/PaymentPage';
 
+import BuyerRestrictedRoutes from './containers/buyer/BuyerRestrictedRoutes';
 const App = () => {
   const { data, error, isLoading } = useGetProductsQuery();
   const dispatch = useDispatch();
@@ -125,6 +126,10 @@ const App = () => {
           path: '/checkoutbag',
           element: <Checkout />,
         },
+        {
+          path: 'buyer-profile',
+          element: <BuyerRestrictedRoutes role='buyer' />,
+        }
       ],
     },
     {
