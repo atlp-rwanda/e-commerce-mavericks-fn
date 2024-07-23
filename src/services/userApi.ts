@@ -43,8 +43,24 @@ export const userApi = mavericksApi.injectEndpoints({
         body: { roleId },
       }),
     }),
+    updateUser: builder.mutation<User, { userId: string; data: FormData }>({
+      query: ({ userId, data }) => {
+        return {
+          url: `users/edit/${userId}`,
+          method: 'PATCH',
+          body: data,
+        };
+      },
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetUserByIdQuery, useGetUsersQuery,useGetSellersQuery, useGetBuyersQuery, useUpdateUserRoleMutation } = userApi;
+export const {
+  useGetUserByIdQuery,
+  useGetUsersQuery,
+  useGetSellersQuery,
+  useGetBuyersQuery,
+  useUpdateUserRoleMutation,
+  useUpdateUserMutation,
+} = userApi;

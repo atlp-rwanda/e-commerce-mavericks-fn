@@ -22,8 +22,18 @@ export const categoryApi = mavericksApi.injectEndpoints({
         },
       }),
     }),
+    getOrders: builder.query({
+      query: () => ({
+        url: 'orders',
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          authorization: localStorage.getItem('token') || '',
+        },
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useCreateCategoryMutation, useGetCategoryQuery } = categoryApi;
+export const { useCreateCategoryMutation, useGetCategoryQuery, useGetOrdersQuery } = categoryApi;

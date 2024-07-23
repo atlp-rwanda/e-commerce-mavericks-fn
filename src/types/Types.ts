@@ -72,6 +72,8 @@ export interface NotificationProps {
 }
 
 export interface User {
+  data: UserFormValues;
+  message(message: any): unknown;
   id: string;
   firstName: string;
   lastName: string;
@@ -115,6 +117,9 @@ export interface OrderItem {
 
 export interface Order {
   user: User;
+};
+export interface Order  {
+  orderId: string;
   id: string;
   status: string;
   shippingAddress1: string;
@@ -133,4 +138,57 @@ export interface Order {
 export interface orderResponse{
   data:Order[];
 
+  expectedDeliveryDate: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+interface CartProduct {
+  id: string;
+  name: string;
+  sizes: Size[];
+  sellerId: string;
+  image: string;
+  quantity: number;
+  createdAt: string;
+}
+
+export interface Cart {
+  cartId: string;
+  cartProducts: CartProduct[];
+}
+
+export interface OrderItem {
+  id: string;
+  name: string;
+  sizes: Size[];
+  sellerId: string;
+  images: string[];
+  quantity: number;
+  price: number;
+  createdAt: string;
+}
+
+export interface OrderResponse {
+  ok: boolean;
+  orderId: string;
+  orderItems: OrderItem[];
+}
+
+export interface UserFormValues {
+  id:string
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+  photoUrl?: File; 
+  Role: string
+}
+
+export interface WishlistItem {
+  id: string;
+  image: string;
+  name: string;
+  price: number;
+  productId: string;
 }

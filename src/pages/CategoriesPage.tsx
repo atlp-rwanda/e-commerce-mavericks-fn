@@ -77,8 +77,8 @@ const CategoriesPage: React.FC = () => {
     const matchesName = product.name.toLowerCase().includes(nameFilter.toLowerCase());
     const matchesMinPrice = minPrice === '' || product?.sizes?.[0]?.price >= parseFloat(minPrice);
     const matchesMaxPrice = maxPrice === '' || product?.sizes?.[0]?.price <= parseFloat(maxPrice);
-    const matchesCategory = selectedCategory === '' || product.categoryId === selectedCategory;
-    const matchesCategoryId = cateId === '' || product.categoryId === cateId;
+    const matchesCategory = selectedCategory === '' || product.categoryName === selectedCategory;
+    const matchesCategoryId = cateId === '' || product.categoryName === cateId;
     return matchesName && matchesMinPrice && matchesMaxPrice && matchesCategory && matchesCategoryId;
   })
   .sort((a, b) => {
@@ -92,7 +92,6 @@ const CategoriesPage: React.FC = () => {
     }
     return 0;
   });
-
   
   const startIndex = currentPage * productsPerPage;
   const endIndex = startIndex + productsPerPage;

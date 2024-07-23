@@ -1,11 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { UserFormValues } from '../../types/Types';
 
 export interface UserState {
   token: string | null;
   userId: string | null;
   role: string | null;
-  photoUrl: string | null;
   is2FAEnabled: boolean;
+  photoUrl: File | null;
+  userInfo: UserFormValues | null | string;
+  isLoading: boolean;
+  error: string | null;
 }
 
 const initialState: UserState = {
@@ -14,6 +18,9 @@ const initialState: UserState = {
   role: 'buyer',
   photoUrl: null,
   is2FAEnabled: false,
+  userInfo: null,
+  isLoading: false,
+  error: null,
 };
 
 const userSlice = createSlice({
@@ -39,7 +46,7 @@ const userSlice = createSlice({
     setRole: (state, action: PayloadAction<string | null>) => {
       state.role = action.payload;
     },
-    setProfile: (state, action: PayloadAction<string>) => {
+    setProfile: (state, action: PayloadAction<File | null>) => {
       state.photoUrl = action.payload;
     },
     enable2FA: (state, action: PayloadAction<boolean>) => {
@@ -50,12 +57,29 @@ const userSlice = createSlice({
       localStorage.removeItem('user');
       state.token = null;
       state.userId = null;
+      state.role = 'guest';
       state.photoUrl = null;
       state.is2FAEnabled = false;
+      state.userInfo = null;
+      state.isLoading = false;
+      state.error = null;
     },
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
+    setError: (state, action: PayloadAction<string | null>) => {
+      state.error = action.payload;
+    },
+    updateUserInfo: (state, action: PayloadAction<UserFormValues>) => {
+      state.userInfo = action.payload;
+      state.photoUrl = action.payload.photoUrl || state.photoUrl;
+    },
+    setFetchedUser: (state, action: PayloadAction<UserFormValues>) => {
+      state.userInfo = action.payload;
+    }
   },
 });
 
-export const { setToken, setUser, clearUserData, setRole, setProfile, enable2FA } = userSlice.actions;
+export const { setToken, setUser, clearUserData, setRole, setProfile, setLoading, setError, updateUserInfo, setFetchedUser, enable2FA } = userSlice.actions;
 
 export default userSlice.reducer;

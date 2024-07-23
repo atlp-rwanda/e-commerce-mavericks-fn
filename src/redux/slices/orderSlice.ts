@@ -1,39 +1,42 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Order } from '../../types/Types'; 
+import { Order } from '../../types/Types';
 
-interface OrdersStateProps {
-  error: any;
-  isLoading: boolean;
-  ordersFetched: boolean;
-  ordersDataList: Order[];
+interface OrdersState {
+  isOrdersFetched: boolean;
+  error: string | null;
+  allOrders: Order[];
 }
 
-const initialState: OrdersStateProps = {
-  isLoading: true,
+const initialState: OrdersState = {
+  isOrdersFetched: false,
   error: null,
-  ordersFetched: false,
-  ordersDataList: [],
+  allOrders: [],
 };
 
-const orderSlice = createSlice({
+const ordersSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {
-    setOrdersFetched: (state, action: PayloadAction<boolean>) => {
-      state.ordersFetched = action.payload;
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.isOrdersFetched = action.payload;
     },
-    setOrdersDataList: (state, action: PayloadAction<Order[]>) => {
-      state.ordersDataList = action.payload;
-    },
-    setIsLoading: (state, action: PayloadAction<boolean>) => {
-      state.isLoading = action.payload;
-    },
-    setError: (state, action: PayloadAction<any>) => {
+    setIsOrdersFetched: (state, action: PayloadAction<boolean>) => {
+        state.isOrdersFetched = action.payload;
+      },
+    setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
+    },
+    cancelOrder: (state, action: PayloadAction<string>) => {
+      state.allOrders = state.allOrders.map(order =>
+        order.id === action.payload ? { ...order, status: 'cancelled' } : order
+      );
+    },
+    setAllOrders: (state, action: PayloadAction<Order[]>) => {
+      state.allOrders = action.payload;
     },
   },
 });
 
-export const { setOrdersFetched, setOrdersDataList, setIsLoading, setError } = orderSlice.actions;
+export const { setLoading, setError, setAllOrders, setIsOrdersFetched, cancelOrder } = ordersSlice.actions;
 
-export default orderSlice.reducer;
+export default ordersSlice.reducer;

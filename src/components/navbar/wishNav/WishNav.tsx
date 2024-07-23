@@ -31,7 +31,7 @@ const WishNav: React.FC<WishNav> = ({ isLoading, userInfo }) => {
               <p className='text-xl font-medium '>{firstName + ' ' + lastName}</p>
               <div className='flex items-center gap-3 mt-5 mb-2'>
                 <LuUser className='size-6 md:size-8' strokeWidth={1} stroke='currentColor' />{' '}
-                <Link to='/' className='hover:underline font-light text-base'>
+                <Link to='/buyer-profile' className='hover:underline font-light text-base'>
                   Account Settings
                 </Link>
               </div>
