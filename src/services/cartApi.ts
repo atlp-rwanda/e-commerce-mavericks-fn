@@ -2,48 +2,45 @@ import { createSelector } from '@reduxjs/toolkit';
 import { mavericksApi } from '.';
 import { DeleteCartQueryParams, ICart, ICartsResponse } from '../utils/schemas';
 
-
-
 export const cartApi = mavericksApi.injectEndpoints({
   endpoints: builder => ({
     getCarts: builder.query<ICartsResponse, void>({
       query: () => '/cart',
-      providesTags: ["Carts"]
+      providesTags: ['Carts'],
     }),
     updateCart: builder.mutation<void, { id: string; updatedCart: Partial<ICart> }>({
       query: ({ id, updatedCart }) => ({
         url: `/cart/${id}`,
         method: 'PATCH',
-        body: updatedCart
+        body: updatedCart,
       }),
       async onQueryStarted({ id, updatedCart }, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           cartApi.util.updateQueryData('getCarts', undefined, (draft: ICartsResponse) => {
-            const cart = draft.cartProducts.find(cart => cart.id === id)
+            const cart = draft.cartProducts.find(cart => cart.id === id);
             if (cart) {
-              const size = cart.sizes[0]
+              const size = cart.sizes[0];
               if (size) {
                 cart.quantity = updatedCart.quantity || 1;
-                cart.sizes[0].price = size?.price
+                cart.sizes[0].price = size?.price;
               }
-
             }
           })
         );
         try {
-          await queryFulfilled
+          await queryFulfilled;
         } catch (error) {
-          patchResult.undo()
+          patchResult.undo();
         }
-      }
+      },
     }),
     deleteCart: builder.mutation<void, DeleteCartQueryParams>({
       query: ({ productId, sizeId }) => ({
-        url: "cart/delete",
+        url: 'cart/delete',
         method: 'DELETE',
-        body: { productId, sizeId }
+        body: { productId, sizeId },
       }),
-      invalidatesTags: ["Carts"],
+      invalidatesTags: ['Carts'],
     }),
     addProductToCart: builder.mutation({
       query: (cart: ICart) => ({
@@ -51,24 +48,27 @@ export const cartApi = mavericksApi.injectEndpoints({
         method: 'POST',
         body: cart,
       }),
-      invalidatesTags: ["Carts"]
+      invalidatesTags: ['Carts'],
     }),
-    clearCarts: builder.mutation({
+    clearCarts: builder.mutation<void, {}>({
       query: () => ({
         url: '/cart',
         method: 'DELETE',
       }),
-      invalidatesTags: ["Carts"]
-    })
+      invalidatesTags: ['Carts'],
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetCartsQuery, useDeleteCartMutation, useUpdateCartMutation, useAddProductToCartMutation, useClearCartsMutation } = cartApi;
+export const {
+  useGetCartsQuery,
+  useDeleteCartMutation,
+  useUpdateCartMutation,
+  useAddProductToCartMutation,
+  useClearCartsMutation,
+} = cartApi;
 
-export const selectCartResult = cartApi.endpoints.getCarts.select()
+export const selectCartResult = cartApi.endpoints.getCarts.select();
 
-export const selectAllCarts = createSelector(
-  selectCartResult,
-  (cartResult) => cartResult.data?.cartProducts ?? []
-)
+export const selectAllCarts = createSelector(selectCartResult, cartResult => cartResult.data?.cartProducts ?? []);
