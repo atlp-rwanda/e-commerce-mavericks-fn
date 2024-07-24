@@ -78,7 +78,7 @@ const Navbar: React.FC = () => {
     isLoading: isFetchingUser,
     isSuccess: isUserFetched,
     data: userData,
-  } = useGetUserByIdQuery(userId);
+  } = useGetUserByIdQuery(userId, { skip: !userId });
   const handleNavigate = () => {
     const token = localStorage.getItem('token') || null;
     if (!token) {

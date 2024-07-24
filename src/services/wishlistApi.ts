@@ -6,6 +6,7 @@ export const wishlistApi = mavericksApi.injectEndpoints({
     // GET USERS' WISHLIST
     getUserWishlist: builder.query<ApiResponse, void>({
       query: () => '/wishlist/get-wishlist',
+      providesTags: ["WishList"]
     }),
 
     addProductToWishlist: builder.mutation({
@@ -13,6 +14,7 @@ export const wishlistApi = mavericksApi.injectEndpoints({
         url: `wishlist/add-wishlist/${sizeId}`,
         method: 'POST',
       }),
+      invalidatesTags: ["WishList", "GetPro"]
     }),
 
     clearWishlist: builder.mutation<void, void>({
@@ -21,8 +23,17 @@ export const wishlistApi = mavericksApi.injectEndpoints({
         method: 'DELETE',
       }),
     }),
+    removeWishList: builder.mutation({
+      query: (sizeId: string) => ({
+        url: `wishlist/item/${sizeId}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ["WishList", "GetPro"]
+    })
   }),
   overrideExisting: false,
 });
 
-export const { useAddProductToWishlistMutation, useGetUserWishlistQuery, useClearWishlistMutation } = wishlistApi;
+
+export const { useAddProductToWishlistMutation, useGetUserWishlistQuery, useRemoveWishListMutation, useClearWishlistMutation } = wishlistApi;
+

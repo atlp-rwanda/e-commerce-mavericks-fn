@@ -28,6 +28,7 @@ export type Product = {
   createdAt: string;
   updatedAt: string;
   manufacturer: string;
+  data?: any[]
 };
 
 // Define the Response Type
@@ -118,7 +119,7 @@ export interface OrderItem {
 export interface Order {
   user: User;
 };
-export interface Order  {
+export interface Order {
   orderId: string;
   id: string;
   status: string;
@@ -135,8 +136,8 @@ export interface Order  {
   orderItems: OrderItem[];
 }
 
-export interface orderResponse{
-  data:Order[];
+export interface orderResponse {
+  data: Order[];
 
   expectedDeliveryDate: string | null;
   createdAt: string;
@@ -176,12 +177,12 @@ export interface OrderResponse {
 }
 
 export interface UserFormValues {
-  id:string
+  id: string
   firstName: string;
   lastName: string;
   phoneNumber: string;
   email: string;
-  photoUrl?: File; 
+  photoUrl?: File;
   Role: string
 }
 

@@ -40,7 +40,7 @@ export const cartApi = mavericksApi.injectEndpoints({
         method: 'DELETE',
         body: { productId, sizeId },
       }),
-      invalidatesTags: ['Carts'],
+      invalidatesTags: ['Carts', 'GetPro'],
     }),
     addProductToCart: builder.mutation({
       query: (cart: ICart) => ({
@@ -48,7 +48,7 @@ export const cartApi = mavericksApi.injectEndpoints({
         method: 'POST',
         body: cart,
       }),
-      invalidatesTags: ['Carts'],
+      invalidatesTags: ['Carts', 'GetPro'],
     }),
     clearCarts: builder.mutation<void, {}>({
       query: () => ({

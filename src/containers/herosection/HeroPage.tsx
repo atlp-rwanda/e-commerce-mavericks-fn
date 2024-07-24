@@ -5,7 +5,7 @@ import { TbTruck } from "react-icons/tb";
 import { MdOutlinePayment } from "react-icons/md";
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
 import Category from '../categories/Category';
-import NewArrivals from '../Arrivals/NewArrivals';
+// import NewArrivals from '../Arrivals/NewArrivals';
 import FeaturedProduct from '../FeaturedProducts/FeaturedProducts';
 import { useGetAllCategoriesQuery } from '../../services/productApi';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,7 +16,7 @@ import CategorySkeleton from '../../components/categories/CategoriesSkeleton';
 
 function HeroPage() {
   const dispatch = useDispatch();
-  const { allCategories, isCategoriesFetched } :any = useSelector((state: RootState) => state.category);
+  const { allCategories, isCategoriesFetched }: any = useSelector((state: RootState) => state.category);
   const { data: categoriess } = useGetAllCategoriesQuery();
 
   useEffect(() => {
@@ -45,35 +45,35 @@ function HeroPage() {
   }, []);
 
   return (
-    <div className="p-3 md:p-4 xl:px-10 font-roboto">
+    <div className="p-3 md:p-4 xl:px-10 font-roboto 2xl:w-[1440px] mx-auto bg-[#fafafa]">
       <div className="hero-container flex flex-col-reverse md:grid md:grid-cols-3 md:gap-4">
         <div className="small-images grid grid-cols-2 md:flex md:flex-col md:gap-1 md:col-span-1">
           <div className="upper-image relative">
             <img
-                src="https://image.gazetevatan.com/i/gazetevatan/75/1200x675/65004ecee14f2adf329c06c9.jpg"
-                alt="Hot Phones"
-                className="w-full h-[150px] md:h-[250px] object-cover rounded-sm"
-              />
+              src="https://image.gazetevatan.com/i/gazetevatan/75/1200x675/65004ecee14f2adf329c06c9.jpg"
+              alt="Hot Phones"
+              className="w-full h-[150px] md:h-[250px] object-cover rounded-sm"
+            />
             <p className="absolute inset-0 flex items-center justify-center text-white hover:bg-greenColor text-whiteColor hover:text-whiteColor hover:bg-opacity-50 p-2 rounded text-3xl font-roboto font-extrabold text-center">Hot Sells from new Arrivals</p>
           </div>
           <div className=" relative lower-image">
             <img
-                src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=1664&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="Best Shoes in Town"
-                className="w-full h-[150px] md:h-[250px] object-cover rounded-sm"
-              />
+              src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=1664&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Best Shoes in Town"
+              className="w-full h-[150px] md:h-[250px] object-cover rounded-sm"
+            />
             <p className="absolute inset-0 flex items-center justify-center text-white hover:bg-greenColor hover:text-whiteColor hover:bg-opacity-50 p-2 rounded text-3xl text-center font-roboto font-extrabold">Enjoy Black Friday Discount</p>
           </div>
         </div>
         <div className="large-image relative max-h-[250px] md:max-h-[500px] md:col-span-2">
-            {images.map((src, index) => (
-              <img
-                key={index}
-                src={src}
-                alt={`Sliding ${index + 1}`}
-                className={`w-full h-[250px] md:h-[500px] object-cover rounded-sm ${index === currentImageIndex ? "" : "hidden"}`}
-              />
-            ))}
+          {images.map((src, index) => (
+            <img
+              key={index}
+              src={src}
+              alt={`Sliding ${index + 1}`}
+              className={`w-full h-[250px] md:h-[500px] object-cover rounded-sm ${index === currentImageIndex ? "" : "hidden"}`}
+            />
+          ))}
           <p className="absolute inset-0 flex items-center justify-center text-white hover:bg-greenColor hover:text-whiteColor hover:bg-opacity-50 p-2 rounded text-5xl text-center font-roboto font-extrabold"></p>
         </div>
       </div>
@@ -81,19 +81,19 @@ function HeroPage() {
         <h1 className='text-2xl font-bold'>Shop By Category Here:</h1>
       </div>
       <div className="categories flex flex-row gap-4 overflow-x-auto snap-x">
-      {list && list.length ? (
-        <div className="categories flex flex-row gap-4 overflow-x-auto snap-x">
-          {list.map((cat:{image:string, name: string}, index:number) => (
-            <div key={index} className="snap-start">
-              <Category image={cat.image} name={cat.name} />
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="">
-          <CategorySkeleton />
-        </div>
-      )}
+        {list && list.length ? (
+          <div className="categories flex flex-row gap-4 overflow-x-auto snap-x">
+            {list.map((cat: { image: string, name: string }, index: number) => (
+              <div key={index} className="snap-start">
+                <Category image={cat.image} name={cat.name} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="">
+            <CategorySkeleton />
+          </div>
+        )}
       </div>
       <div className="banner py-10 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2">
         <div className="smater-value flex justify-center items-center gap-2 font-bold text-xl">SMARTER VALUES, GREAT DEALS</div>
@@ -105,28 +105,28 @@ function HeroPage() {
           </div>
         </div>
         <div className="dollar flex justify-center items-center flex-col gap-2">
-          <MdOutlinePeopleAlt  className='text-4xl' />
+          <MdOutlinePeopleAlt className='text-4xl' />
           <div className="text text-center">
             <h1 className='text-md font-bold pb-2'>Shoppers worldwide</h1>
             <p className="text-sm">More than 300 millions shoppers form 200+ countries & region</p>
           </div>
         </div>
         <div className="dollar flex justify-center items-center flex-col gap-2">
-          <TbTruck  className='text-4xl' />
+          <TbTruck className='text-4xl' />
           <div className="text text-center">
             <h1 className='text-md font-bold pb-2'>Fast delivery</h1>
             <p className="text-sm">Faster delivery on selected items. Thanks to our improved logistics</p>
           </div>
         </div>
         <div className="dollar flex justify-center items-center flex-col gap-2">
-          <MdOutlinePayment  className='text-4xl' />
+          <MdOutlinePayment className='text-4xl' />
           <div className="text text-center">
             <h1 className='text-md font-bold pb-2'>Safe payments</h1>
             <p className="text-sm">Safe payment methods preferred by international shoppers</p>
           </div>
         </div>
         <div className="dollar flex justify-center items-center flex-col gap-2">
-          <IoShieldCheckmarkOutline  className='text-4xl' />
+          <IoShieldCheckmarkOutline className='text-4xl' />
           <div className="text text-center">
             <h1 className='text-md font-bold pb-2'>Buyer protection</h1>
             <p className="text-sm">Get refund if item arrived late or not as described</p>
@@ -134,9 +134,9 @@ function HeroPage() {
         </div>
       </div>
       {/* New Arrivals */}
-      <div className="new-arrivals">
+      {/* <div className="new-arrivals">
         <NewArrivals />
-      </div>
+      </div> */}
       {/* Featured Products */}
       <div className="featured-products">
         <FeaturedProduct />

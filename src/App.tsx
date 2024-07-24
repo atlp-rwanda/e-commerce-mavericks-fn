@@ -8,10 +8,8 @@ import GoogleAuthSuccess from './components/authentication/GoogleAuthSucces';
 import { ToastContainer } from 'react-toastify';
 import Searchpage from './containers/searchResults/SearchPage';
 import { useDispatch } from 'react-redux';
-import { ProductResponse, Product } from './types/Types';
-import { useEffect, useRef } from 'react';
-import { useGetProductsQuery } from './services/productApi';
-import { setError, setIsLoading, setProductFetched, setProductsDataList } from './redux/slices/productsSlice';
+import { useEffect } from 'react';
+import { productsApi } from './services/productApi';
 import Checkout from './components/checkout/Checkout';
 import RestrictedRoute from './components/dashboard/RestrictedRoute';
 import AdminPage from './pages/admin';
@@ -37,38 +35,20 @@ import { cartApi } from './services/cartApi';
 import VerifyOTPPage from './pages/VerifyOTPPage';
 import PaymentSuccessCard from './components/checkout/PaymentSuccessCard';
 import PaymentPage from './pages/PaymentPage';
+import { useSelector } from 'react-redux';
+import { RootState } from './redux/store';
 
 import BuyerRestrictedRoutes from './containers/buyer/BuyerRestrictedRoutes';
 const App = () => {
-  const { data, error, isLoading } = useGetProductsQuery();
+  const isAuthenticated = useSelector((state: RootState) => state.user.token);
   const dispatch = useDispatch();
-  const firstRender = useRef(true);
-
-  const productsData: ProductResponse = data as unknown as ProductResponse;
-
   useEffect(() => {
-    const fetchProducts = async () => {
-      if (firstRender.current) {
-        firstRender.current = false;
-        return;
-      }
-      if (error) {
-        dispatch(setError(error));
-        dispatch(setIsLoading(false));
-        dispatch(setProductFetched(false));
-        return;
-      }
-      if (!isLoading && productsData) {
-        const productsList = productsData.data as unknown as Product[];
-        dispatch(setProductsDataList([...productsList]));
-        dispatch(setIsLoading(false));
-        dispatch(setProductFetched(true));
-      }
-    };
-    fetchProducts();
-
-    dispatch<any>(cartApi.endpoints.getCarts.initiate());
-  }, [productsData, isLoading, dispatch]);
+    dispatch<any>(productsApi.endpoints.getProducts.initiate())
+    if (isAuthenticated) {
+      dispatch<any>(cartApi.endpoints.getCarts.initiate());
+      console.log("Cart")
+    }
+  }, [dispatch]);
 
   const router = createBrowserRouter([
     {

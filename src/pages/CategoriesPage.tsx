@@ -2,16 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Footer from '../components/footer/Footer';
 import Navbar from '../components/navbar/Navbar';
-import { TiShoppingCart } from "react-icons/ti";
-import { FaHeart } from "react-icons/fa";
 import Hero from '../assets/Hero.png'
-import StarRating from '../components/common/Ratings';
 import { useSelector } from 'react-redux';
 import { Category } from '../types/Types';
 import { useDispatch } from 'react-redux';
 import { useGetAllCategoriesQuery } from '../services/productApi';
 import { setIsCategoriesFetched, setallCategories } from '../redux/slices/categorySlice';
-import { FaLongArrowAltRight, FaLongArrowAltLeft  } from "react-icons/fa";
+import { FaLongArrowAltRight, FaLongArrowAltLeft } from "react-icons/fa";
+import ProductCard from '../components/Products/ProductCard';
 
 
 
@@ -22,9 +20,9 @@ const CategoriesPage: React.FC = () => {
 
   // categories
   const dispatch = useDispatch();
-  const { allCategories, isCategoriesFetched } :any = useSelector((state: any) => state.category);
+  const { allCategories, isCategoriesFetched }: any = useSelector((state: any) => state.category);
   const { data: categoriess, isLoading } = useGetAllCategoriesQuery();
-  
+
   // categories on page load
   useEffect(() => {
     if (!isCategoriesFetched && categoriess) {
@@ -39,7 +37,7 @@ const CategoriesPage: React.FC = () => {
       if (category) {
         setCategoryId(category.id);
       } else {
-        setCategoryId(""); 
+        setCategoryId("");
       }
     }
   }, [categoryId, allCategories, isLoading]);
@@ -73,26 +71,26 @@ const CategoriesPage: React.FC = () => {
   };
 
   const filteredProducts = [...productsList]
-  .filter(product => {
-    const matchesName = product.name.toLowerCase().includes(nameFilter.toLowerCase());
-    const matchesMinPrice = minPrice === '' || product?.sizes?.[0]?.price >= parseFloat(minPrice);
-    const matchesMaxPrice = maxPrice === '' || product?.sizes?.[0]?.price <= parseFloat(maxPrice);
-    const matchesCategory = selectedCategory === '' || product.categoryName === selectedCategory;
-    const matchesCategoryId = cateId === '' || product.categoryName === cateId;
-    return matchesName && matchesMinPrice && matchesMaxPrice && matchesCategory && matchesCategoryId;
-  })
-  .sort((a, b) => {
-    if (sortOption === 'name') {
-      return a.name.localeCompare(b.name);
-    } else if (sortOption === 'date') {
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    } 
-    else if (sortOption === 'rating') {
-      return b.ratings - a.ratings;
-    }
-    return 0;
-  });
-  
+    .filter(product => {
+      const matchesName = product.name.toLowerCase().includes(nameFilter.toLowerCase());
+      const matchesMinPrice = minPrice === '' || product?.sizes?.[0]?.price >= parseFloat(minPrice);
+      const matchesMaxPrice = maxPrice === '' || product?.sizes?.[0]?.price <= parseFloat(maxPrice);
+      const matchesCategory = selectedCategory === '' || product.categoryName === selectedCategory;
+      const matchesCategoryId = cateId === '' || product.categoryName === cateId;
+      return matchesName && matchesMinPrice && matchesMaxPrice && matchesCategory && matchesCategoryId;
+    })
+    .sort((a, b) => {
+      if (sortOption === 'name') {
+        return a.name.localeCompare(b.name);
+      } else if (sortOption === 'date') {
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      }
+      else if (sortOption === 'rating') {
+        return b.ratings - a.ratings;
+      }
+      return 0;
+    });
+
   const startIndex = currentPage * productsPerPage;
   const endIndex = startIndex + productsPerPage;
   const currentProducts = filteredProducts.slice(startIndex, endIndex);
@@ -170,41 +168,13 @@ const CategoriesPage: React.FC = () => {
         {/* Products */}
         <div className="products md:px-16">
           <div className="all py-2">
-            <div className="grid grid-cols-2 gap-0 sm:grid-cols-0 sm:gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-4 lg:gap-4">
-              {currentProducts.length ===0 ? (
+            <div className="flex justify-between items-start flex-wrap gap-1 sm:justify-between md:justify-start md:gap-3 mt-5">
+              {currentProducts.length === 0 ? (
                 <p className="text-center text-gray-500 mt-4 text-2xl font-bold md:text-3xl w-full">No products found.</p>
-                ):(currentProducts.map((product, index) => (
-                  <div key={index} className="product-card bg-whiteColor shadow-lg rounded-lg p-2 m-4 md:p-4 md:m-4 transition-transform hover:scale-105">
-                    <div className="product-image flex justify-center">
-                      <img
-                        src={ product?.images?.[0]}
-                        alt={product.name}
-                        className="w-32 h-32 rounded-sm object-cover md:h-48 md:w-48"
-                      />
-                    </div>
-                    <div className="product-name-cart-button pt-4">
-                      <div className="product-manufacturer">
-                        <div className="name-price flex justify-between items-center">
-                          <h3 className="text-sm md:text-sm font-bold">{product.name}</h3>
-                          <p className="text-sm md:text-sm  font-bold">${product?.sizes?.[0]?.price}</p>
-                        </div>
-                        <p className="text-sm text-gray-500 mt-2">{product.manufacturer}</p>
-                      </div>
-                      <div className="cart-button mt-4">
-                      <div className="cart-wish-icons-ratings flex justify-between">
-                        <div className="cart-wish-icons md:text-2xl flex gap-2">
-                          <TiShoppingCart className='cursor-pointer'/>
-                          <FaHeart className='cursor-pointer'/>
-                        </div>
-                        <div className="ratings flex ">
-                          <StarRating reviews={product.reviews} />
-                        </div>
-                      </div>
-                      </div>
-                    </div>
-                  </div>
-                ))
-                )}
+              ) : (currentProducts.map((product, index) => (
+                <ProductCard key={index} product={product} />
+              ))
+              )}
             </div>
             <div className="flex justify-between mt-4 px-4">
               <button
