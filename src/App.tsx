@@ -17,9 +17,7 @@ import Category from './pages/admin/Category';
 import Sellers from './pages/admin/Sellers';
 import Buyers from './pages/admin/Buyers';
 import UserManagement from './pages/admin/UserManagement';
-import NotFoundPage from './pages/NotFoundPage';
 import SellerSettings from './pages/seller/Settings';
-import SellersPage from './pages/seller';
 import Orders from './pages/seller/Orders';
 import Products from './pages/seller/Products';
 import Customers from './pages/seller/Customers';
@@ -37,22 +35,26 @@ import PaymentSuccessCard from './components/checkout/PaymentSuccessCard';
 import PaymentPage from './pages/PaymentPage';
 import { useSelector } from 'react-redux';
 import { RootState } from './redux/store';
+import { SellerDashboard } from './pages/seller';
+import { ErrorPage } from './pages/ErrorPage';
+import EditProduct from './pages/seller/EditProduct';
 
 import BuyerRestrictedRoutes from './containers/buyer/BuyerRestrictedRoutes';
 const App = () => {
   const isAuthenticated = useSelector((state: RootState) => state.user.token);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch<any>(productsApi.endpoints.getProducts.initiate())
+    dispatch<any>(productsApi.endpoints.getProducts.initiate());
     if (isAuthenticated) {
       dispatch<any>(cartApi.endpoints.getCarts.initiate());
-      console.log("Cart")
+      console.log('Cart');
     }
   }, [dispatch]);
 
   const router = createBrowserRouter([
     {
       path: '/',
+      errorElement: <ErrorPage />,
       children: [
         {
           index: true,
@@ -109,7 +111,7 @@ const App = () => {
         {
           path: 'buyer-profile',
           element: <BuyerRestrictedRoutes role='buyer' />,
-        }
+        },
       ],
     },
     {
@@ -159,7 +161,7 @@ const App = () => {
       children: [
         {
           index: true,
-          element: <SellersPage />,
+          element: <SellerDashboard />,
         },
         {
           path: 'orders',
@@ -170,8 +172,12 @@ const App = () => {
           element: <Products />,
         },
         {
-          path: 'add-new-product',
+          path: 'products/add-new-product',
           element: <AddNewProduct />,
+        },
+        {
+          path: 'products/edit-product/:id',
+          element: <EditProduct />,
         },
         {
           path: 'customers',
@@ -186,10 +192,6 @@ const App = () => {
     {
       path: 'search',
       element: <Searchpage />,
-    },
-    {
-      path: '*',
-      element: <NotFoundPage />,
     },
   ]);
   return (

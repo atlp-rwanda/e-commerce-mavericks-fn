@@ -23,12 +23,13 @@ export type Product = {
   colors?: string[];
   images: string[];
   categoryId: string;
+  categoryName: string;
   sellerId: string;
   sizes: Size[];
   createdAt: string;
   updatedAt: string;
   manufacturer: string;
-  data?: any[]
+  data?: any[];
 };
 
 // Define the Response Type
@@ -103,7 +104,7 @@ export type ChatMessage = {
   content: string;
   senderId: string;
   User: ChatUser;
-}
+};
 export interface OrderItem {
   id: string;
   orderId: string;
@@ -118,7 +119,7 @@ export interface OrderItem {
 
 export interface Order {
   user: User;
-};
+}
 export interface Order {
   orderId: string;
   id: string;
@@ -142,7 +143,7 @@ export interface orderResponse {
   expectedDeliveryDate: string | null;
   createdAt: string;
   updatedAt: string;
-};
+}
 
 interface CartProduct {
   id: string;
@@ -177,13 +178,13 @@ export interface OrderResponse {
 }
 
 export interface UserFormValues {
-  id: string
+  id: string;
   firstName: string;
   lastName: string;
   phoneNumber: string;
   email: string;
   photoUrl?: File;
-  Role: string
+  Role: string;
 }
 
 export interface WishlistItem {
@@ -192,4 +193,12 @@ export interface WishlistItem {
   name: string;
   price: number;
   productId: string;
+}
+export interface Transaction {
+  reference: string;
+  customer: string;
+  product: string;
+  date: string;
+  status: string;
+  price: string;
 }

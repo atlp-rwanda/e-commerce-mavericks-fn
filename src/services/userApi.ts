@@ -1,10 +1,12 @@
 import { mavericksApi } from '.';
 import { User } from '../types/Types';
 
+const id = localStorage.getItem('user');
+
 export const userApi = mavericksApi.injectEndpoints({
   endpoints: builder => ({
     getUserById: builder.query({
-      query: id => ({
+      query: () => ({
         url: `users/user/${id}`,
       }),
     }),
