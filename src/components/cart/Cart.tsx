@@ -4,16 +4,17 @@ import CartItem from './CartItem';
 import { Link } from 'react-router-dom';
 import { ICartProduct, ICartsHookResponse, ICartsResponse } from '../../utils/schemas';
 import { useGetCartsQuery } from '../../services/cartApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 const Cart: React.FC = () => {
-  // const isAuthenticated = useSelector((state: RootState) => state.user.token ? true : false); 
+  const isAuthenticated = useSelector((state: RootState) => state.user.token);
   const {
     data: carts,
     isLoading,
     isSuccess,
     isError,
-    error,
-  } = useGetCartsQuery<ICartsResponse>() as ICartsHookResponse;
+  } = useGetCartsQuery<ICartsResponse>(undefined, { skip: !isAuthenticated }) as ICartsHookResponse;
   const [totalPrice, setTotalPrice] = useState(0);
   const [items, setItems] = useState(0);
 
@@ -50,7 +51,7 @@ const Cart: React.FC = () => {
       );
     content = renderedCart;
   } else if (isError) {
-    content = <div>{error?.toString()}</div>;
+    content = <div className='text-center text-sm'>Your cart is empty</div>;
   }
 
   return (
@@ -71,7 +72,11 @@ const Cart: React.FC = () => {
             </div>
             <Link
               to='/checkoutbag'
-              className='leading-none bg-greenColor hover:bg-[#1a6461] rounded-full px-5 py-3 text-whiteColor font-medium text-xs transition-all delay-75 ease-in cursor-pointer text-center'
+              className={`leading-none bg-greenColor hover:bg-[#1a6461] rounded-full px-5 py-3 text-whiteColor font-medium text-xs transition-all delay-75 ease-in cursor-pointer text-center ${items === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-greenColor hover:bg-[#1a6461]'}`}
+              style={{
+                pointerEvents: items === 0 ? 'none' : 'auto',
+                opacity: items === 0 ? 0.5 : 1,
+              }}
             >
               Checkout
             </Link>

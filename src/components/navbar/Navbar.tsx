@@ -12,6 +12,7 @@ import { RootState } from '../../redux/store';
 import { selectAllCarts } from '../../services/cartApi';
 
 const Navbar: React.FC = () => {
+  const isAuthenticated = useSelector((state: RootState) => state.user.token);
   const cartsCount = useSelector(selectAllCarts).length
   const [notificationOpen, setNotificationOpen] = useState<boolean>(false);
   const navbarRef = useRef<HTMLDivElement>(null);
@@ -96,6 +97,14 @@ const Navbar: React.FC = () => {
     }
     setUserInfo(['Anynmous', 'Anoonymous']);
   }, [isUserFetched]);
+
+  const handleCartClick = () => {
+    if (!isAuthenticated) {
+      navigate('/login', { replace: true });
+    } else {
+      SetCartOpen(state => !state);
+    }
+  };
   return (
     <>
       {(wish || cartOpen || notificationOpen) && (
@@ -179,7 +188,7 @@ const Navbar: React.FC = () => {
               {/* <span className='absolute top-1 right-1 w-2 h-2 rounded-full bg-redColor'></span> */}
             </a>
             <div
-              onClick={() => SetCartOpen(state => !state)}
+              onClick={handleCartClick}
               className='rounded-full transition-all ease-in-out delay-100 hover:bg-grayColor active:bg-greenColor active:text-blackColor hover:text-blackColor p-1 select-none'
             >
               <div className='relative'>
@@ -197,9 +206,11 @@ const Navbar: React.FC = () => {
                     d='M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z'
                   />
                 </svg>
-                <span className='p-1 leading-none text-[9px] bg-redColor text-whiteColor rounded-full flex justify-center items-center w-5 h-5 md:w-6 md:h-6 md:text-xs absolute -top-1 -right-1 md:-right-2 md:-top-2'>
-                  {cartsCount}
-                </span>
+                {isAuthenticated && (
+                  <span className='p-1 leading-none text-[9px] bg-redColor text-whiteColor rounded-full flex justify-center items-center w-5 h-5 md:w-6 md:h-6 md:text-xs absolute -top-1 -right-1 md:-right-2 md:-top-2'>
+                    {cartsCount}
+                  </span>
+                )}
               </div>
               {cartOpen && (
                 <div
