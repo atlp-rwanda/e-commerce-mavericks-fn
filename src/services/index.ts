@@ -4,7 +4,7 @@ import { RootState } from '../redux/store';
 export const mavericksApi = createApi({
   reducerPath: 'mavericksApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://mavericks.nijohn.dev/api/',
+    baseUrl: 'https://mavericks.nijohn.dev/api',
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).user.token;
       if (token) {
