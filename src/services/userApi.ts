@@ -1,14 +1,14 @@
 import { mavericksApi } from '.';
 import { User } from '../types/Types';
 
-const id = localStorage.getItem('user');
-
 export const userApi = mavericksApi.injectEndpoints({
   endpoints: builder => ({
     getUserById: builder.query({
-      query: () => ({
-        url: `users/user/${id}`,
-      }),
+      query: (userId) => {
+        return {
+          url: `users/user/${userId}`,
+        }
+      },
     }),
     getUsers: builder.query<{ message: User[] }, void>({
       query: () => ({
@@ -22,7 +22,6 @@ export const userApi = mavericksApi.injectEndpoints({
       query: () => ({
         url: 'users/role/seller',
         headers: {
-          Authorization: localStorage.getItem('token') || '',
         },
       }),
     }),

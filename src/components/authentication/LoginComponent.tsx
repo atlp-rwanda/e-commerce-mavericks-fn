@@ -35,7 +35,7 @@ const LoginComponent = () => {
 
   const [loginUser, { data: loginData, error, isLoading, isSuccess: isLoginSuccess, isError }] = useLoginUserMutation();
 
-  const { data: userData, isSuccess: isUserSuccess } = useGetUserByIdQuery(userId, { skip: !isLoginSuccess });
+  const { data: userData, isSuccess: isUserSuccess } = useGetUserByIdQuery(userId, { skip: !userId });
 
   useEffect(() => {
     if (isError && error) {
@@ -140,7 +140,6 @@ const LoginComponent = () => {
           >
             {isSubmitting || isLoading ? 'Loading...' : 'Sign In'}
           </button>
-          {isLoginSuccess && <p className='text-green-600 text-xs font-normal'>Login successful!</p>}
           <span className='self-center font-bold text-grayColor'>or</span>
           <button
             onClick={handleGoogleAuthentication}
