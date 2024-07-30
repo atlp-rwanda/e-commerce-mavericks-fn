@@ -12,6 +12,7 @@ const CartItem: React.FC<CartItemsProps> = ({ id, name, image, sizes, quantity, 
     const [updateCart] = useUpdateCartMutation()
     const [deleteCart, { isLoading }] = useDeleteCartMutation()
     const currentPrice = price;
+    console.log(sizes)
 
     useEffect(() => {
         setItemTotalPrice(currentPrice * quantity);
@@ -44,7 +45,7 @@ const CartItem: React.FC<CartItemsProps> = ({ id, name, image, sizes, quantity, 
                             <div className="flex flex-col gap-1 font-light mt-1 md:gap-1">
                                 <label htmlFor="size" className="leading-none text-xs opacity-70">Size</label>
                                 <div id="size" className="border border-greenColor rounded-full h-9 p-[6px] text-sm bg-whiteColor w-4/5 font-medium outline-none md:w-1/2 justify-start flex items-center leading-none px-3">
-                                    {sizes[0].size !== null ? sizes[0].size : 'One'}
+                                    {sizes[0].size !== "" ? sizes[0].size : 'One'}
                                 </div>
                             </div>
                             <div className="flex flex-col font-light gap-1 mt-2">

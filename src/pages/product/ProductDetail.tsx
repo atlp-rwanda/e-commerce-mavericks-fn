@@ -6,13 +6,13 @@ import ProductReviewCard from '../../components/Products/ProductReviewCard';
 import { ImageToggle } from '../../components/Products/ImageToggle';
 import { ImageCard } from '../../components/Products/ImageCard';
 import { ColorComponent } from '../../components/Products/ColorComponent';
-import { useGetProductByIdQuery } from '../../services/productApi';
+import { useGetProductByIdQuery, useGetProductsQuery } from '../../services/productApi';
 import { useState, useEffect } from 'react';
 import Footer from '../../components/footer/Footer';
 import { useAddProductToWishlistMutation, useGetUserWishlistQuery } from '../../services/wishlistApi';
 import ProductDetailSkeleton from '../../containers/ProductDetail/ProductDetailSkeleton';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useAddProductToCartMutation } from '../../services/cartApi';
+import { useAddProductToCartMutation, useGetCartsQuery } from '../../services/cartApi';
 import { toast } from 'react-toastify';
 import { QueryErrorData } from '../../utils/schemas';
 import { useSelector } from 'react-redux';
@@ -36,14 +36,15 @@ export const ProductDetail = () => {
   const [addProductToWishlist] = useAddProductToWishlistMutation();
   const [addProductToCart, { isLoading: cartLoading }] = useAddProductToCartMutation();
   const { data } = useGetUserWishlistQuery(undefined, { skip: !authenticated });
-  const products: Product[] = useSelector((state: RootState) => state.products.productsDataList);
+  const { data: cartList } = useGetCartsQuery(undefined, { skip: !isAuthenticated })
+  const { data: products, isSuccess } = useGetProductsQuery()
 
   const [spottedImage, setSpottedImage] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<Size | undefined>();
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [isInWishlist, setIsInwishlist] = useState(false);
   const recommendedProductsRef = useRef<HTMLDivElement>(null);
-  let similarProducts: Product[] = [];
+  let similarProducts: Product[] | undefined = [];
 
   useEffect(() => {
     if (productData) {
@@ -59,8 +60,9 @@ export const ProductDetail = () => {
       setIsInwishlist(data.data.some((size: any) => selectedSize.id === size.productId));
     }
   }, [data, selectedSize]);
-
-  similarProducts = products.filter(product => product.categoryId === productData?.data.categoryId);
+  if (isSuccess) {
+    similarProducts = products.data?.filter(product => product.categoryName === productData?.data.categoryName);
+  }
 
   if (productLoading) {
     return <ProductDetailSkeleton />;
@@ -146,7 +148,7 @@ export const ProductDetail = () => {
         toast.success(message, toastConfig);
       }
       // eslint-disable-next-line no-empty
-    } catch (error) {}
+    } catch (error) { }
   };
 
   //  FUNCTION TO HANDLE SIZE CHANGES AND RENDER THE VALUES ASSOCIATED WITH PRODUCT SIZE LIKE PRICE....
@@ -226,16 +228,15 @@ export const ProductDetail = () => {
                         className='border-greenColor border-2 rounded-full lg:py-2 text-sm px-2 bg-whiteColor w-1/2 outline-none hover:cursor-pointer'
                         onChange={e => handleSizeChange(e)}
                       >
-                        {productData.data.sizes.map(size => (
-                          <option key={size.size}>{size.size}</option>
-                        ))}
+                        {productData.data.sizes.map(size => {
+                          return <option key={size.size}>{size.size === '' ? 'One' : size.size}</option>
+                        })}
                       </select>
                       <div
-                        className={`flex border-2 items-center transition-all py-1 px-6 gap-4 rounded-full w-1/2 border-blackColor ${
-                          isInWishlist
-                            ? 'bg-greenColor text-whiteColor border-2 border-greenColor cursor-not-allowed'
-                            : 'hover:bg-greenColor hover:text-whiteColor hover:border-2 hover:border-greenColor hover:cursor-pointer'
-                        }`}
+                        className={`flex border-2 items-center transition-all py-1 px-6 gap-4 rounded-full w-1/2 border-blackColor ${isInWishlist
+                          ? 'bg-greenColor text-whiteColor border-2 border-greenColor cursor-not-allowed'
+                          : 'hover:bg-greenColor hover:text-whiteColor hover:border-2 hover:border-greenColor hover:cursor-pointer'
+                          }`}
                         onClick={!isInWishlist ? handleAddToWishlist : undefined}
                       >
                         {isInWishlist ? <FaHeart size='20px' /> : <FaRegHeart size='20px' />}
@@ -307,11 +308,19 @@ export const ProductDetail = () => {
             />
             <div
               ref={recommendedProductsRef}
-              className='flex overflow-scroll gap-4 lg:gap-8 py-2 scrollbar scroll-smooth'
+              className='flex w-full px-1 overflow-scroll gap-4  py-2 scrollbar scroll-smooth'
             >
-              {similarProducts.map(product => (
-                <ProductCard key={product.id} product={product} />
-              ))}
+              {similarProducts?.map(product => {
+                const wishListed = data?.data.find(item => item.productId === product.sizes[0].id)
+                const wishListId = wishListed?.id
+                return <ProductCard
+                  key={product.id}
+                  product={product}
+                  cartAdded={cartList?.cartProducts.some((cartProduct) => cartProduct.id === product.id)}
+                  wishList={data?.data.some((wishList) => wishList.productId === product.sizes[0].id)}
+                  wishListId={wishListId}
+                />
+              })}
             </div>
             <ImageToggle
               handleClick={() => scrollRecommendedProducts('right')}

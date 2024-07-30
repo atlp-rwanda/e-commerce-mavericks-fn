@@ -5,7 +5,7 @@ import { selectAllCarts } from '../../../services/cartApi';
 
 const CartNav: React.FC = () => {
     const carts = useSelector(selectAllCarts);
-
+    const cartsLength = carts.length;
     return (
         <>
             <div className='absolute w-[360px] right-2 md:right-4 top-12 md:top-14 mt-2 z-[55] bg-whiteColor text-blackColor rounded-md border border-grayColor shadow-customShadow'>
@@ -47,7 +47,15 @@ const CartNav: React.FC = () => {
                     </div>
                     <div className='py-2 flex justify-center gap-3 mt-2'>
                         <NavLink to="/shoppingcart" className='flex-grow rounded-full border border-greenColor text-sm py-2 px-2 hover:border-[#1a6461] transition-all delay-75 ease-in cursor-pointer text-center'>View Cart</NavLink>
-                        <NavLink to="/checkoutbag" className='flex-grow rounded-full border border-greenColor text-sm py-2 px-2 bg-greenColor text-whiteColor transition-all delay-75 ease-in cursor-pointer hover:bg-[#1a6461] text-center'>Checkout</NavLink>
+                        <NavLink
+                            to="/checkoutbag"
+                            className={`flex-grow rounded-full border border-greenColor text-sm py-2 px-2 bg-greenColor text-whiteColor transition-all delay-75 ease-in cursor-pointer hover:bg-[#1a6461] text-center ${cartsLength === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-greenColor hover:bg-[#1a6461]'}`}
+                            style={{
+                                pointerEvents: cartsLength === 0 ? 'none' : 'auto',
+                                opacity: cartsLength === 0 ? 0.4 : 1,
+                            }}
+
+                        >Checkout</NavLink>
                     </div>
                 </div>
             </div>
