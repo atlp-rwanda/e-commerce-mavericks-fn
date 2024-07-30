@@ -47,7 +47,6 @@ const App = () => {
     dispatch<any>(productsApi.endpoints.getProducts.initiate());
     if (isAuthenticated) {
       dispatch<any>(cartApi.endpoints.getCarts.initiate());
-      console.log('Cart');
     }
   }, [dispatch]);
 

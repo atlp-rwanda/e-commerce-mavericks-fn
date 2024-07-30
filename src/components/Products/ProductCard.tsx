@@ -68,10 +68,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, cartAdded, wishList,
         window.open(`/products/${product.id}`, '_blank');
         // window.scrollTo({ top: 0, behavior: 'smooth' });
       }}
-      className='bg-whiteColor flex-col relative w-[49%] sm:w-52 md:w-[32.5%] lg:w-[19%] 2xl:w-[253px] mb-2 drop-shadow-md rounded-lg cursor-pointer'
+      className='bg-whiteColor min-w-[140px] flex-col relative w-[49%] sm:min-w-52 md:w-[32.5%] lg:w-[19%] 2xl:w-[253px] mb-2 drop-shadow-md rounded-lg cursor-pointer'
     >
       <div className='product-image flex justify-center w-full rounded-tl-lg rounded-tr-lg relative'>
-        <img src={imageUrl} alt={product.name} className='w-full h-52 md:h-60 rounded-tl-lg rounded-tr-lg object-cover object-top' />
+        <img src={imageUrl} alt={product.name} className='w-full h-52 sm:object-center md:h-60 rounded-tl-lg rounded-tr-lg object-cover object-top' />
         <div className='absolute bottom-2 right-2 flex flex-col gap-1'>
           {cartAdded
             ? (

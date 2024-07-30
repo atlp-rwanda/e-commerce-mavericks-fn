@@ -4,15 +4,15 @@ import { Product } from '../../types/Types';
 import { useGetProductsQuery } from '../../services/productApi';
 import { useGetCartsQuery } from '../../services/cartApi';
 import { useGetUserWishlistQuery } from '../../services/wishlistApi';
-// import { useSelector } from 'react-redux';
-// import { RootState } from '../../redux/store';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 
 export default function FeaturedProduct() {
-  // const isAuthenticated = useSelector((state: RootState) => state.user.token) ? true : false;
+  const isAuthenticated = useSelector((state: RootState) => state.user.token);
   const { data: productsList, isLoading, isSuccess } = useGetProductsQuery()
-  const { data: cartList, isLoading: cartListLoading } = useGetCartsQuery()
-  const { data: wishList, isLoading: wishLoading } = useGetUserWishlistQuery()
+  const { data: cartList, isLoading: cartListLoading } = useGetCartsQuery(undefined, { skip: !isAuthenticated })
+  const { data: wishList, isLoading: wishLoading } = useGetUserWishlistQuery(undefined, { skip: !isAuthenticated })
   const product = productsList?.data
   let content;
   if (isLoading && cartListLoading && wishLoading) {

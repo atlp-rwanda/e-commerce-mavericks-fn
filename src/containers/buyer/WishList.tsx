@@ -1,11 +1,14 @@
-import  { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetUserWishlistQuery, useClearWishlistMutation } from '../../services/wishlistApi';
 import { clearWishLists, setWishLists } from '../../redux/slices/wishlistSlice';
+import { RootState } from '../../redux/store';
 
 function WishList() {
   const dispatch = useDispatch();
-  const { data, isLoading } = useGetUserWishlistQuery();
+  const isAuthenticated = useSelector((state: RootState) => state.user.token);
+  const authenticated = isAuthenticated !== null;
+  const { data, isLoading } = useGetUserWishlistQuery(undefined, { skip: !authenticated });
   const [clearWishlist] = useClearWishlistMutation();
   const wishlistItems = useSelector((state: any) => state.wishlist.items);
 
@@ -38,7 +41,7 @@ function WishList() {
         <div className="text-xl text-gray-500">No items in your wishlist</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {wishlistItems.map((item:any) => (
+          {wishlistItems.map((item: any) => (
             <div
               key={item.id}
               className="product-card bg-white shadow-lg rounded-lg p-4 m-4 transition-transform hover:scale-105 cursor-pointer"
