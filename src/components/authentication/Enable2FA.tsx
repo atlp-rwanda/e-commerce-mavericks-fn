@@ -5,10 +5,9 @@ import { useEnable2FAMutation } from '../../services/Enable2FAApi';
 import { useGetUserByIdQuery } from '../../services/userApi';
 import { toast } from 'react-toastify';
 const Enable2FA = () => {
-  const userId = useAppSelector(state => state.user.userId);
-  const { data: userData,  isSuccess: isUserFetched } = useGetUserByIdQuery(userId);
-
-  const initialState = useAppSelector(state => state.user.is2FAEnabled) as boolean;
+  const initialState = useAppSelector(state => state.user.is2FAEnabled);
+  const userID = localStorage.getItem('user') || undefined;
+  const { data, isLoading } = useGetUserByIdQuery(userID, { skip: !userID });
   const token = useAppSelector(state => state.user.token) as string;
   const [enabled, setEnabled] = useState<boolean>(initialState);
   const dispatch = useAppDispatch();
@@ -25,16 +24,22 @@ const Enable2FA = () => {
     }
   };
   useEffect(() => {
-    if (isError) dispatch(set2FA(!enabled));
-    if (isUserFetched) {
-      dispatch(set2FA(userData.message.enable2FA));
-      setEnabled(userData.message.enable2FA);
+    if (data) {
+      setEnabled(data.message.enable2FA);
+      dispatch(set2FA(data.message.enable2FA));
     }
-  }, [enabled, dispatch, isError, setEnabled]);
+    if (isError) dispatch(set2FA(!enabled));
+  }, [data, dispatch, isError, setEnabled]);
   return (
     <div className='flex gap-4 bg-grayColor lg:w-1/3  sm:mx-0 md:w-1/2 lg:ml-2 md:ml-[10%] sm:2/3 w-4/5 mx-auto justify-center items-center py-4 rounded-md px-4'>
-      <label htmlFor='enable2fa'>Enable / Disable Two Factor Authentication</label>
-      <input type='checkbox' id='enable2fa' onChange={() => handleEnabling()} checked={enabled} />
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <label htmlFor='enable2fa'>Enable / Disable Two Factor Authentication</label>
+          <input type='checkbox' id='enable2fa' onChange={() => handleEnabling()} checked={enabled} />
+        </>
+      )}
     </div>
   );
 };
